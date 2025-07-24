@@ -17,3 +17,24 @@ php artisan migrate
 php artisan db:seed
 ```
 
+<h2>Agregar los permisos</h2>
+
+```bash
+composer require spatie/laravel-permission
+```
+
+<h2>Bibliotecas para generar archivos PDF</h2>
+
+```bash
+composer require barryvdh/laravel-dompdf
+```
+<h2>Habilitar la eexportación de la base de datos</h2>
+
+```bash
+composer require spatie/laravel-backup
+```
+<h2>Cambiar el idioma de las alertas</h2>
+
+```bash
+composer require laravel-lang/common
+```
