@@ -32,6 +32,10 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             )}
 
+            <label className="block text-center text-azulIMTA text-2xl font-bold mb-7 ">
+                Iniciar sesión
+            </label>
+
             <form onSubmit={submit}>
                 <div>
                     <TextInput
