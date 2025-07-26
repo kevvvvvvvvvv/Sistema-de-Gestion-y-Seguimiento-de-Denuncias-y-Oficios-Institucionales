@@ -3,7 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
+Route::get('/', [AuthenticatedSessionController::class, 'create']);
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
