@@ -11,13 +11,18 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $primaryKey = 'idUsuario';
+    protected $keyType = 'int';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'nombre',
+        'apPaterno',
+        'apMaterno',
         'email',
         'password',
     ];
