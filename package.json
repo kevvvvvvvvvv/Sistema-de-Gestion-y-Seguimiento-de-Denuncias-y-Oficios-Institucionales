@@ -20,6 +20,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@fontsource/inter": "^5.2.6"
+        "@fontsource/inter": "^5.2.6",
+        "lucide-react": "^0.541.0"
     }
 }
