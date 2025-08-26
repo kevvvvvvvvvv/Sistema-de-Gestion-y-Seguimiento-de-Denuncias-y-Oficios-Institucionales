@@ -13,6 +13,13 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+
+    public function test()
+    {
+        return Inertia::render('Test/TestLayout'); 
+        // Esto busca: resources/js/pages/Test/TestLayout.jsx
+    }
+    
     /**
      * Display the user's profile form.
      */

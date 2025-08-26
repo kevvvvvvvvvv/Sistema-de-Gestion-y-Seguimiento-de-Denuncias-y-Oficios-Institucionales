@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
+Route::get('/test', [ProfileController::class, 'test']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
