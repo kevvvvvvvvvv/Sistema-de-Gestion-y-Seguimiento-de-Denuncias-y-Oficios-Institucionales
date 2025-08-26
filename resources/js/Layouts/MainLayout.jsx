@@ -14,7 +14,7 @@ export default function MainLayout({ children, auth }) {
                 <div></div>
 
                 <div>
-                    <p>{auth.user?.nombre} {auth.user?.apPaterno}</p>
+                    <p className='mb-4'>{auth.user?.nombre} {auth.user?.apPaterno}</p>
                     <Link 
                         className="flex items-center" 
                         href={route('logout')} 
@@ -63,39 +63,37 @@ export default function MainLayout({ children, auth }) {
                     <h1 className="text-[20px] ml-5">Dashboard Administrador</h1>
                 </div>
 
-                <div className="rounded-3xl bg-[#FFFFFF] mb-10 p-4">
-                    <h2>Hola, {auth.user?.nombre} {auth.user?.apPaterno}</h2>
+                <div className="rounded-3xl bg-[#FFFFFF] mb-10 p-8 h-[85vh] ">
+                    <h2 className='text-xl font-semibold'>Hola, {auth.user?.nombre} {auth.user?.apPaterno}</h2>
                     {children}
                 </div>
-
-                
             </div>
 
             {/* Sidebar Derecho */}
             <div className="col-span-1 grid grid-rows-[20%_5%_55%_20%] items-center">
                 <div className="justify-center text-center">
-                <div className="m-5 rounded-xl bg-[#FFFFFF] flex flex-col items-center justify-center p-5">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-12 h-12 mb-2"
-                    >
-                        <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                        />
-                    </svg>
-                    <span className="text-center font-medium">
-                        {auth.user?.nombre} {auth.user?.apPaterno}
-                    </span>
-                </div>
+                    <div className="m-5 rounded-xl bg-[#FFFFFF] flex flex-col items-center justify-center p-5">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-12 h-12 mb-2"
+                        >
+                            <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                            />
+                        </svg>
 
+                        <span className="text-center font-medium">
+                            {auth.user?.nombre} {auth.user?.apPaterno}
+                        </span>
+                    </div>
                 </div>
-                <div className="flex items-center my-4">
+                <div className="flex items-center my-4 px-6">
                     <div className="flex-grow border-t border-gray-400"></div>
                         <span className="mx-4 text-gray-600">Notificaciones</span>
                     <div className="flex-grow border-t border-gray-400"></div>
