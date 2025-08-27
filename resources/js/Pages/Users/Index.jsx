@@ -8,11 +8,10 @@ export default function Index({ users, auth }) {
   return(
     
     <>
-      <Head title="Usuarios" />
-
       <MainLayout auth={auth} topHeader="Consulta de usuarios" insideHeader={""}>
-        <AddButton />
-        <div className="grid grid-cols-3 gap-4">
+        <Head title="Usuarios" />
+        <AddButton href={route('users.create')} />
+        <div className="grid grid-cols-3 gap-4 mt-6">
           {users.map(user => (
             <div key={user.idUsuario} className="bg-blancoIMTA text-center justify-center-safe py-4 rounded-lg">
               <h2 className="font-bold">{user.nombre} {user.apPaterno} {user.apMaterno}</h2>
