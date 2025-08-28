@@ -38,3 +38,8 @@ composer require spatie/laravel-backup
 ```bash
 composer require laravel-lang/common
 ```
+<h2>Instalar dependencias de lucid-react</h2>
+
+```bash
+npm install lucide-react
+```
