@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
-export default function MainLayout({ children, auth }) {
+export default function MainLayout({ children, auth, topHeader, insideHeader }) {
     return (
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
@@ -43,7 +43,7 @@ export default function MainLayout({ children, auth }) {
             {/* Contenido central */}
             <div className="col-span-3">
                 <div className="flex items-center mb-6 mt-6">
-                    <button className="rounded-xl border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF]">
+                    <button className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white transition">
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             fill="none" 
@@ -60,17 +60,17 @@ export default function MainLayout({ children, auth }) {
                         </svg>
                         Atrás
                     </button>
-                    <h1 className="text-[20px] ml-5">Dashboard Administrador</h1>
+                    <h1 className="text-[20px] ml-5 font-bold"> {topHeader} </h1>
                 </div>
 
                 <div className="rounded-3xl bg-[#FFFFFF] mb-10 p-8 h-[85vh] ">
-                    <h2 className='text-xl font-semibold'>Hola, {auth.user?.nombre} {auth.user?.apPaterno}</h2>
+                    <h2 className='text-xl font-semibold'>{insideHeader}</h2>
                     {children}
                 </div>
             </div>
 
             {/* Sidebar Derecho */}
-            <div className="col-span-1 grid grid-rows-[20%_5%_55%_20%] items-center">
+            <div className="mt-16 col-span-1 grid grid-rows-[28%_5%_55%_20%] items-center">
                 <div className="justify-center text-center">
                     <div className="m-5 rounded-xl bg-[#FFFFFF] flex flex-col items-center justify-center p-5">
                         <svg
@@ -89,7 +89,7 @@ export default function MainLayout({ children, auth }) {
                         </svg>
 
                         <span className="text-center font-medium">
-                            {auth.user?.nombre} {auth.user?.apPaterno}
+                            {auth.user?.nombre} {auth.user?.apPaterno} 
                         </span>
                     </div>
                 </div>
