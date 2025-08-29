@@ -6,7 +6,6 @@ import {SquarePen} from 'lucide-react';
 
 export default function Index({ users, auth }) {
   return(
-    
     <>
       <MainLayout auth={auth} topHeader="Consulta de usuarios" insideHeader={""}>
         <Head title="Usuarios" />
