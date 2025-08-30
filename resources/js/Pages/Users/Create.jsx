@@ -4,7 +4,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 
-export default function Create({ auth }) {
+export default function Create({ auth, errors }) {
   // Estado de los inputs
   const [values, setValues] = useState({
     nombre: "",
@@ -28,7 +28,7 @@ export default function Create({ auth }) {
   }
 
   return (
-    <MainLayout auth={auth} topHeader="Registro de usuarios" insideHeader={""}>
+    <MainLayout auth={auth} topHeader="Registro de usuarios" insideHeader={""} backURL="/users">
       <Head title="Registro de Usuarios" />
 
       <div className="grid grid-cols-2 gap-4 flex-1">
@@ -38,6 +38,7 @@ export default function Create({ auth }) {
           id="nombre"
           value={values.nombre}
           onChange={handleChange}
+          error={errors.nombre}
         />
         <InputText
           placeholder="Aa"
@@ -45,6 +46,7 @@ export default function Create({ auth }) {
           id="apPaterno"
           value={values.apPaterno}
           onChange={handleChange}
+          error={errors.apPaterno}
         />
         <InputText
           placeholder="Aa"
@@ -52,6 +54,7 @@ export default function Create({ auth }) {
           id="apMaterno"
           value={values.apMaterno}
           onChange={handleChange}
+          error={errors.apMaterno}
         />
         <InputText
           placeholder="Aa"
@@ -59,6 +62,7 @@ export default function Create({ auth }) {
           id="email"
           value={values.email}
           onChange={handleChange}
+          error={errors.email}
         />
         <InputText
           placeholder="Aa"
@@ -67,6 +71,7 @@ export default function Create({ auth }) {
           type="password"
           value={values.password}
           onChange={handleChange}
+          error={errors.password}
         />
       </div>
 
