@@ -1,7 +1,7 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
-export default function MainLayout({ children, auth, topHeader, insideHeader }) {
+export default function MainLayout({ children, auth, topHeader, insideHeader, backURL }) {
     return (
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
@@ -43,7 +43,9 @@ export default function MainLayout({ children, auth, topHeader, insideHeader }) 
             {/* Contenido central */}
             <div className="col-span-3">
                 <div className="flex items-center mb-6 mt-6">
-                    <button className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white transition">
+                    <button
+                    onClick={() => router.visit(backURL)} 
+                    className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white transition">
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             fill="none" 

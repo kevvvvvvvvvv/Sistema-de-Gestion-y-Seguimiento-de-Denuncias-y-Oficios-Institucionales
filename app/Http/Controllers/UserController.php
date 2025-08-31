@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Inertia\Inertia;
@@ -20,15 +21,9 @@ class UserController extends Controller
         return Inertia::render('Users/Create');
     }
 
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apPaterno' => 'required|string|max:100',
-            'apMaterno' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
-        ]);
+        $data = $request->validated();
 
         User::create([
             'nombre' => $request->nombre,
@@ -47,16 +42,19 @@ class UserController extends Controller
         return Inertia::render('Users/Edit', ['user' => $user]);
     }
 
-    public function update(Request $request, $id)
+    public function update(UserRequest  $request, $id)
     {
         $user = User::findOrFail($id);
 
-        $user->update($request->except('password'));
+        $data = $request->validated();
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-            $user->save();
-        }   
+        if (empty($data['password'])) {
+            unset($data['password']);
+        } else {
+            $data['password'] = Hash::make($data['password']);
+        }
+        
+        $user->update($data);
 
         return redirect()->route('users.index');
     }

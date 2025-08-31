@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\InstitucionController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -39,6 +40,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/instituciones', [InstitucionController::class, 'index'])->name('instituciones.index');
+    Route::get('/instituciones/create', [InstitucionController::class, 'create'])->name('instituciones.create');
+    Route::post('/instituciones', [InstitucionController::class, 'store'])->name('instituciones.store');
+    Route::get('/instituciones/{id}/edit', [InstitucionController::class, 'edit'])->name('instituciones.edit');
+    Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])->name('instituciones.update');
+    Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])->name('instituciones.destroy');
 });
 
 require __DIR__.'/auth.php';

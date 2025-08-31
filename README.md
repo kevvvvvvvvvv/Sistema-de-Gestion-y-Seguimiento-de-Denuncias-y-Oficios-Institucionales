@@ -43,3 +43,9 @@ composer require laravel-lang/common
 ```bash
 npm install lucide-react
 ```
+
+<h2>Instalar dependencias de sweetalert</h2>
+
+```bash
+npm install sweetalert2
+```
