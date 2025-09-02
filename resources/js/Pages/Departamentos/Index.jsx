@@ -23,11 +23,11 @@ DataTable.use(Buttons);
 
 const {confirm} = useSweetDelete();
 
-export default function Index({ instituciones, auth }) {
-    const tableData = instituciones.map(i => ({
-        idInstitucion: i.idInstitucion,
-        nombreCompleto: i.nombreCompleto,
-        siglas: i.siglas
+export default function Index({ departamentos, auth }) {
+    const tableData = departamentos.map(i => ({
+        idDepartamento: i.idDepartamento,
+        nombre: i.nombre,
+        nombreCompleto: i.institucion.nombreCompleto
     }));
 
     useEffect(() => {
@@ -37,21 +37,21 @@ export default function Index({ instituciones, auth }) {
 
             if (editBtn) {
             const id = editBtn.dataset.id;
-            router.visit(route("instituciones.edit", id));
+            router.visit(route("departamentos.edit", id));
             }
 
             if (deleteBtn) {
                 const id = deleteBtn.dataset.id;
                 confirm(
                     {
-                      title: "¿Eliminar institución?",
+                      title: "¿Eliminar departamento?",
                       text: "No podrás deshacer esta acción",
                       confirmText: "Sí, eliminar",
                     },
                     () => {
-                      router.delete(route("instituciones.destroy", id), {
+                      router.delete(route("departamentos.destroy", id), {
                         onSuccess: () => {
-                          router.reload({ only: ["instituciones"] });
+                          router.reload({ only: ["departamentos"] });
                         },
                       });
                     }
@@ -67,9 +67,9 @@ export default function Index({ instituciones, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de instituciones" insideHeader={""}>
-        <Head title="Instituciones" />
-        <AddButton href={route('instituciones.create')} />
+      <MainLayout auth={auth} topHeader="Consulta de departamentos" insideHeader={""}>
+        <Head title="Departamentos" />
+        <AddButton href={route('departamentos.create')} />
         
         <DataTable 
             data={tableData} 
@@ -93,18 +93,18 @@ export default function Index({ instituciones, auth }) {
                     zeroRecords: "No se encontraron resultados",
                 },
                 columns: [
-                    { title: "ID", data: "idInstitucion" },
-                    { title: "Nombre de la institución", data: "nombreCompleto" },
-                    { title: "Siglas", data: "siglas" },
+                    { title: "ID", data: "idDepartamento" },
+                    { title: "Nombre del departamento", data: "nombre" },
+                    { title: "Institución a la que pertenece", data: "nombreCompleto" },
                     {
                         title: "Operaciones",
                         orderable: false,
                         render: (data, type, row) => `
                             <div class="flex gap-2 justify-center">
-                                <button class="edit-btn" data-id="${row.idInstitucion}">
+                                <button class="edit-btn" data-id="${row.idDepartamento}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
                                 </button>
-                                <button class="delete-btn" data-id="${row.idInstitucion}">
+                                <button class="delete-btn" data-id="${row.idDepartamento}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
                                 </button>
                             </div>
@@ -116,8 +116,8 @@ export default function Index({ instituciones, auth }) {
             <thead>
                 <tr>
                 <th>ID</th>
-                <th>Nombre de la institución</th>
-                <th>Siglas</th>
+                <th>Nombre del departamento</th>
+                <th>Institución a la que pertenece</th>
                 <th>Operaciones</th>
                 </tr>
             </thead>
