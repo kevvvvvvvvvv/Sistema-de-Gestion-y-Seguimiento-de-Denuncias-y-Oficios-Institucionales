@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\InstitucionController;
+use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -59,6 +60,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/departamentos/{id}/edit', [DepartamentoController::class, 'edit'])->name('departamentos.edit');
     Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])->name('departamentos.update');
     Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/servidores', [ServidorController::class, 'index'])->name('servidores.index');
+    Route::get('/servidores/create', [ServidorController::class, 'create'])->name('servidores.create');
+    Route::post('/servidores', [ServidorController::class, 'store'])->name('servidores.store');
+    Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])->name('servidores.edit');
+    Route::put('/servidores/{id}', [ServidorController::class, 'update'])->name('servidores.update');
+    Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])->name('servidores.destroy');
 });
 
 require __DIR__.'/auth.php';

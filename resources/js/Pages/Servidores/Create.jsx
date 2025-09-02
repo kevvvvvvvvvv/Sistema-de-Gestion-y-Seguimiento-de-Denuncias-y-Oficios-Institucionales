@@ -1,0 +1,154 @@
+import { useState } from "react";
+import { Head, router } from "@inertiajs/react";
+import MainLayout from "@/Layouts/MainLayout";
+import InputText from "@/Components/InputText";
+import RegisterButton from "@/Components/RegisterButton";
+import SelectInput from "@/Components/SelectInput";
+import InputDate from "@/Components/InputDate";
+
+export default function Create({ auth, errors, instituciones, departamentos  }) {
+    // Estado de los inputs
+    const [values, setValues] = useState({
+        nombreCompleto: "",
+        genero: "",
+        grado: "",
+        fechaIngreso: "",
+        puesto: "",
+        correo: "",
+        telefono: "",
+        estatus: "",
+        idInstitucion:"",
+        idDepartamento:""
+    });
+
+    // Actualiza el estado al escribir
+    function handleChange(e) {
+        setValues({
+        ...values,
+        [e.target.id]: e.target.value,
+        });
+    }
+
+    // Función que envía los datos al backend
+    function store() {
+        router.post("/servidores", values);
+    }
+
+    const optionsInst = instituciones.map((inst) => ({
+        value: inst.idInstitucion,
+        label: inst.nombreCompleto 
+    }));
+
+    const optionsDept = departamentos
+    .filter((dept) => dept.idInstitucion === values.idInstitucion)
+    .map((dept) => ({
+        value: dept.idDepartamento,
+        label: dept.nombre,
+    }));
+
+    return (
+        <MainLayout auth={auth} topHeader="Registro de servidores" insideHeader={""} backURL="/servidores">
+        <Head title="Registro de Servidores" />
+
+        <div className="grid grid-cols-2 gap-4 flex-1">
+            <InputText
+                placeholder="Aa"
+                description="Nombre completo del servidor"
+                id="nombreCompleto"
+                value={values.nombreCompleto}
+                onChange={handleChange}
+                error={errors.nombreCompleto}
+            />
+
+            <SelectInput
+                label="Género"
+                id="genero"
+                options={[
+                    { value: "Femenino", label: "Femenino" },
+                    { value: "Masculino", label: "Masculino" },
+                    { value: "Otro", label: "Otro" }
+                ]}
+                value={values.genero}
+                onChange={(val) => setValues({ ...values, genero: val })}
+                error={errors.genero}
+            />
+
+            <InputText
+                placeholder="Aa"
+                description="Grado"
+                id="grado"
+                value={values.grado}
+                onChange={handleChange}
+                error={errors.grado}
+            />
+
+            <InputDate 
+                description="Fecha de ingreso"
+                id="fechaIngreso"
+                value={values.fechaIngreso}
+                onChange={(date) => setValues({ ...values, fechaIngreso: date })}
+                error={errors.fechaIngreso}
+            />
+
+            <InputText
+                placeholder="Aa"
+                description="Puesto"
+                id="puesto"
+                value={values.puesto}
+                onChange={handleChange}
+                error={errors.puesto}
+            />
+
+            <InputText
+                placeholder="correo@example.com"
+                description="Correo electrónico"
+                id="correo"
+                value={values.correo}
+                onChange={handleChange}
+                error={errors.correo}
+            />
+
+            <InputText
+                placeholder="123"
+                description="Teléfono"
+                id="telefono"
+                value={values.telefono}
+                onChange={handleChange}
+                error={errors.telefono}
+            />
+
+            <SelectInput
+                label="Estatus"
+                id="estatus"
+                options={[
+                    { value: "Alta", label: "Alta" },
+                    { value: "Baja", label: "Baja" }
+                ]}
+                value={values.estatus}
+                onChange={(val) => setValues({ ...values, estatus: val })}
+                error={errors.estatus}
+            />
+
+            <SelectInput
+                label="Institución"
+                id="idInstitucion"
+                options={optionsInst}
+                value={values.idInstitucion}
+                onChange={(val) => setValues({ ...values, idInstitucion: val })}
+                error={errors.idInstitucion}
+            />
+
+            <SelectInput
+                label="Departamento"
+                id="idDepartamento"
+                options={optionsDept}
+                value={values.idDepartamento}
+                onChange={(val) => setValues({ ...values, idDepartamento: val })}
+                error={errors.idDepartamento}
+            />
+        </div>
+
+        <RegisterButton onClick={store}>Registrar</RegisterButton>
+        </MainLayout>
+    );
+}
