@@ -41,16 +41,24 @@ export default function Index({ instituciones, auth }) {
             }
 
             if (deleteBtn) {
-            const id = deleteBtn.dataset.id;
-            confirm(() => {
-                router.delete(route("instituciones.destroy", id), {
-                onSuccess: () => {
-                    // Opcional: recargar la página o actualizar la tabla
-                    router.reload();
-                }
-                });
-            });
-            }
+                const id = deleteBtn.dataset.id;
+                confirm(
+                    {
+                      title: "¿Eliminar institución?",
+                      text: "No podrás deshacer esta acción",
+                      confirmText: "Sí, eliminar",
+                    },
+                    () => {
+                      router.delete(route("instituciones.destroy", id), {
+                        onSuccess: () => {
+                          router.reload({ only: ["instituciones"] });
+                        },
+                      });
+                    }
+                  );
+                  
+              }
+              
         };
 
         document.addEventListener("click", handleClick);

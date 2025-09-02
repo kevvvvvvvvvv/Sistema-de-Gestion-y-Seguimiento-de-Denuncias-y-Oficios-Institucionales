@@ -49,3 +49,12 @@ npm install lucide-react
 ```bash
 npm install sweetalert2
 ```
+
+<h2>Instalar dependencias de Datatables</h2>
+
+```bash
+npm install --save datatables.net-react datatables.net-dt
+npm install datatables.net datatables.net-dt datatables.net-react
+npm install datatables.net-buttons-dt
+npm install datatables.net-buttons datatables.net-buttons-dt jszip
+```
