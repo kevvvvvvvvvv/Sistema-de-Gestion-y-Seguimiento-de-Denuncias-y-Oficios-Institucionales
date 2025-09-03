@@ -5,6 +5,7 @@ import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 import SelectInput from "@/Components/SelectInput";
 import InputDate from "@/Components/InputDate";
+import InputTextArea from "@/Components/InputTextArea";
 
 export default function Edit({ auth, errors, servidor, instituciones, departamentos  }) {
     // Estado de los inputs
@@ -14,11 +15,13 @@ export default function Edit({ auth, errors, servidor, instituciones, departamen
         grado: servidor.grado,
         fechaIngreso: servidor.fechaIngreso,
         puesto: servidor.puesto,
+        nivel: servidor.nivel,
         correo: servidor.correo,
         telefono: servidor.telefono,
         estatus: servidor.estatus,
         idInstitucion:servidor.idInstitucion,
-        idDepartamento:servidor.idDepartamento
+        idDepartamento:servidor.idDepartamento,
+        descripcion: servidor.descripcion
     });
 
     // Actualiza el estado al escribir
@@ -154,6 +157,15 @@ export default function Edit({ auth, errors, servidor, instituciones, departamen
                 value={values.idDepartamento}
                 onChange={(val) => setValues({ ...values, idDepartamento: val })}
                 error={errors.idDepartamento}
+            />
+
+            <InputTextArea 
+                placeholder="Aa"
+                description="Descripción"
+                id="descripcion"
+                value={values.descripcion}
+                onChange={handleChange}
+                error={errors.descripcion}
             />
         </div>
 

@@ -30,9 +30,13 @@ class ServidorController extends Controller
     {
         $data = $request->all();
 
-        $data['fechaIngreso'] = \Carbon\Carbon::parse($data['fechaIngreso'])->format('Y-m-d');
-
+        if(isset($data['fechaIngreso'])){
+            $data['fechaIngreso'] = \Carbon\Carbon::parse($data['fechaIngreso'])->format('Y-m-d');
+        }
+        
         Servidor::create($data);
+
+        return redirect()->route('servidores.index');
     }
 
     public function edit($id)
@@ -51,7 +55,10 @@ class ServidorController extends Controller
         $servidor = Servidor::findOrFail($id);
 
         $data = $request->validated();
-        $data['fechaIngreso'] = \Carbon\Carbon::parse($data['fechaIngreso'])->format('Y-m-d');
+        if(isset($data['fechaIngreso'])){
+            $data['fechaIngreso'] = \Carbon\Carbon::parse($data['fechaIngreso'])->format('Y-m-d');
+        }
+        
         $servidor->update($data);
 
         return redirect()->route('servidores.index');

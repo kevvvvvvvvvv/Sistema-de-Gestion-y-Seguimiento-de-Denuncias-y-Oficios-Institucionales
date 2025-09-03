@@ -12,7 +12,7 @@ class Servidor extends Model
     protected $table = 'servidor';
     protected $primaryKey = 'idServidor';
     protected $fillable = ['nombreCompleto', 'genero', 'grado', 'fechaIngreso',
-        'puesto', 'nivel', 'correo', 'telefono', 'estatus', 'idInstitucion', 'idDepartamento'];
+        'puesto', 'nivel', 'correo', 'telefono', 'estatus', 'descripcion','idInstitucion', 'idDepartamento'];
     public $timestamps = false;
 
     public function institucion(){

@@ -25,12 +25,13 @@ class ServidorRequest extends FormRequest
             'nombreCompleto' => 'required|string|max:100',
             'genero' => 'required',
             'grado' => 'required|string|max:45',
-            'fechaIngreso' => 'required|date',
+            'fechaIngreso' => 'nullable|date',
             'puesto' => 'required|string|max:100',
             'nivel' => 'required|string|max:45',
             'correo' => 'nullable|email|max:100',
             'telefono' => 'nullable|string|max:45|regex:/^[0-9]+$/',
             'estatus' => 'required',
+            'descripcion' => 'nullable',
             'idInstitucion' => 'required|integer',
             'idDepartamento' => 'required|integer'
         ];
@@ -46,7 +47,6 @@ class ServidorRequest extends FormRequest
             'grado.required' => 'El grado es obligatorio.',
             'grado.string' => 'El grado debe ser una cadena de texto.',
             'grado.max' => 'El grado no debe exceder los 45 caracteres.',
-            'fechaIngreso.required' => 'La fecha de ingreso es obligatoria.',
             'fechaIngreso.date' => 'La fecha de ingreso no es una fecha válida.',
             'puesto.required' => 'El puesto es obligatorio.',
             'puesto.string' => 'El puesto debe ser una cadena de texto.',

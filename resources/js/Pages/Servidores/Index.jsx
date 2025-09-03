@@ -31,9 +31,11 @@ export default function Index({ servidores, auth }) {
         grado: i.grado,
         fechaIngreso: i.fechaIngreso,
         puesto: i.puesto,
+        nivel: i.nivel,
         correo: i.correo,
         telefono: i.telefono,
         estatus: i.estatus,
+        descripcion: i.descripcion,
         nombreInst: i.institucion.nombreCompleto,
         nombreDepto: i.departamento.nombre
     }));
@@ -111,6 +113,7 @@ export default function Index({ servidores, auth }) {
                     { title: "Correo", data: "correo" },
                     { title: "Teléfono", data: "telefono", visible: false },
                     { title: "Estatus", data: "estatus" },
+                    { title: "Descripción de la alta", data: "descripcion", visible: false },
                     { title: "Insitución", data: "nombreInst"},
                     { title: "Departamento", data: "nombreDepto", visible: false },
                     {

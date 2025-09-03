@@ -5,6 +5,7 @@ import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 import SelectInput from "@/Components/SelectInput";
 import InputDate from "@/Components/InputDate";
+import InputTextArea from "@/Components/InputTextArea";
 
 export default function Create({ auth, errors, instituciones, departamentos  }) {
     // Estado de los inputs
@@ -18,6 +19,7 @@ export default function Create({ auth, errors, instituciones, departamentos  }) 
         correo: "",
         telefono: "",
         estatus: "",
+        descripcion: "",
         idInstitucion:"",
         idDepartamento:""
     });
@@ -155,6 +157,15 @@ export default function Create({ auth, errors, instituciones, departamentos  }) 
                 value={values.idDepartamento}
                 onChange={(val) => setValues({ ...values, idDepartamento: val })}
                 error={errors.idDepartamento}
+            />
+
+            <InputTextArea 
+                placeholder="Aa"
+                description="Descripción"
+                id="descripcion"
+                value={values.descripcion}
+                onChange={handleChange}
+                error={errors.descripcion}
             />
         </div>
 
