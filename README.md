@@ -58,3 +58,9 @@ npm install datatables.net datatables.net-dt datatables.net-react
 npm install datatables.net-buttons-dt
 npm install datatables.net-buttons datatables.net-buttons-dt jszip
 ```
+
+<h2>Instalar dependencia para el input Select</h2>
+
+```bash
+npm install react-select
+```

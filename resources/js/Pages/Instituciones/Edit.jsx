@@ -4,7 +4,7 @@ import MainLayout from "@/Layouts/MainLayout";
 import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 
-export default function Create({ auth, errors, institucion }) {
+export default function Edit({ auth, errors, institucion }) {
     const [values, setValues] = useState({
         nombreCompleto: institucion.nombreCompleto,
         siglas: institucion.siglas

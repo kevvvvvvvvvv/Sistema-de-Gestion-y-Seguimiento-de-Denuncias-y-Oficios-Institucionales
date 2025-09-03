@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\InstitucionController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -49,6 +50,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/instituciones/{id}/edit', [InstitucionController::class, 'edit'])->name('instituciones.edit');
     Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])->name('instituciones.update');
     Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])->name('instituciones.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/departamentos', [DepartamentoController::class, 'index'])->name('departamentos.index');
+    Route::get('/departamentos/create', [DepartamentoController::class, 'create'])->name('departamentos.create');
+    Route::post('/departamentos', [DepartamentoController::class, 'store'])->name('departamentos.store');
+    Route::get('/departamentos/{id}/edit', [DepartamentoController::class, 'edit'])->name('departamentos.edit');
+    Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])->name('departamentos.update');
+    Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
 });
 
 require __DIR__.'/auth.php';

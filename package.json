@@ -28,6 +28,7 @@
         "datatables.net-react": "^1.0.1",
         "jszip": "^3.10.1",
         "lucide-react": "^0.541.0",
+        "react-select": "^5.10.2",
         "sweetalert2": "^11.22.5"
     }
 }
