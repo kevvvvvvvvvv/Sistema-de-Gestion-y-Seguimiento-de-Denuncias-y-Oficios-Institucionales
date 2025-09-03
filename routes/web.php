@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\ServidorController;
@@ -69,6 +70,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])->name('servidores.edit');
     Route::put('/servidores/{id}', [ServidorController::class, 'update'])->name('servidores.update');
     Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])->name('servidores.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/controles', [ControlController::class, 'index'])->name('controles.index');
+    Route::get('/controles/create', [ControlController::class, 'create'])->name('controles.create');
+    Route::post('/controles', [ControlController::class, 'store'])->name('controles.store');
+    Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])->name('controles.edit');
+    Route::put('/controles/{id}', [ControlController::class, 'update'])->name('controles.update');
+    Route::delete('/controles/{id}', [ControlController::class, 'destroy'])->name('controles.destroy');
 });
 
 require __DIR__.'/auth.php';
