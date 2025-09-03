@@ -107,6 +107,7 @@ export default function Index({ servidores, auth }) {
                     { title: "Grado", data: "grado", visible: false },
                     { title: "Fecha de ingreso", data: "fechaIngreso", visible: false },
                     { title: "Puesto", data: "puesto" },
+                    { title: "Nivel", data: "nivel", visible: false },
                     { title: "Correo", data: "correo" },
                     { title: "Teléfono", data: "telefono", visible: false },
                     { title: "Estatus", data: "estatus" },

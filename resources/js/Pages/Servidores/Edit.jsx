@@ -100,6 +100,15 @@ export default function Edit({ auth, errors, servidor, instituciones, departamen
             />
 
             <InputText
+                placeholder="Aa"
+                description="Nivel"
+                id="nivel"
+                value={values.nivel}
+                onChange={handleChange}
+                error={errors.nivel}
+            />
+
+            <InputText
                 placeholder="correo@example.com"
                 description="Correo electrónico"
                 id="correo"

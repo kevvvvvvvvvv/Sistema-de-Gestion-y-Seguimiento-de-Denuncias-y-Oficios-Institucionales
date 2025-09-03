@@ -14,6 +14,7 @@ export default function Create({ auth, errors, instituciones, departamentos  }) 
         grado: "",
         fechaIngreso: "",
         puesto: "",
+        nivel: "",
         correo: "",
         telefono: "",
         estatus: "",
@@ -97,6 +98,15 @@ export default function Create({ auth, errors, instituciones, departamentos  }) 
                 value={values.puesto}
                 onChange={handleChange}
                 error={errors.puesto}
+            />
+
+            <InputText
+                placeholder="Aa"
+                description="Nivel"
+                id="nivel"
+                value={values.nivel}
+                onChange={handleChange}
+                error={errors.nivel}
             />
 
             <InputText
