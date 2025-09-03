@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('ofRespuesta', 100)->nullable();
             $table->date('fechaRespuesta')->nullable();
             $table->date('fechaRecepcion')->nullable();
-            $table->unsignedBigInteger('consecutivo');
-
-            $table->foreign('consecutivo')->references('consecutivo')->on('control')->onDelete('cascade');
         });
     }
 
