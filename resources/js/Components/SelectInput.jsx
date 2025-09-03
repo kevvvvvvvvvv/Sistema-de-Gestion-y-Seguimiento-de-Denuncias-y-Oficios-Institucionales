@@ -31,7 +31,7 @@ export default function SelectInput({ label, options, value, onChange, error, pl
   };
 
   return (
-    <div className="mb-5 w-full">
+    <div className="mb-5 w-3/4">
       {label && (
         <label className="block text-sm mb-3">
           {label}
