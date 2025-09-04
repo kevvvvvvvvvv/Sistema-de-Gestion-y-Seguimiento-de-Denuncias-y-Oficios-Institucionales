@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ExpedienteRequest;
+use App\Models\Control;
 use App\Models\Expediente;
 use App\Models\Servidor;
 use Illuminate\Http\Request;
@@ -35,7 +36,18 @@ class ExpedienteController extends Controller
             $data['fechaRecepcion'] = \Carbon\Carbon::parse($data['fechaRecepcion'])->format('Y-m-d');
         }
 
-        Expediente::create($data);
+        $expediente = Expediente::create($data);
+
+        Control::create([
+            'acProrroga' => 'No',
+            'acAuxilio' => 'No',
+            'acRegularizacion' => 'No',
+            'acRequerimiento' => 'No',
+            'acOficioReque' => 'No',
+            'acConclusion' => 'No',
+            'comentarios' => '',
+            'numero' => $expediente->numero
+        ]);
 
         return redirect()->route('expedientes.index');
     }
