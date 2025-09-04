@@ -8,10 +8,12 @@ use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\InstitucionController;
+use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
+use Spatie\Permission\Traits\HasRoles;
 
 Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
@@ -63,6 +65,40 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])->name('departamentos.update');
     Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
 });
+
+
+
+//Roles y permisos
+
+Route::get('/roles', [RolesController::class, 'index'])
+    ->name('roles.index')
+    ->middleware('can:consultar roles');
+
+
+Route::get('/roles/create', [RolesController::class, 'create'])
+    ->name('roles.create')
+    ->middleware('can:crear roles');
+
+
+Route::post('/roles', [RolesController::class, 'store'])
+    ->name('roles.store')
+    ->middleware('can:crear roles');
+    
+
+Route::get('/roles/{id}/edit', [RolesController::class, 'edit'])
+    ->name('roles.edit')
+    ->middleware('can:editar roles');
+
+
+Route::put('/roles/{id}', [RolesController::class, 'update'])
+    ->name('roles.update')
+    ->middleware('can:editar roles');
+
+
+Route::delete('/roles/{id}', [RolesController::class, 'destroy'])
+    ->name('roles.destroy')
+    ->middleware('can:eliminar roles');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/servidores', [ServidorController::class, 'index'])->name('servidores.index');
