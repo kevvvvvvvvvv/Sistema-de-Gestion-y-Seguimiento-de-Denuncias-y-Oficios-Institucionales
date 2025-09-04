@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Auth;
@@ -70,6 +71,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])->name('servidores.edit');
     Route::put('/servidores/{id}', [ServidorController::class, 'update'])->name('servidores.update');
     Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])->name('servidores.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/expedientes', [ExpedienteController::class, 'index'])->name('expedientes.index');
+    Route::get('/expedientes/create', [ExpedienteController::class, 'create'])->name('expedientes.create');
+    Route::post('/expedientes', [ExpedienteController::class, 'store'])->name('expedientes.store');
+    Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])->name('expedientes.edit');
+    Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])->name('expedientes.update');
+    Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])->name('expedientes.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {

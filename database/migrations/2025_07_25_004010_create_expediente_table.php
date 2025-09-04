@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('ofRespuesta', 100)->nullable();
             $table->date('fechaRespuesta')->nullable();
             $table->date('fechaRecepcion')->nullable();
+            $table->unsignedBigInteger('idServidor');
+
+            $table->foreign('idServidor')->references('idServidor')->on('servidor')->onDelete('cascade');
         });
     }
 
