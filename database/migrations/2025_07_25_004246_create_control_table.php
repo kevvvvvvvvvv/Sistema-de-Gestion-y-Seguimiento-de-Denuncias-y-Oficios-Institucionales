@@ -21,6 +21,9 @@ return new class extends Migration
             $table->enum('acOficioReque', ['Si', 'No']);  
             $table->enum('acConclusion', ['Si', 'No']);
             $table->mediumText('comentarios')->nullable();
+            $table->string('numero', 45);
+
+            $table->foreign('numero')->references('numero')->on('expediente')->onDelete('cascade');
         });
     }
 

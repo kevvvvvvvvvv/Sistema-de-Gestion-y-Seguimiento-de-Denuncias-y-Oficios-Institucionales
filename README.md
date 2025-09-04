@@ -59,8 +59,16 @@ npm install datatables.net-buttons-dt
 npm install datatables.net-buttons datatables.net-buttons-dt jszip
 ```
 
-<h2>Instalar dependencia para el input Select</h2>
+<h2>Instalar dependencia para el input de select</h2>
 
 ```bash
 npm install react-select
+```
+
+
+<h2>Instalar dependencia para el input de fechas</h2>
+
+```bash
+npm install react-datepicker
+npm install date-fns
 ```

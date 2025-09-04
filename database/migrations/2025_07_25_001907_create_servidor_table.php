@@ -17,11 +17,13 @@ return new class extends Migration
             $table->string('nombreCompleto', 100);
             $table->enum('genero', ['Femenino', 'Masculino']);
             $table->string('grado', 45);
-            $table->date('fechaIngreso');
+            $table->date('fechaIngreso')->nullable();
             $table->string('puesto', 100);
+            $table->string('nivel', 45);
             $table->string('correo', 100)->nullable();
             $table->string('telefono', 45)->nullable();
             $table->enum('estatus', ['Alta', 'Baja']);
+            $table->mediumText('descripcion')->nullable();
             $table->unsignedBigInteger('idInstitucion');
             $table->unsignedBigInteger('idDepartamento');
 

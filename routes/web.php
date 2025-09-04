@@ -4,9 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
+use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -63,6 +66,32 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
 });
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/servidores', [ServidorController::class, 'index'])->name('servidores.index');
+    Route::get('/servidores/create', [ServidorController::class, 'create'])->name('servidores.create');
+    Route::post('/servidores', [ServidorController::class, 'store'])->name('servidores.store');
+    Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])->name('servidores.edit');
+    Route::put('/servidores/{id}', [ServidorController::class, 'update'])->name('servidores.update');
+    Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])->name('servidores.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/expedientes', [ExpedienteController::class, 'index'])->name('expedientes.index');
+    Route::get('/expedientes/create', [ExpedienteController::class, 'create'])->name('expedientes.create');
+    Route::post('/expedientes', [ExpedienteController::class, 'store'])->name('expedientes.store');
+    Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])->name('expedientes.edit');
+    Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])->name('expedientes.update');
+    Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])->name('expedientes.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/controles', [ControlController::class, 'index'])->name('controles.index');
+    Route::get('/controles/create', [ControlController::class, 'create'])->name('controles.create');
+    Route::post('/controles', [ControlController::class, 'store'])->name('controles.store');
+    Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])->name('controles.edit');
+    Route::put('/controles/{id}', [ControlController::class, 'update'])->name('controles.update');
+    Route::delete('/controles/{id}', [ControlController::class, 'destroy'])->name('controles.destroy');
+});
 
 
 //Roles y permisos
@@ -95,6 +124,5 @@ Route::put('/roles/{id}', [RolesController::class, 'update'])
 Route::delete('/roles/{id}', [RolesController::class, 'destroy'])
     ->name('roles.destroy')
     ->middleware('can:eliminar roles');
-
 
 require __DIR__.'/auth.php';
