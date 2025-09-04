@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ControlRequest;
 use App\Models\Control;
+use App\Models\Expediente;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,27 +12,28 @@ class ControlController extends Controller
 {
     public function index()
     {
-        $controles = Control::all();
+        $controles = Control::with('expediente')->get();
         return Inertia::render('Controles/Index', ['controles' => $controles]);
     }
 
     public function create()
     {
-        return Inertia::render('Controles/Create');
+        $expedientes = Expediente::select('numero')->get();
+        return Inertia::render('Controles/Create', ['expedientes' => $expedientes]);
     }
 
     public function store(ControlRequest $request)
     {
-        $data = $request->validated();
-        Control::create($data);
-
+        Control::create($request->validated());
         return redirect()->route('controles.index');
     }
 
     public function edit($id)
     {
+        $expedientes = Expediente::select('numero')->get();
         $control = Control::findOrFail($id);
-        return Inertia::render('Controles/Edit', ['control' => $control]);
+        return Inertia::render('Controles/Edit', 
+        ['control' => $control, 'expedientes' => $expedientes]);
     }
 
     public function update(ControlRequest  $request, $id)

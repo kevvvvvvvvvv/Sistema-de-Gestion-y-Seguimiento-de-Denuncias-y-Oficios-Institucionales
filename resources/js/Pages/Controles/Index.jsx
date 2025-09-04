@@ -31,7 +31,8 @@ export default function Index({ controles, auth }) {
         acRequerimiento: i.acRequerimiento,
         acOficioReque: i.acOficioReque,
         acConclusion: i.acConclusion,
-        comentarios: i.comentarios
+        comentarios: i.comentarios,
+        numero: i.expediente.numero
     }));
 
     useEffect(() => {
@@ -98,13 +99,14 @@ export default function Index({ controles, auth }) {
                 },
                 columns: [
                     { title: "Consecutivo", data: "consecutivo" },
+                    { title: "Número de oficio", data: "numero" },
                     { title: "Acuerdo de prórroga", data: "acProrroga" },
                     { title: "Acuerdo del auxilio", data: "acAuxilio"},
                     { title: "Acuerdo de regularización ", data: "acRegularizacion"},
                     { title: "Acuerdo de requerimineto de declaración patrimonial", data: "acRequerimiento"},
-                    { title: "Oficio de requerimineto de declaración patrimonial", data: "acOficioReque", visible: false },
-                    { title: "Acuerdo de conclusión y archivo", data: "acConclusion", visible: false},
-                    { title: "Comentarios", data: "comentarios", visible: false },
+                    { title: "Oficio de requerimineto de declaración patrimonial", data: "acOficioReque"},
+                    { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
+                    { title: "Comentarios", data: "comentarios" },
                     {
                         title: "Operaciones",
                         orderable: false,
@@ -125,6 +127,7 @@ export default function Index({ controles, auth }) {
             <thead>
                 <tr>
                     <th>Consecutivo</th>
+                    <th>Número de oficio</th>
                     <th>Acuerdo de prórroga</th>
                     <th>Acuerdo del auxilio</th>
                     <th>Acuerdo de regularización</th>

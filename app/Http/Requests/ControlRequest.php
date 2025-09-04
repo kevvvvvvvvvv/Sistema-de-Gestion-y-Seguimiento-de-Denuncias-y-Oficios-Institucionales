@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ControlRequest extends FormRequest
 {
@@ -29,6 +30,9 @@ class ControlRequest extends FormRequest
             'acOficioReque' => ['required', 'in:Si,No'],
             'acConclusion' => ['required', 'in:Si,No'],
             'comentarios' => ['nullable', 'string'],
+            'numero' => ['required', 'string', 'max:45',
+                Rule::unique(table:'control', column:'numero')->ignore($this->route(param: 'id'), 'consecutivo'),
+            ]
         ];
     }
 
@@ -48,6 +52,8 @@ class ControlRequest extends FormRequest
             'acConclusion.required' => 'El campo "Acuerdo de Conclusión" es obligatorio.',
             'acConclusion.in' => 'El campo "Acuerdo de Conclusión" solo puede ser "Si" o "No".',
             'comentarios.string' => 'El campo "Comentarios" debe ser un texto válido.',
+            'numero.required' => 'El campo "Número" es obligatorio.',
+            'numero.unique' => 'El expediente seleccionado ya tiene un control.'
         ];
     }
 
