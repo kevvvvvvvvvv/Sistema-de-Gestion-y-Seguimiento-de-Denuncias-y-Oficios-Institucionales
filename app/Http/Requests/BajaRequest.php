@@ -25,7 +25,7 @@ class BajaRequest extends FormRequest
         return [
             'idServidor' => ['required',
                 Rule::unique(table:'baja', column:'idServidor')->ignore($this->route(param: 'id'), 'idBaja')],
-            'numero' => ['required', Rule::notIn(['Sin expediente registrado'])],
+            'numero' => 'nullable|string',
             'fechaBaja' => 'required|date',
             'descripcion' => 'required|string'
         ];

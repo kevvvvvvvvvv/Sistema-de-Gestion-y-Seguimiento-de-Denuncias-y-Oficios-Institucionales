@@ -32,6 +32,9 @@ class BajaController extends Controller
         $servidor = Servidor::findOrFail($data['idServidor']);
 
         $data['fechaBaja'] = \Carbon\Carbon::parse($data['fechaBaja'])->format('Y-m-d');
+        if($data['numero'] == 'Sin expediente registrado'){
+            $data['numero'] = null;
+        }
 
         Baja::Create([
             'puestoAnt' => $servidor['puesto'],

@@ -27,7 +27,7 @@ export default function Index({ bajas, auth }) {
     const tableData = bajas.map(i => ({
         idBaja: i.idBaja,
         nombreCompleto: i.servidor.nombreCompleto,
-        numero: i.expediente.numero,
+        numero: i.expediente?.numero || 'Sin expediente',
         puestoAnt: i.puestoAnt,
         nivelAnt: i.nivelAnt,
         adscripcionAnt: i.adscripcionAnt,
