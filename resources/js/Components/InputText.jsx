@@ -7,7 +7,8 @@ export default function InputText({
     id,
     className = "",
     description = "",
-    error = ""
+    error = "",
+    readOnly = false
   }) {
     return (
       <div className="mb-5">
@@ -19,6 +20,7 @@ export default function InputText({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          readOnly={readOnly}
           className={`border border-[#D9D9D9] bg-[#F9F7F5] rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
         />
         {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
