@@ -13,6 +13,7 @@ use App\Http\Controllers\ServidorController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ViajeroController;
 use Spatie\Permission\Traits\HasRoles;
 
 Route::get('/', [AuthenticatedSessionController::class, 'create']);
@@ -32,12 +33,22 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('dashboard/viajeros', function () {
+    return Inertia::render('ViajerosDashboard');
+})->middleware(['auth', 'verified'])->name('viajeros.dashboard');
+
+
+Route::get('dashboard/expedientes', function () {
+    return Inertia::render('ExpedientesDashboard');
+})->middleware(['auth', 'verified'])->name('expedientes.dashboard');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -47,6 +58,20 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
 });
+
+// MÓDULOS DE VIAJEROS
+
+Route::get('/viajeros',[ViajeroController::class,'index'])
+    ->name('viajeros.index')
+    ->middleware('can:consultar viajeros');
+
+Route::get('/viajeros/create',[ViajeroController::class,'create'])
+    ->name('viajeros.index')
+    ->middleware('can:crear viajeros');
+
+
+
+// --------------------
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/instituciones', [InstitucionController::class, 'index'])->name('instituciones.index');
