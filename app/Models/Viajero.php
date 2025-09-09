@@ -11,7 +11,7 @@ class Viajero extends Model
     protected $primaryKey = 'folio';
 
     protected $fillable = [
-        'asutno', 
+        'asunto', 
         'instruccion', 
         'resultado', 
         'fechaEntrega',
@@ -22,11 +22,11 @@ class Viajero extends Model
 
     public $timestamps = false;
 
-    public function remitente(){
-        return $this->belongsTo(Institucion::class, 'idRemitente', 'idRemitente');
+    public function oficio(){
+        return $this->belongsTo(Oficio::class, 'numOficio', 'numOficio');
     }
 
-    public function destinatario(){
-        return $this->belongsTo(Departamento::class, 'idDestinatario', 'idDestinatario');
+    public function usuario(){
+        return $this->belongsTo(User::class, 'idUsuario', 'idUsuario');
     }
 }

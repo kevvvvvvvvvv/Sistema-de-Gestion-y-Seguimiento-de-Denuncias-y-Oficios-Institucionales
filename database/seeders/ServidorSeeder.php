@@ -13,7 +13,7 @@ class ServidorSeeder extends Seeder
      */
     public function run(): void
     {
-        $servidor = Servidor::class::create(
+        $servidor = Servidor::create(
             [
                 'nombreCompleto' => 'Juan Pérez',
                 'genero' => 'Masculino',
@@ -22,11 +22,12 @@ class ServidorSeeder extends Seeder
                 'puesto' => 'Analista',
                 'estatus' => '1',
                 'idInstitucion' => '1',
-                'idDepartamento' => '1'
+                'idDepartamento' => '1',
+                'nivel' => 'Básico'
             ]
         );
-
-        $servidor = Servidor::class::create(
+        
+        $servidor = Servidor::create(
             [
                 'nombreCompleto' => 'María López',
                 'genero' => 'Femenino',
@@ -35,12 +36,12 @@ class ServidorSeeder extends Seeder
                 'puesto' => 'Desarrolladora',
                 'estatus' => '1',
                 'idInstitucion' => '1',
-                'idDepartamento' => '2'
+                'idDepartamento' => '2',
+                'nivel' => 'Intermedio'
             ]
         );
-
-
-        $servidor = Servidor::class::create(
+        
+        $servidor = Servidor::create(
             [
                 'nombreCompleto' => 'Carlos Sánchez',
                 'genero' => 'Masculino',
@@ -49,11 +50,12 @@ class ServidorSeeder extends Seeder
                 'puesto' => 'Contador',
                 'estatus' => '1',
                 'idInstitucion' => '2',
-                'idDepartamento' => '3'
+                'idDepartamento' => '3',
+                'nivel' => 'Avanzado'
             ]
         );
-
-        $servidor = Servidor::class::create(
+        
+        $servidor = Servidor::create(
             [
                 'nombreCompleto' => 'Ana Gómez',
                 'genero' => 'Femenino',
@@ -62,8 +64,10 @@ class ServidorSeeder extends Seeder
                 'puesto' => 'Coordinadora',
                 'estatus' => '1',
                 'idInstitucion' => '2',
-                'idDepartamento' => '2'
+                'idDepartamento' => '2',
+                'nivel' => 'Intermedio'
             ]
         );
+        
     }
 }

@@ -62,12 +62,13 @@ Route::middleware(['auth'])->group(function () {
 // MÓDULOS DE VIAJEROS
 
 Route::get('/viajeros',[ViajeroController::class,'index'])
-    ->name('viajeros.index')
-    ->middleware('can:consultar viajeros');
+    ->name('viajeros.index');
 
 Route::get('/viajeros/create',[ViajeroController::class,'create'])
-    ->name('viajeros.index')
-    ->middleware('can:crear viajeros');
+    ->name('viajeros.create');
+
+Route::post('/viajeros',[ViajeroController::class,'store'])
+    ->name('viajeros.store');
 
 
 
