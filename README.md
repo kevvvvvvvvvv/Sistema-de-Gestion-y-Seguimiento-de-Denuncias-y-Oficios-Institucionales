@@ -72,3 +72,10 @@ npm install react-select
 npm install react-datepicker
 npm install date-fns
 ```
+
+<h2>Acceder a public/storage</h2>
+
+```bash
+php artisan storage:link
+```
+
