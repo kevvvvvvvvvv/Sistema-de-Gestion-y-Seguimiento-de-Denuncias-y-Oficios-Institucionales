@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BajaController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\ExpedienteController;
@@ -117,6 +118,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])->name('controles.edit');
     Route::put('/controles/{id}', [ControlController::class, 'update'])->name('controles.update');
     Route::delete('/controles/{id}', [ControlController::class, 'destroy'])->name('controles.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/bajas', [BajaController::class, 'index'])->name('bajas.index');
+    Route::get('/bajas/create', [BajaController::class, 'create'])->name('bajas.create');
+    Route::post('/bajas', [BajaController::class, 'store'])->name('bajas.store');
+    Route::get('/bajas/{id}/edit', [BajaController::class, 'edit'])->name('bajas.edit');
+    Route::put('/bajas/{id}', [BajaController::class, 'update'])->name('bajas.update');
+    Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])->name('bajas.destroy');
 });
 
 

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('puestoAnt', 45);
             $table->string('nivelAnt', 45);
             $table->string('adscripcionAnt', 45);
+            $table->date('fechaIngresoAnt');
             $table->date('fechaBaja');
-            $table->string('descripcion', 45);
+            $table->mediumText('descripcion');
             $table->string('numero', 45)->nullable();
             $table->unsignedBigInteger('idServidor');
 
