@@ -12,6 +12,8 @@ export default function Dashboard({auth}) {
             insideHeader={`Hola, ${auth.user?.nombre}`}
             backURL=""
         >
+            <Head title="Dashboard" />
+
             <div className="grid grid-cols-3 gap-4 mt-6">
                 <ModuleOption managementLink="Módulo de viajeros" href={route('viajeros.dashboard')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

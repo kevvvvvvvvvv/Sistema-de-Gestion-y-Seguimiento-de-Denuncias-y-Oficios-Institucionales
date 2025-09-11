@@ -16,22 +16,17 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViajeroController;
 use Spatie\Permission\Traits\HasRoles;
 
-Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
-Route::get('/test', [ProfileController::class, 'test']);
-
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+    ->middleware('guest')
+    ->name('login');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/test', [ProfileController::class, 'test']);
 
 
 Route::get('dashboard/viajeros', function () {
@@ -50,105 +45,209 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-});
 
-// MÓDULOS DE VIAJEROS
+// GESTIÓN DE USUARIOS
+
+Route::get('/users', [UserController::class, 'index'])
+    ->name('users.index')
+    ->middleware('can:consultar users');
+
+Route::get('/users/create', [UserController::class, 'create'])
+    ->name('users.create')
+    ->middleware('can:crear users');
+
+Route::post('/users', [UserController::class, 'store'])
+    ->name('users.store')
+    ->middleware('can:crear users');
+
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])
+    ->name('users.edit')
+    ->middleware('can:editar users');
+
+Route::put('/users/{id}', [UserController::class, 'update'])
+    ->name('users.update')
+    ->middleware('can:editar users');
+
+Route::delete('/users/{id}', [UserController::class, 'destroy'])
+    ->name('users.destroy')
+    ->middleware('can:eliminar users');
+
+
+// GESTIÓN DE VIAJEROS
 
 Route::get('/viajeros',[ViajeroController::class,'index'])
-    ->name('viajeros.index');
+    ->name('viajeros.index')
+    ->middleware('can:consultar viajeros');
 
 Route::get('/viajeros/create',[ViajeroController::class,'create'])
-    ->name('viajeros.create');
+    ->name('viajeros.create')
+    ->middleware('can:crear viajeros');
 
 Route::post('/viajeros',[ViajeroController::class,'store'])
-    ->name('viajeros.store');
+    ->name('viajeros.store')
+    ->middleware('can:crear viajeros');
 
 
+// GESTIÓN DE INSTITUCIONES
 
-// --------------------
+Route::get('/instituciones', [InstitucionController::class, 'index'])
+    ->name('instituciones.index')
+    ->middleware('can:consultar instituciones');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/instituciones', [InstitucionController::class, 'index'])->name('instituciones.index');
-    Route::get('/instituciones/create', [InstitucionController::class, 'create'])->name('instituciones.create');
-    Route::post('/instituciones', [InstitucionController::class, 'store'])->name('instituciones.store');
-    Route::get('/instituciones/{id}/edit', [InstitucionController::class, 'edit'])->name('instituciones.edit');
-    Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])->name('instituciones.update');
-    Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])->name('instituciones.destroy');
-});
+Route::get('/instituciones/create', [InstitucionController::class, 'create'])
+    ->name('instituciones.create')
+    ->middleware('can:crear instituciones');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/departamentos', [DepartamentoController::class, 'index'])->name('departamentos.index');
-    Route::get('/departamentos/create', [DepartamentoController::class, 'create'])->name('departamentos.create');
-    Route::post('/departamentos', [DepartamentoController::class, 'store'])->name('departamentos.store');
-    Route::get('/departamentos/{id}/edit', [DepartamentoController::class, 'edit'])->name('departamentos.edit');
-    Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])->name('departamentos.update');
-    Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])->name('departamentos.destroy');
-});
+Route::post('/instituciones', [InstitucionController::class, 'store'])
+    ->name('instituciones.store')
+    ->middleware('can:crear instituciones');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/servidores', [ServidorController::class, 'index'])->name('servidores.index');
-    Route::get('/servidores/create', [ServidorController::class, 'create'])->name('servidores.create');
-    Route::post('/servidores', [ServidorController::class, 'store'])->name('servidores.store');
-    Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])->name('servidores.edit');
-    Route::put('/servidores/{id}', [ServidorController::class, 'update'])->name('servidores.update');
-    Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])->name('servidores.destroy');
-});
+Route::get('/instituciones/{id}/edit', [InstitucionController::class, 'edit'])
+    ->name('instituciones.edit')
+    ->middleware('can:editar instituciones');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/expedientes', [ExpedienteController::class, 'index'])->name('expedientes.index');
-    Route::get('/expedientes/create', [ExpedienteController::class, 'create'])->name('expedientes.create');
-    Route::post('/expedientes', [ExpedienteController::class, 'store'])->name('expedientes.store');
-    Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])->name('expedientes.edit');
-    Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])->name('expedientes.update');
-    Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])->name('expedientes.destroy');
-});
+Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])
+    ->name('instituciones.update')
+    ->middleware('can:editar instituciones');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/controles', [ControlController::class, 'index'])->name('controles.index');
-    Route::get('/controles/create', [ControlController::class, 'create'])->name('controles.create');
-    Route::post('/controles', [ControlController::class, 'store'])->name('controles.store');
-    Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])->name('controles.edit');
-    Route::put('/controles/{id}', [ControlController::class, 'update'])->name('controles.update');
-    Route::delete('/controles/{id}', [ControlController::class, 'destroy'])->name('controles.destroy');
-});
+Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])
+    ->name('instituciones.destroy')
+    ->middleware('can:eliminar instituciones');
 
 
-//Roles y permisos
+// GESTIÓN DE DEPARTAMENTOS
+
+Route::get('/departamentos', [DepartamentoController::class, 'index'])
+    ->name('departamentos.index')
+    ->middleware('can:consultar departamentos');
+
+Route::get('/departamentos/create', [DepartamentoController::class, 'create'])
+    ->name('departamentos.create')
+    ->middleware('can:crear departamentos');
+
+Route::post('/departamentos', [DepartamentoController::class, 'store'])
+    ->name('departamentos.store')
+    ->middleware('can:crear departamentos');
+
+Route::get('/departamentos/{id}/edit', [DepartamentoController::class, 'edit'])
+    ->name('departamentos.edit')
+    ->middleware('can:editar departamentos');
+
+Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])
+    ->name('departamentos.update')
+    ->middleware('can:editar departamentos');
+
+Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])
+    ->name('departamentos.destroy')
+    ->middleware('can:eliminar departamentos');
+
+
+// GESTIÓN DE SERVIDORES PÚBLICOS
+
+Route::get('/servidores', [ServidorController::class, 'index'])
+    ->name('servidores.index')
+    ->middleware('can:consultar servidores');
+
+Route::get('/servidores/create', [ServidorController::class, 'create'])
+    ->name('servidores.create')
+    ->middleware('can:crear servidores');
+
+Route::post('/servidores', [ServidorController::class, 'store'])
+    ->name('servidores.store')
+    ->middleware('can:crear servidores');
+
+Route::get('/servidores/{id}/edit', [ServidorController::class, 'edit'])
+    ->name('servidores.edit')
+    ->middleware('can:editar servidores');
+
+Route::put('/servidores/{id}', [ServidorController::class, 'update'])
+    ->name('servidores.update')
+    ->middleware('can:editar servidores');
+
+Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])
+    ->name('servidores.destroy')
+    ->middleware('can:eliminar servidores');
+
+
+// GESTIÓN DE EXPEDIENTES
+
+Route::get('/expedientes', [ExpedienteController::class, 'index'])
+    ->name('expedientes.index')
+    ->middleware('can:consultar expedientes');
+
+Route::get('/expedientes/create', [ExpedienteController::class, 'create'])
+    ->name('expedientes.create')
+    ->middleware('can:crear expedientes');
+
+Route::post('/expedientes', [ExpedienteController::class, 'store'])
+    ->name('expedientes.store')
+    ->middleware('can:crear expedientes');
+
+Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])
+    ->name('expedientes.edit')
+    ->middleware('can:editar expedientes');
+
+Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])
+    ->name('expedientes.update')
+    ->middleware('can:editar expedientes');
+
+Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])
+    ->name('expedientes.destroy')
+    ->middleware('can:eliminar expedientes');
+
+
+// GESTIÓN DE CONTROLES
+
+Route::get('/controles', [ControlController::class, 'index'])
+    ->name('controles.index')
+    ->middleware('can:consultar controles');
+
+Route::get('/controles/create', [ControlController::class, 'create'])
+    ->name('controles.create')
+    ->middleware('can:crear controles');
+
+Route::post('/controles', [ControlController::class, 'store'])
+    ->name('controles.store')
+    ->middleware('can:crear controles');
+
+Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])
+    ->name('controles.edit')
+    ->middleware('can:editar controles');
+
+Route::put('/controles/{id}', [ControlController::class, 'update'])
+    ->name('controles.update')
+    ->middleware('can:editar controles');
+
+Route::delete('/controles/{id}', [ControlController::class, 'destroy'])
+    ->name('controles.destroy')
+    ->middleware('can:eliminar controles');
+
+
+// GESTIÓN DE ROLES Y PERMISOS
 
 Route::get('/roles', [RolesController::class, 'index'])
     ->name('roles.index')
     ->middleware('can:consultar roles');
 
-
 Route::get('/roles/create', [RolesController::class, 'create'])
     ->name('roles.create')
     ->middleware('can:crear roles');
 
-
 Route::post('/roles', [RolesController::class, 'store'])
     ->name('roles.store')
     ->middleware('can:crear roles');
-    
 
 Route::get('/roles/{id}/edit', [RolesController::class, 'edit'])
     ->name('roles.edit')
     ->middleware('can:editar roles');
 
-
 Route::put('/roles/{id}', [RolesController::class, 'update'])
     ->name('roles.update')
     ->middleware('can:editar roles');
 
-
 Route::delete('/roles/{id}', [RolesController::class, 'destroy'])
     ->name('roles.destroy')
     ->middleware('can:eliminar roles');
+
 
 require __DIR__.'/auth.php';

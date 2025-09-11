@@ -82,6 +82,12 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'eliminar bajas']);
         Permission::firstOrCreate(['name' => 'consultar bajas']);
 
+        //Controles
+        Permission::firstOrCreate(['name' => 'crear controles']);
+        Permission::firstOrCreate(['name' => 'editar controles']);
+        Permission::firstOrCreate(['name' => 'eliminar controles']);
+        Permission::firstOrCreate(['name' => 'consultar controles']);
+
         // Roles
         Permission::firstOrCreate(['name' => 'crear roles']);
         Permission::firstOrCreate(['name' => 'editar roles']);
