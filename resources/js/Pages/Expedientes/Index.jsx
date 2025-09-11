@@ -79,6 +79,7 @@ export default function Index({ expedientes, auth }) {
             data={tableData} 
             className="display"
             options={{ 
+                scrollX:true,
                 dom: '<"dt-toolbar flex justify-between items-center mb-4"fB>rt<"dt-footer flex justify-between items-center mt-4 text-xs"lip>', 
                 buttons: [
                 {

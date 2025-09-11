@@ -102,10 +102,10 @@ export default function Index({ controles, auth }) {
                     { title: "Consecutivo", data: "consecutivo" },
                     { title: "Número de oficio", data: "numero" },
                     { title: "Acuerdo de prórroga", data: "acProrroga" },
-                    { title: "Acuerdo del auxilio", data: "acAuxilio"},
+                    { title: "Acuerdo de auxilio personal OR", data: "acAuxilio"},
                     { title: "Acuerdo de regularización ", data: "acRegularizacion"},
-                    { title: "Acuerdo de requerimineto de declaración patrimonial", data: "acRequerimiento"},
-                    { title: "Oficio de requerimineto de declaración patrimonial", data: "acOficioReque"},
+                    { title: "Acuerdo de requerimiento de declaración patrimonial", data: "acRequerimiento"},
+                    { title: "Oficio de requerimiento de declaración patrimonial", data: "acOficioReque"},
                     { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
                     { title: "Comentarios", data: "comentarios" },
                     {

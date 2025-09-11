@@ -106,9 +106,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/expedientes', [ExpedienteController::class, 'index'])->name('expedientes.index');
     Route::get('/expedientes/create', [ExpedienteController::class, 'create'])->name('expedientes.create');
     Route::post('/expedientes', [ExpedienteController::class, 'store'])->name('expedientes.store');
-    Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])->name('expedientes.edit');
-    Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])->name('expedientes.update');
-    Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])->name('expedientes.destroy');
+    Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])
+        ->where('id', '.*')
+        ->name('expedientes.edit');
+    Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])
+        ->where('id', '.*')
+        ->name('expedientes.update');
+    Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])
+        ->where('id', '.*')
+        ->name('expedientes.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {
