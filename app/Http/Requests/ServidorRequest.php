@@ -19,27 +19,37 @@ class ServidorRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules() 
     {
-        return [
+        $rules = [
             'nombreCompleto' => 'required|string|max:100',
             'genero' => 'required',
             'grado' => 'required|string|max:45',
             'fechaIngreso' => 'nullable|date',
-            'puesto' => 'required|string|max:100',
-            'nivel' => 'required|string|max:45',
+            'puesto' => 'nullable|string|max:100',
+            'nivel' => 'nullable|string|max:45',
             'correo' => 'nullable|email|max:100',
             'telefono' => 'nullable|string|max:45|regex:/^[0-9]+$/',
-            'estatus' => 'required',
             'descripcion' => 'nullable',
             'idInstitucion' => 'required|integer',
             'idDepartamento' => 'required|integer'
         ];
+
+        if($this->routeIs('servidores.store')) {
+            $rules['estatus'] = 'required|string|in:Alta';
+        }else{
+            $rules['estatus'] = 'required|string';
+        }
+
+        return $rules;
     }
 
     public function messages()
     {
         return [
+            'estatus.required' => 'El estatus es obligatorio.',
+            'estatus.string' => 'El estatus debe ser una cadena de texto.',
+            'estatus.in' => 'El estatus solo puede ser Alta, la baja de un servidor se gestiona en el módulo de Bajas.',
             'nombreCompleto.required' => 'El nombre completo es obligatorio.',
             'nombreCompleto.string' => 'El nombre completo debe ser una cadena de texto.',
             'nombreCompleto.max' => 'El nombre completo no debe exceder los 100 caracteres.',

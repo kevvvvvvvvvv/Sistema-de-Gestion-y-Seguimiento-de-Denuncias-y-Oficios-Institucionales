@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BajaController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\ExpedienteController;

@@ -10,10 +10,10 @@ class Expediente extends Model
     use HasFactory;
 
     protected $table = 'expediente';
-    public $incrementing = false;
-    protected $keyType = 'string'; 
 
     protected $primaryKey = 'numero';
+    public $incrementing = false;
+    protected $keyType = 'string'; 
     protected $fillable = ['numero', 'ofRequerimiento', 'fechaRequerimiento', 'ofRespuesta', 
     'fechaRespuesta', 'fechaRecepcion', 'idServidor'];
     public $timestamps = false;

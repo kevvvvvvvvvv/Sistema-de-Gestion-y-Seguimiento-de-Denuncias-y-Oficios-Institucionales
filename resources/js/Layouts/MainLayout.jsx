@@ -45,8 +45,10 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
             <div className="col-span-3 flex flex-col">
                 <div className="flex items-center mb-6 mt-6">
                     <button
-                        onClick={() => router.visit(backURL)} 
-                        className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white transition">
+
+                    onClick={() => router.visit(backURL)} 
+                    className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white hover:scale-110 transition transform duration-300 ease-in-out cursor-pointer">
+                  
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 
                             fill="none" 

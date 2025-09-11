@@ -63,7 +63,7 @@ export default function Edit({ auth, errors, control, expedientes }) {
                 />
         
                 <SelectInput
-                    label="¿Cuenta con Acuerdo del Auxilio?"
+                    label="¿Cuenta con Acuerdo de Auxilio Personal OR?"
                     id="acAuxilio"
                     options={[
                         { value: "Si", label: "Si" },
@@ -87,7 +87,7 @@ export default function Edit({ auth, errors, control, expedientes }) {
                 />
         
                 <SelectInput
-                    label="¿Cuenta con Acuerdo de Requerimineto de Declaración Patrimonial?"
+                    label="¿Cuenta con Acuerdo de Requerimiento de Declaración Patrimonial?"
                     id="acRequerimiento"
                     options={[
                         { value: "Si", label: "Si" },
@@ -99,7 +99,7 @@ export default function Edit({ auth, errors, control, expedientes }) {
                 />
         
                 <SelectInput
-                    label="¿Cuenta con Oficio de Requerimineto de Declaración Patrimonial?"
+                    label="¿Cuenta con Oficio de Requerimiento de Declaración Patrimonial?"
                     id="acOficioReque"
                     options={[
                         { value: "Si", label: "Si" },
@@ -111,7 +111,7 @@ export default function Edit({ auth, errors, control, expedientes }) {
                 />
         
                 <SelectInput
-                    label="¿Cuenta con Acuerdo de Conclusióny Archivo?"
+                    label="¿Cuenta con Acuerdo de Conclusión y Archivo?"
                     id="acConclusion"
                     options={[
                         { value: "Si", label: "Si" },

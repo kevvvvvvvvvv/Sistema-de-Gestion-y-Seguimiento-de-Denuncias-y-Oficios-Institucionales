@@ -16,7 +16,7 @@ export default function Index({ users, auth }) {
         <AddButton href={route('users.create')} />
         <div className="grid grid-cols-3 gap-4 mt-6">
           {users.map(user => (
-            <div key={user.idUsuario} className="bg-blancoIMTA text-center justify-center-safe py-4 rounded-lg">
+            <div key={user.idUsuario} className="bg-blancoIMTA text-center justify-center-safe py-4 rounded-lg hover:scale-105 transition transform duration-300 ease-in-out cursor-pointer">
               <h2 className="font-bold">{user.nombre} {user.apPaterno} {user.apMaterno}</h2>
               <h3 className="text-sm text-cafeIMTA">{user.email}</h3>
               <div className="grid grid-cols-4 mt-4 mx-4 gap-4">

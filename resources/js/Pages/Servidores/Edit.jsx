@@ -161,7 +161,7 @@ export default function Edit({ auth, errors, servidor, instituciones, departamen
 
             <InputTextArea 
                 placeholder="Aa"
-                description="Descripción"
+                description="Descripción de la alta del servidor"
                 id="descripcion"
                 value={values.descripcion}
                 onChange={handleChange}

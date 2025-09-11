@@ -1,9 +1,10 @@
 import AddButton from '@/Components/AddButton';
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
+import {Trash2, SquarePen, icons} from 'lucide-react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
 import { router } from '@inertiajs/react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -22,17 +23,17 @@ DataTable.use(Buttons);
 
 const {confirm} = useSweetDelete();
 
-export default function Index({ controles, auth }) {
-    const tableData = controles.map(i => ({
-        consecutivo: i.consecutivo,
-        acProrroga: i.acProrroga,
-        acAuxilio: i.acAuxilio,
-        acRegularizacion: i.acRegularizacion,
-        acRequerimiento: i.acRequerimiento,
-        acOficioReque: i.acOficioReque,
-        acConclusion: i.acConclusion,
-        comentarios: i.comentarios,
-        numero: i.expediente.numero
+export default function Index({ bajas, auth }) {
+    const tableData = bajas.map(i => ({
+        idBaja: i.idBaja,
+        nombreCompleto: i.servidor.nombreCompleto,
+        numero: i.expediente?.numero || 'Sin expediente',
+        puestoAnt: i.puestoAnt,
+        nivelAnt: i.nivelAnt,
+        adscripcionAnt: i.adscripcionAnt,
+        fechaIngresoAnt: i.fechaIngresoAnt,
+        fechaBaja: i.fechaBaja,
+        descripcion: i.descripcion,
     }));
 
     useEffect(() => {
@@ -42,21 +43,21 @@ export default function Index({ controles, auth }) {
 
             if (editBtn) {
             const id = editBtn.dataset.id;
-                router.visit(route("controles.edit", id));
+            router.visit(route("bajas.edit", id));
             }
 
             if (deleteBtn) {
                 const id = deleteBtn.dataset.id;
                 confirm(
                     {
-                      title: "¿Eliminar control?",
-                      text: "No podrás deshacer esta acción",
+                      title: "¿Eliminar baja?",
+                      text: "No podrás deshacer esta acción. El estatus del servidor se cambiará a \"Alta\".",
                       confirmText: "Sí, eliminar",
                     },
                     () => {
-                      router.delete(route("controles.destroy", id), {
+                      router.delete(route("bajas.destroy", id), {
                         onSuccess: () => {
-                          router.reload({ only: ["controles"] });
+                          router.reload({ only: ["bajas"] });
                         },
                       });
                     }
@@ -72,15 +73,15 @@ export default function Index({ controles, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de controles" insideHeader={""}>
-        <Head title="Controles" />
-        <AddButton href={route('controles.create')} />
+      <MainLayout auth={auth} topHeader="Consulta de bajas" insideHeader={""}>
+        <Head title="Bajas" />
+        <AddButton href={route('bajas.create')} />
         
         <DataTable 
             data={tableData} 
             className="display"
             options={{ 
-                scrollX: true, 
+                scrollX:true,
                 dom: '<"dt-toolbar flex justify-between items-center mb-4"fB>rt<"dt-footer flex justify-between items-center mt-4 text-xs"lip>', 
                 buttons: [
                 {
@@ -99,24 +100,24 @@ export default function Index({ controles, auth }) {
                     zeroRecords: "No se encontraron resultados",
                 },
                 columns: [
-                    { title: "Consecutivo", data: "consecutivo" },
-                    { title: "Número de oficio", data: "numero" },
-                    { title: "Acuerdo de prórroga", data: "acProrroga" },
-                    { title: "Acuerdo de auxilio personal OR", data: "acAuxilio"},
-                    { title: "Acuerdo de regularización ", data: "acRegularizacion"},
-                    { title: "Acuerdo de requerimiento de declaración patrimonial", data: "acRequerimiento"},
-                    { title: "Oficio de requerimiento de declaración patrimonial", data: "acOficioReque"},
-                    { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
-                    { title: "Comentarios", data: "comentarios" },
+                    { title: "ID", data: "idBaja" },
+                    { title: "Servidor", data: "nombreCompleto" },
+                    { title: "Número de expediente", data: "numero" },
+                    { title: "Puesto anterior", data: "puestoAnt" },
+                    { title: "Nivel anterior", data: "nivelAnt" },
+                    { title: "Adscripción anterior", data: "adscripcionAnt" },
+                    { title: "Fecha de ingreso anterior", data: "fechaIngresoAnt" },
+                    { title: "Fecha de la baja", data: "fechaBaja" },
+                    { title: "Descripción de la baja", data: "descripcion" },
                     {
                         title: "Operaciones",
                         orderable: false,
                         render: (data, type, row) => `
                             <div class="flex gap-2 justify-center">
-                                <button class="edit-btn" data-id="${row.consecutivo}">
+                                <button class="edit-btn" data-id="${row.idBaja}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
                                 </button>
-                                <button class="delete-btn" data-id="${row.consecutivo}">
+                                <button class="delete-btn" data-id="${row.idBaja}">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
                                 </button>
                             </div>
@@ -127,15 +128,15 @@ export default function Index({ controles, auth }) {
         >
             <thead>
                 <tr>
-                    <th>Consecutivo</th>
-                    <th>Número de oficio</th>
-                    <th>Acuerdo de prórroga</th>
-                    <th>Acuerdo del auxilio</th>
-                    <th>Acuerdo de regularización</th>
-                    <th>Acuerdo de requerimineto de declaración patrimonial</th>
-                    <th>Oficio de requerimineto de declaración patrimonial</th>
-                    <th>Acuerdo de conclusión y archivo</th>
-                    <th>Comentarios</th>
+                <th>ID</th>
+                <th>Servidor</th>
+                <th>Número de expediente</th>
+                <th>Puesto anterior</th>
+                <th>Nivel anterior</th>
+                <th>Adscripción anterior</th>
+                <th>Fecha de ingreso anterior</th>
+                <th>Fecha de la baja</th>
+                <th>Descripción de la baja</th>
                 </tr>
             </thead>
         </DataTable>
