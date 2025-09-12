@@ -24,6 +24,8 @@ DataTable.use(Buttons);
 const {confirm} = useSweetDelete();
 
 export default function Index({ departamentos, auth }) {
+
+    const permissions = auth.permissions;
     const tableData = departamentos.map(i => ({
         idDepartamento: i.idDepartamento,
         nombre: i.nombre,
@@ -69,8 +71,11 @@ export default function Index({ departamentos, auth }) {
     <>
       <MainLayout auth={auth} topHeader="Consulta de departamentos" insideHeader={""}>
         <Head title="Departamentos" />
+
+        {auth.permissions.includes("crear departamentos") && (
         <AddButton href={route('departamentos.create')} />
-        
+        )}
+
         <DataTable 
             data={tableData} 
             className="display"
@@ -97,19 +102,43 @@ export default function Index({ departamentos, auth }) {
                     { title: "Nombre del departamento", data: "nombre" },
                     { title: "Institución a la que pertenece", data: "nombreCompleto" },
                     {
-                        title: "Operaciones",
-                        orderable: false,
-                        render: (data, type, row) => `
-                            <div class="flex gap-2 justify-center">
-                                <button class="edit-btn" data-id="${row.idDepartamento}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path></svg>
-                                </button>
-                                <button class="delete-btn" data-id="${row.idDepartamento}">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
-                                </button>
-                            </div>
-                        `
-                    }
+                      title: "Operaciones",
+                      orderable: false,
+                      render: (data, type, row) => {
+                          let buttons = `<div class="flex gap-2 justify-center">`;
+                  
+                          if (permissions.includes("editar departamentos")) {
+                              buttons += `
+                                  <button class="edit-btn" data-id="${row.idDepartamento}">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                           viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <path d="M12 20h9"></path>
+                                          <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                                      </svg>
+                                  </button>
+                              `;
+                          }
+                  
+                          if (permissions.includes("eliminar departamentos")) {
+                              buttons += `
+                                  <button class="delete-btn" data-id="${row.idDepartamento}">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                           viewBox="0 0 24 24" fill="none" stroke="red"
+                                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <polyline points="3 6 5 6 21 6"></polyline>
+                                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                          <path d="M10 11v6"></path>
+                                          <path d="M14 11v6"></path>
+                                      </svg>
+                                  </button>
+                              `;
+                          }
+                  
+                          buttons += `</div>`;
+                          return buttons;
+                      }
+                  }
                 ]
             }}
         >

@@ -78,8 +78,9 @@ export default function Create({ auth, errors, servidor, departamento, instituci
 
   return (
     <MainLayout auth={auth} topHeader="Registro de viajeros" insideHeader={""} backURL="/viajeros">
+      
       <Head title="Registro de Viajeros" />
-
+      
       <div className="grid grid-cols-2 gap-4 flex-1">
 
         <InputText

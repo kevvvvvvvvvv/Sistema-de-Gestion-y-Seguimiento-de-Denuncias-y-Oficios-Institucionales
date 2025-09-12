@@ -110,7 +110,9 @@ export default function Index({ viajeros, auth }) {
   return (
     <MainLayout auth={auth} topHeader="Consulta de Viajeros" insideHeader="">
       <Head title="Viajeros" />
+      {auth.permissions.includes("crear viajeros") && (
       <AddButton href={route('viajeros.create')} />
+      )}
 
       <DataTable 
         data={viajeros}

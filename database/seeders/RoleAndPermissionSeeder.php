@@ -93,6 +93,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'editar roles']);
         Permission::firstOrCreate(['name' => 'eliminar roles']);
         Permission::firstOrCreate(['name' => 'consultar roles']);
+        
 
         $roleAdministrador->givePermissionTo(Permission::all());
 

@@ -47,7 +47,7 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                     <button
 
                     onClick={() => router.visit(backURL)} 
-                    className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-cafeIMTA hover hover:text-white hover:scale-110 transition transform duration-300 ease-in-out cursor-pointer">
+                    className="rounded-xl font-bold justify-center text-sm text-black border border-[#A7A7A7] p-2 flex items-center bg-[#FFFFFF] hover:bg-azulIMTA hover hover:text-white hover:scale-110 transition transform duration-300 ease-in-out cursor-pointer">
                   
                         <svg 
                             xmlns="http://www.w3.org/2000/svg" 

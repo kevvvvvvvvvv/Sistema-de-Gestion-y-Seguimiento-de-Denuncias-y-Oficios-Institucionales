@@ -29,7 +29,6 @@ Route::get('/dashboard', function () {
 
 Route::get('/test', [ProfileController::class, 'test']);
 
-
 Route::get('dashboard/viajeros', function () {
     return Inertia::render('ViajerosDashboard');
 })->middleware(['auth', 'verified'])->name('viajeros.dashboard');
@@ -250,5 +249,30 @@ Route::delete('/roles/{id}', [RolesController::class, 'destroy'])
     ->name('roles.destroy')
     ->middleware('can:eliminar roles');
 
+
+//GESTIÓN DE BAJAS
+Route::get('/bajas', [BajaController::class, 'index'])
+    ->name('bajas.index')
+    ->middleware('can:consultar bajas');
+
+Route::get('/bajas/create', [BajaController::class, 'create'])
+    ->name('bajas.create')
+    ->middleware('can:crear bajas');
+
+Route::post('/bajas', [BajaController::class, 'store'])
+    ->name('bajas.store')
+    ->middleware('can:crear bajas');
+
+Route::get('/bajas/{id}/edit', [BajaController::class, 'edit'])
+    ->name('bajas.edit')
+    ->middleware('can:editar bajas');
+
+Route::put('/bajas/{id}', [BajaController::class, 'update'])
+    ->name('bajas.update')
+    ->middleware('can:editar bajas');
+
+Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
+    ->name('bajas.destroy')
+    ->middleware('can:eliminar bajas');    
 
 require __DIR__.'/auth.php';
