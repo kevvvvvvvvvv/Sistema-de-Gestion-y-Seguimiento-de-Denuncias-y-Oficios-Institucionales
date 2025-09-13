@@ -1,20 +1,46 @@
 import { Link, router } from '@inertiajs/react';
+import { useState } from 'react'
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import { Archive, House, StickyNote } from 'lucide-react';
+import SidebarDropdown from '@/Components/SidebarDropdown';
 
 export default function MainLayout({ children, auth, topHeader, insideHeader, backURL }) {
+
+    const [open, setOpen] = useState(false)
+
     return (
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
             {/* Sidebar Izquierdo */}
             
-            <div className="col-span-1 grid grid-rows-[20%_60%_20%] my-10 items-center justify-center">
-                <div>
+            <div className="col-span-1 grid grid-rows-[20%_60%_20%] m-10 justify-center">
+                <div className='flex items-center'>
                     <ApplicationLogo className="h-[140px] w-[220px] fill-current text-gray-500" />
                 </div>
 
-                <div></div>
+                <div className='flex flex-col gap-4 items-start justify-start'>
+                    <Link className='flex gap-2 hover:bg-black/10 rounded-md w-full p-2' 
+                    href={route('dashboard')}>
+                        <House />
+                        <p>Página principal</p>
+                    </Link>
 
-                <div>
+                    <SidebarDropdown icon={StickyNote} label="Módulo de viajeros"
+                        items={[
+                            { text: 'Ver viajeros', href: route('viajeros.index')},
+                            { text: 'Agregar un nuevo viajero', href: route('viajeros.create')}
+                        ]}    
+                    />
+
+                    <SidebarDropdown icon={Archive} label="Módulo de expedientes"
+                        items={[
+                            { text: 'Ver expedientes', href: route('expedientes.index')},
+                            { text: 'Agregar un nuevo expediente', href: route('expedientes.create')}
+                        ]}    
+                    />
+                </div>
+
+                <div className='flex flex-col justify-center'>
                     <p className='mb-4'>{auth.user?.nombre} {auth.user?.apPaterno}</p>
                     <Link 
                         className="flex items-center" 
