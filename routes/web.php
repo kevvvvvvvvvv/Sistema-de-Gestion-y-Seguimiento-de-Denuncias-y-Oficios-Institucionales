@@ -11,6 +11,7 @@ use App\Http\Controllers\ExpedienteController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
+use App\Http\Controllers\ParticularController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -87,6 +88,32 @@ Route::post('/viajeros',[ViajeroController::class,'store'])
     ->name('viajeros.store')
     ->middleware('can:crear viajeros');
 
+
+//GESTIÓN DE PARTICULARES
+
+Route::get('/particulares', [ParticularController::class, 'index'])
+    ->name('particulares.index')
+    ->middleware('can:consultar servidores');
+
+Route::get('/particulares/create', [ParticularController::class, 'create'])
+    ->name('particulares.create')
+    ->middleware('can:crear servidores');
+
+Route::post('/particulares', [ParticularController::class, 'store'])
+    ->name('particulares.store')
+    ->middleware('can:crear servidores');
+
+Route::get('/particulares/{id}/edit', [ParticularController::class, 'edit'])
+    ->name('particulares.edit')
+    ->middleware('can:editar servidores');
+
+Route::put('/particulares/{id}', [ParticularController::class, 'update'])
+    ->name('particulares.update')
+    ->middleware('can:editar servidores');
+
+Route::delete('/particulares/{id}', [ParticularController::class, 'destroy'])
+    ->name('particulares.destroy')
+    ->middleware('can:eliminar servidores');
 
 // GESTIÓN DE INSTITUCIONES
 
