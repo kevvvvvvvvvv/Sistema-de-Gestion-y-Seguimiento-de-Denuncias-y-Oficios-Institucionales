@@ -17,8 +17,12 @@ class Oficio extends Model
         'fechaLlegada', 
         'fechaCreacion', 
         'url',
-        'idRemitente', 
-        'idDestinatario'
+        'idServidorRemitente', 
+        'idParticularRemitente', 
+        'idDepartamentoRemitente',
+        'idServidorDestinatario', 
+        'idParticularDestinatario', 
+        'idDepartamentoDestinatario'
     ];
 
     public $timestamps = false;
