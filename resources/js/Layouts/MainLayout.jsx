@@ -8,6 +8,25 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
 
     const [open, setOpen] = useState(false)
 
+    const viajerosItems = [];
+    const expedientesItems = [];
+
+    if (auth.permissions.includes('consultar viajeros')) {
+        viajerosItems.push({ text: 'Ver viajeros', href: route('viajeros.index') });
+    }
+
+    if (auth.permissions.includes('crear viajeros')){
+        viajerosItems.push({ text: 'Agregar un nuevo viajero', href: route('viajeros.create') });
+    }
+
+    if(auth.permissions.includes('consultar expedientes')){
+        expedientesItems.push({ text: 'Ver expedientes', href: route('expedientes.index') });
+    }
+
+    if(auth.permissions.includes('crear expedientes')){
+        expedientesItems.push({ text: 'Agregar un nuevo expediente', href: route('expedientes.create') });
+    }
+
     return (
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
@@ -24,18 +43,16 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                         <p>Página principal</p>
                     </Link>
 
-                    <SidebarDropdown icon={StickyNote} label="Módulo de viajeros"
-                        items={[
-                            { text: 'Ver viajeros', href: route('viajeros.index')},
-                            { text: 'Agregar un nuevo viajero', href: route('viajeros.create')}
-                        ]}    
+                    <SidebarDropdown 
+                        icon={StickyNote} 
+                        label="Módulo de viajeros" 
+                        items={viajerosItems} 
                     />
 
-                    <SidebarDropdown icon={Archive} label="Módulo de expedientes"
-                        items={[
-                            { text: 'Ver expedientes', href: route('expedientes.index')},
-                            { text: 'Agregar un nuevo expediente', href: route('expedientes.create')}
-                        ]}    
+                    <SidebarDropdown 
+                        icon={Archive} 
+                        label="Módulo de expedientes"
+                        items={expedientesItems}    
                     />
                 </div>
 
