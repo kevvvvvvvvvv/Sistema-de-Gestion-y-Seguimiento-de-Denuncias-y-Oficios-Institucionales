@@ -17,9 +17,11 @@ class Oficio extends Model
         'fechaLlegada', 
         'fechaCreacion', 
         'url',
+
         'idServidorRemitente', 
         'idParticularRemitente', 
         'idDepartamentoRemitente',
+
         'idServidorDestinatario', 
         'idParticularDestinatario', 
         'idDepartamentoDestinatario'
@@ -27,23 +29,29 @@ class Oficio extends Model
 
     public $timestamps = false;
 
-    public function servidor(){
-        return $this->belongsTo(Servidor::class, 'idRemitente', 'idServidor');
+    public function departamentoRemitente(){
+        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
     }
 
-    public function destinatario(){
-        return $this->belongsTo(Destinatario::class, 'idDestinatario', 'idDestinatario');
+    public function servidorRemitente(){
+        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor');
     }
 
-    public function departamentoD() {
-        return $this->hasOneThrough(
-            Departamento::class,
-            Destinatario::class,
-            'idDestinatario', // FK en Destinatario que apunta a Oficio
-            'idDepartamento', // PK en Departamento
-            'idDestinatario', // Local key en Oficio
-            'idDepartamento'  // Local key en Destinatario
-        );
+    public function particularRemitente(){
+        return $this->belongsTo(Destinatario::class, 'idParticularRemitente', 'idParticular');
+    }
+
+
+    public function departamentoDestinatario(){
+        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
+    }
+
+    public function servidorDestinatario(){
+        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor');
+    }
+
+    public function particularDestinatario(){
+        return $this->belongsTo(Destinatario::class, 'idParticularRemitente', 'idParticular');
     }
 
 }

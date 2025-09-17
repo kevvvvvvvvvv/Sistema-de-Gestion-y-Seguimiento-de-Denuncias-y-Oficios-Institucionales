@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             InstitucionSeeder::class,
             DepartamentoSeeder::class,
             ServidorSeeder::class,
+            ParticularSeeder::class,
+            
         ]);
     }
 }

@@ -5,8 +5,9 @@ import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 import SelectInput from "@/Components/SelectInput";
 import InputDate from "@/Components/InputDate";
+import { set } from "date-fns";
 
-export default function Create({ auth, errors, servidor, departamento, institucion, user }) {
+export default function Create({ auth, errors, servidor, departamento, particular, user, remitente, destinatario }) {
   // Estado de los inputs
   const [values, setValues] = useState({
     numOficio: "",
@@ -16,12 +17,21 @@ export default function Create({ auth, errors, servidor, departamento, instituci
     resultado: "",
     instruccion: "",
     fechaEntrega: "",
-    idDepartamentoD: null,
-    idServidorD: null,
-    idServidor: null,
+    idDepartamentoDestinatario: null,
+    idServidorDestinatario: null,
+    idParticularDestinatario: null,
+
+    idDepartamentoRemitente: null,
+    idParticularRemitente: null,
+    idServidorRemitente: null,
     idUsuario: null,
     pdfFile: null,
   });
+
+  const [valuesType, setValuesType] = useState({
+    remitenteTipo:"",
+    destinatarioTipo: ""
+  }); 
 
   // Actualiza el estado al escribir
   function handleChange(e) {
@@ -50,25 +60,34 @@ export default function Create({ auth, errors, servidor, departamento, instituci
     });
   }
 
-  // Opciones de selects
-  const optionsInstitucion = institucion.map((inst) => ({
-    value: inst.idInstitucion,
-    label: inst.nombreCompleto,
-  }));
-
-  const optionsDepartamento = departamento.map((dep) => ({
-    value: dep.idDepartamento,
-    label: dep.nombre,
-  }));
-
-  const optionsServidor = servidor.map((srv) => ({
-    value: srv.idServidor,
-    label: srv.nombreCompleto,
+  const optionsDepartamentoD = departamento.map((depd) => ({
+    value: depd.idDepartamento,
+    label: depd.nombre,
   }));
 
   const optionsServidorD = servidor.map((srvd) => ({
     value: srvd.idServidor,
     label: srvd.nombreCompleto,
+  }));
+
+  const optionsParticularD = particular.map((instd) => ({
+    value: instd.idParticular,
+    label: instd.nombreCompleto,
+  }));
+
+  const optionsServidorR = servidor.map((srvr) => ({
+    value: srvr.idServidor,
+    label: srvr.nombreCompleto,
+  }));
+
+  const optionsDepartamentoR = departamento.map((depr) => ({
+    value: depr.idDepartamento,
+    label: depr.nombre,
+  }));
+
+  const optionsParticularR = particular.map((instr) => ({
+    value: instr.idParticular,
+    label: instr.nombreCompleto,
   }));
 
   const optionsUser = user.map((user) => ({
@@ -108,34 +127,120 @@ export default function Create({ auth, errors, servidor, departamento, instituci
           error={errors.fechaLlegada}
         />
 
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 flex-1">
+      <SelectInput
+        label="Tipo de remitente"
+        id="remitenteTipo"
+        options={[
+          { value: "servidor", label: "Servidor" },
+          { value: "particular", label: "Particular" },
+          { value: "departamento", label: "Departamento" },
+        ]}
+        value={valuesType.remitenteTipo}
+        onChange={(val) => {
+          setValuesType({ ...valuesType, remitenteTipo: val });
+
+          setValues({
+            ...values,
+            idServidorRemitente: "",
+            idDepartamentoRemitente: "",
+            idParticularRemitente: ""
+          });
+        }}
+        error={errors.remitente}
+      />
+
+      {valuesType.remitenteTipo === "servidor" && (
+       <SelectInput
+          label="Remitente"
+          id="idServidorRemitente"
+          options={optionsServidorR}
+          value={values.idServidorRemitente}
+          onChange={(val) => setValues({ ...values, idServidorRemitente: val })}
+          error={errors.idServidorRemitente}
+        />
+      )}
+
+      {valuesType.remitenteTipo === "departamento" && (
         <SelectInput
           label="Remitente"
-          id="idServidor"
-          options={optionsServidor}
-          value={values.idServidor}
-          onChange={(val) => setValues({ ...values, idServidor: val })}
-          error={errors.idServidor}
+          id="idDepartamentoRemitente"
+          options={optionsDepartamentoR}
+          value={values.idDepartamentoRemitente}
+          onChange={(val) => setValues({ ...values, idDepartamentoRemitente: val })}
+          error={errors.idDepartamentoRemitente}
         />
+      )}
 
+      {valuesType.remitenteTipo === "particular" && (
         <SelectInput
-          label="Destinataio"
-          id="idDepartamentoD"
-          options={optionsDepartamento}
-          value={values.idDepartamentoD}
-          onChange={(val) => setValues({ ...values, idDepartamentoD: val })}
-          error={errors.idDepartamentoD}
+          label="Remitente"
+          id="idParticularRemitente"
+          options={optionsParticularR}
+          value={values.idParticularRemitente}
+          onChange={(val) => setValues({ ...values, idParticularRemitente: val })}
+          error={errors.idParticularRemitente}
         />
+      )}
 
-        <SelectInput
+      <SelectInput
+        label="Tipo de destinatario"
+        id="destinatarioTipo"
+        options={[
+          { value: "servidor", label: "Servidor" },
+          { value: "particular", label: "Particular" },
+          { value: "departamento", label: "Departamento" },
+        ]}
+        value={valuesType.destinatarioTipo}
+        onChange={
+          (val) => {setValuesType({ ...valuesType, destinatarioTipo: val });
+          setValues({
+            ...values,
+            idServidorDestinatario: "",
+            idDepartamentoDestinatario: "",
+            idParticularDestinatario: ""
+          });
+        }}
+        error={errors.destinatario}
+      />
+
+      {valuesType.destinatarioTipo === "servidor" && (
+       <SelectInput
           label="Destinatario"
-          id="idServidorD"
+          id="idServidorDestinatario"
           options={optionsServidorD}
-          value={values.idServidorD}
-          onChange={(val) => setValues({ ...values, idServidorD: val })}
-          error={errors.idServidorD}
+          value={values.idServidorDestinatario}
+          onChange={(val) => setValues({ ...values, idServidorDestinatario: val })}
+          error={errors.idServidorDestinatario}
         />
+      )}
+
+      {valuesType.destinatarioTipo === "departamento" && (
+        <SelectInput
+          label="Remitente"
+          id="idDepartamentoDestinatario"
+          options={optionsDepartamentoD}
+          value={values.idDepartamentoDestinatario}
+          onChange={(val) => setValues({ ...values, idDepartamentoDestinatario: val })}
+          error={errors.idDepartamentoDestinatario}
+        />
+      )}
+
+      {valuesType.destinatarioTipo === "particular" && (
+        <SelectInput
+          label="Remitente"
+          id="idParticularDestinatario"
+          options={optionsParticularD}
+          value={values.idParticularDestinatario}
+          onChange={(val) => setValues({ ...values, idParticularDestinatario: val })}
+          error={errors.idParticularDestinatario}
+        />
+      )}
 
       </div>
+
 
       <InputText
         placeholder="Aa"

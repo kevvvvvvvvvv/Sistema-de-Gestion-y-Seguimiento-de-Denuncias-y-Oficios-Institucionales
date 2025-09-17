@@ -39,7 +39,7 @@ export default function Index({ viajeros, auth }) {
       orderable: false,
       render: (data, type, row) => `
       <div class="flex gap-2 justify-center">
-        <button class="edit-btn" data-id="${row.id}">
+        <button class="edit-btn" data-id="${row.folio}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
             fill="none" stroke="currentColor" stroke-width="2" 
             stroke-linecap="round" stroke-linejoin="round">
@@ -48,7 +48,7 @@ export default function Index({ viajeros, auth }) {
           </svg>
         </button>
     
-        <button class="delete-btn" data-id="${row.id}">
+        <button class="delete-btn" data-id="${row.folio}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
             fill="none" stroke="red" stroke-width="2" 
             stroke-linecap="round" stroke-linejoin="round">

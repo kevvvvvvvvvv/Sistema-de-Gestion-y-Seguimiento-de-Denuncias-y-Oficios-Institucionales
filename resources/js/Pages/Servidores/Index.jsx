@@ -25,6 +25,7 @@ const {confirm} = useSweetDelete();
 
 export default function Index({ servidores, auth }) {
     const permissions = auth.permissions;
+
     const tableData = servidores.map(i => ({
         idServidor: i.idServidor,
         nombreCompleto: i.nombreCompleto,

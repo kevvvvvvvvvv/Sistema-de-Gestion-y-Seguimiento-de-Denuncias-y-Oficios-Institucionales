@@ -88,6 +88,18 @@ Route::post('/viajeros',[ViajeroController::class,'store'])
     ->name('viajeros.store')
     ->middleware('can:crear viajeros');
 
+Route::get('/viajeros/{id}/edit',[ViajeroController::class,'edit'])
+    ->name('viajeros.edit')
+    ->middleware('can:editar viajeros');    
+
+Route::put('/viajeros/{id}',[ViajeroController::class,'update'])
+    ->name('viajeros.update')
+    ->middleware('can:editar viajeros');
+
+Route::delete('/viajeros/{id}',[ViajeroController::class,'destroy'])
+    ->name('viajeros.destroy')
+    ->middleware('can:eliminar viajeros');
+
 
 //GESTIÓN DE PARTICULARES
 

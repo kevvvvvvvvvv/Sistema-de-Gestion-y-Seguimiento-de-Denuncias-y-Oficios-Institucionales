@@ -13,7 +13,7 @@ export default function Edit({ auth, errors, servidor, instituciones, departamen
         nombreCompleto: servidor.nombreCompleto,
         genero: servidor.genero,
         grado: servidor.grado,
-        fechaIngreso: servidor.fechaIngreso,
+        fechaIngreso: servidor.fechaIngreso ? new Date(servidor.fechaIngreso + 'T00:00:00') : '',
         puesto: servidor.puesto,
         nivel: servidor.nivel,
         correo: servidor.correo,

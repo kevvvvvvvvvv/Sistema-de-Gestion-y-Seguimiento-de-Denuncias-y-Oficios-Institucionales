@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('numOficio', 100)->primary();
             $table->date('fechaLlegada');
             $table->date('fechaCreacion');
-            $table->string('url', 100);
+            $table->string('url', 100)->nullable();
 
             // Remitente
             $table->unsignedBigInteger('idServidorRemitente')->nullable();

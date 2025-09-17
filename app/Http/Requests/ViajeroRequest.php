@@ -29,10 +29,7 @@ class ViajeroRequest extends FormRequest
             'resultado'      => 'nullable|string|max:255',
             'instruccion'    => 'nullable|string|max:255',
             'fechaEntrega'   => 'nullable|date',
-            'idDepartamentoD'=> 'required|integer',
-            'idServidorD'    => 'required|integer',
-            'idServidor'     => 'required|integer',
-            'idUsuario'      => 'integer',
+            'idUsuario'      => 'nullable integer',
         ];
     }
 
@@ -61,16 +58,6 @@ class ViajeroRequest extends FormRequest
 
             'fechaEntrega.date'      => 'La fecha de entrega no es válida.',
 
-            'idDepartamentoD.required' => 'El departamento destinatario es obligatorio.',
-            'idDepartamentoD.integer'  => 'El departamento destinatario no es válido.',
-
-            'idServidorD.required'   => 'El servidor destinatario es obligatorio.',
-            'idServidorD.integer'    => 'El servidor destinatario no es válido.',
-
-            'idServidor.required'    => 'El servidor remitente es obligatorio.',
-            'idServidor.integer'     => 'El servidor remitente no es válido.',
-
-            //'idUsuario.required'     => 'El usuario es obligatorio.',
             'idUsuario.integer'      => 'El usuario no es válido.',
         ];
     }

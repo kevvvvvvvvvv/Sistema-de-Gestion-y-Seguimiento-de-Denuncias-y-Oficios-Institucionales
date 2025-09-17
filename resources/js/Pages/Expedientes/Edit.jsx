@@ -11,10 +11,10 @@ export default function Edit({ auth, errors, expediente, servidores }) {
     const [values, setValues] = useState({
         numero: expediente.numero,
         ofRequerimiento: expediente.ofRequerimiento,
-        fechaRequerimiento: expediente.fechaRequerimiento,
+        fechaRequerimiento: expediente.fechaRequerimiento ? new Date(expediente.fechaRequerimiento + 'T00:00:00') : '',
         ofRespuesta: expediente.ofRespuesta,
-        fechaRespuesta: expediente.fechaRespuesta,
-        fechaRecepcion: expediente.fechaRecepcion,
+        fechaRespuesta: expediente.fechaRespuesta ? new Date(expediente.fechaRespuesta + 'T00:00:00') : '',
+        fechaRecepcion: expediente.fechaRecepcion ? new Date(expediente.fechaRecepcion + 'T00:00:00') : '',
         idServidor: expediente.idServidor
     });
     

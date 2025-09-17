@@ -12,7 +12,7 @@ export default function Edit({ auth, errors, baja, expedientes, servidores }) {
     const [values, setValues] = useState({
         idServidor: baja.idServidor,
         numero: baja.numero,
-        fechaBaja: baja.fechaBaja,
+        fechaBaja: baja.fechaBaja ? new Date(baja.fechaBaja + 'T00:00:00') : '',
         descripcion: baja.descripcion,
     });
     
