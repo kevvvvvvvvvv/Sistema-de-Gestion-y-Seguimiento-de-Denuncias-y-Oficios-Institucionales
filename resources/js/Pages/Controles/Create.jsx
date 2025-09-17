@@ -114,6 +114,30 @@ export default function Create({ auth, errors, expedientes  }) {
         />
 
         <SelectInput
+            label="¿Cuenta con Acuerdo de Inicio?"
+            id="acInicio"
+            options={[
+                { value: "Si", label: "Si" },
+                { value: "No", label: "No" }
+            ]}
+            value={values.acInicio}
+            onChange={(val) => setValues({ ...values, acInicio: val })}
+            error={errors.acInicio}
+        />
+
+        <SelectInput
+            label="¿Cuenta con Acuerdo de Modificación?"
+            id="acModificacion"
+            options={[
+                { value: "Si", label: "Si" },
+                { value: "No", label: "No" }
+            ]}
+            value={values.acModificacion}
+            onChange={(val) => setValues({ ...values, acModificacion: val })}
+            error={errors.acModificacion}
+        />
+
+        <SelectInput
             label="¿Cuenta con Acuerdo de Conclusión y Archivo?"
             id="acConclusion"
             options={[

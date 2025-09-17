@@ -15,6 +15,8 @@ export default function Edit({ auth, errors, control, expedientes }) {
         acRegularizacion: control.acRegularizacion,
         acRequerimiento: control.acRequerimiento,
         acOficioReque: control.acOficioReque,
+        acInicio: control.acInicio,
+        acModificacion: control.acModificacion,
         acConclusion: control.acConclusion,
         comentarios: control.comentarios,
         numero: control.numero,
@@ -108,6 +110,30 @@ export default function Edit({ auth, errors, control, expedientes }) {
                     value={values.acOficioReque}
                     onChange={(val) => setValues({ ...values, acOficioReque: val })}
                     error={errors.acOficioReque}
+                />
+
+                <SelectInput
+                    label="¿Cuenta con Acuerdo de Inicio?"
+                    id="acInicio"
+                    options={[
+                        { value: "Si", label: "Si" },
+                        { value: "No", label: "No" }
+                    ]}
+                    value={values.acInicio}
+                    onChange={(val) => setValues({ ...values, acInicio: val })}
+                    error={errors.acInicio}
+                />
+        
+                <SelectInput
+                    label="¿Cuenta con Acuerdo de Modificación?"
+                    id="acModificacion"
+                    options={[
+                        { value: "Si", label: "Si" },
+                        { value: "No", label: "No" }
+                    ]}
+                    value={values.acModificacion}
+                    onChange={(val) => setValues({ ...values, acModificacion: val })}
+                    error={errors.acModificacion}
                 />
         
                 <SelectInput

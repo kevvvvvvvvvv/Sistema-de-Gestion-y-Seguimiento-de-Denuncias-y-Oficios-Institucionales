@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('acRegularizacion', ['Si', 'No']);  
             $table->enum('acRequerimiento', ['Si', 'No']); 
             $table->enum('acOficioReque', ['Si', 'No']);  
+            $table->enum('acInicio', ['Si', 'No']);
+            $table->enum('acModificacion', ['Si', 'No']);
             $table->enum('acConclusion', ['Si', 'No']);
             $table->mediumText('comentarios')->nullable();
             $table->string('numero', 45);

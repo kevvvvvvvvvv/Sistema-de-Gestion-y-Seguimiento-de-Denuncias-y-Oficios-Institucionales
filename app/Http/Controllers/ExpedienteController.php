@@ -44,6 +44,8 @@ class ExpedienteController extends Controller
             'acRegularizacion' => 'No',
             'acRequerimiento' => 'No',
             'acOficioReque' => 'No',
+            'acInicio' => 'No',
+            'acModificacion' => 'No',
             'acConclusion' => 'No',
             'comentarios' => '',
             'numero' => $expediente->numero
