@@ -12,7 +12,7 @@ class Control extends Model
     protected $table = 'control';
     protected $primaryKey = 'consecutivo';
     protected $fillable = ['acProrroga', 'acAuxilio', 'acRegularizacion', 
-    'acRequerimiento', 'acOficioReque', 'acConclusion', 'comentarios', 'numero'];
+    'acRequerimiento', 'acOficioReque', 'acInicio', 'acModificacion', 'acConclusion', 'comentarios', 'numero'];
     public $timestamps = false;
 
     public function expediente(){

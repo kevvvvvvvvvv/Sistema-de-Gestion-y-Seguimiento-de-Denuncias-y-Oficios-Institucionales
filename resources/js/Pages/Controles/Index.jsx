@@ -31,6 +31,8 @@ export default function Index({ controles, auth }) {
         acRegularizacion: i.acRegularizacion,
         acRequerimiento: i.acRequerimiento,
         acOficioReque: i.acOficioReque,
+        acInicio: i.acInicio,
+        acModificacion: i.acModificacion,
         acConclusion: i.acConclusion,
         comentarios: i.comentarios,
         numero: i.expediente.numero
@@ -103,12 +105,14 @@ export default function Index({ controles, auth }) {
                 columns: [
                     { title: "Consecutivo", data: "consecutivo" },
                     { title: "Número de oficio", data: "numero" },
+                    { title: "Acuerdo de inicio", data: "acInicio"},
+                    { title: "Acuerdo de modificacion", data: "acModificacion"},
+                    { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
                     { title: "Acuerdo de prórroga", data: "acProrroga" },
                     { title: "Acuerdo de auxilio personal OR", data: "acAuxilio"},
                     { title: "Acuerdo de regularización ", data: "acRegularizacion"},
                     { title: "Acuerdo de requerimiento de declaración patrimonial", data: "acRequerimiento"},
                     { title: "Oficio de requerimiento de declaración patrimonial", data: "acOficioReque"},
-                    { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
                     { title: "Comentarios", data: "comentarios" },
                     {
                       title: "Operaciones",
