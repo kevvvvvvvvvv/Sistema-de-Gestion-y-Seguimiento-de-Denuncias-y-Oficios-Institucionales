@@ -12,6 +12,7 @@ use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\ParticularController;
+use App\Http\Controllers\ReporteDocumentosFaltantes;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -223,14 +224,17 @@ Route::post('/expedientes', [ExpedienteController::class, 'store'])
     ->middleware('can:crear expedientes');
 
 Route::get('/expedientes/{id}/edit', [ExpedienteController::class, 'edit'])
+    ->where('id', '.*')
     ->name('expedientes.edit')
     ->middleware('can:editar expedientes');
 
 Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])
+    ->where('id', '.*')
     ->name('expedientes.update')
     ->middleware('can:editar expedientes');
 
 Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])
+    ->where('id', '.*')
     ->name('expedientes.destroy')
     ->middleware('can:eliminar expedientes');
 
@@ -312,6 +316,11 @@ Route::put('/bajas/{id}', [BajaController::class, 'update'])
 
 Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->name('bajas.destroy')
-    ->middleware('can:eliminar bajas');    
+    ->middleware('can:eliminar bajas'); 
+
+    
+//REPORTE DE DOCUEMNTOS FALTANTES EN EXPEDIENTES
+Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
+    ->name('reportes.documentos-faltantes'); 
 
 require __DIR__.'/auth.php';
