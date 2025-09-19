@@ -26,7 +26,6 @@ class ReporteDocumentosFaltantes extends Controller
         inner join control on control.numero = expediente.numero;');
 
         $datosReporte = [];
-        $conteo = count($datos);
 
         foreach ($datos as $dato) {
             $nombreCompleto = $dato->nombreCompleto;
@@ -59,13 +58,18 @@ class ReporteDocumentosFaltantes extends Controller
                 $totalFaltantes++;
             }
 
-            //Guardar los datos en el arreglo para el reporte
-            $datosReporte[] = [
-                'nombreCompleto' => $nombreCompleto,
-                'numero' => $numero,
-                'ofFaltantes' => $ofFaltantes,
-                'totalFaltantes' => $totalFaltantes
-            ];
+            //Guardar los datos en el arreglo para el reporte, solo si existen documentos faltantes
+            if($totalFaltantes != 0) {
+                $datosReporte[] = [
+                    'nombreCompleto' => $nombreCompleto,
+                    'numero' => $numero,
+                    'ofFaltantes' => $ofFaltantes,
+                    'totalFaltantes' => $totalFaltantes
+                ];
+            }
+
+            $conteo = count($datosReporte);
+            
         }
 
         return Inertia::render('Reportes/DocumentosFaltantes', ['datosReporte' => $datosReporte, 'conteo' => $conteo]);
