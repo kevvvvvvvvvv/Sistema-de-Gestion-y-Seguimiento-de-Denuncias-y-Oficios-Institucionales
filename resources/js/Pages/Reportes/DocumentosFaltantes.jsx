@@ -11,6 +11,7 @@ import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
 import JSZip from 'jszip';
+import Card from '@/Components/Card';
 
 window.JSZip = JSZip;
 
@@ -39,7 +40,9 @@ export default function DocumentosFaltantes({ datosReporte, auth }) {
        <>
             <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
                 <Head title="Reporte de documentos faltantes por expediente" />
-            
+
+                <Card title={"Hola"} data={0} />
+
                 <DataTable 
                     data={tableData} 
                     className="display"
