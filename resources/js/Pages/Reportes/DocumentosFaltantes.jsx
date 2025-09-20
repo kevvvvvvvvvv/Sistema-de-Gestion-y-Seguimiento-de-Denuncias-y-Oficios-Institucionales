@@ -18,7 +18,7 @@ window.JSZip = JSZip;
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ datosReporte, auth }) {
+export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
     const permissions = auth.permissions;
     const tableData = datosReporte.map(i => ({
         nombreCompleto: i.nombreCompleto,
@@ -37,11 +37,11 @@ export default function DocumentosFaltantes({ datosReporte, auth }) {
     };
 
     return (
-       <>
+        <>
             <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
                 <Head title="Reporte de documentos faltantes por expediente" />
 
-                <Card title={"Hola"} data={0} />
+                <Card title={"No. de expedientes con documentos faltantes"} data={conteo} />
 
                 <DataTable 
                     data={tableData} 
@@ -128,6 +128,6 @@ export default function DocumentosFaltantes({ datosReporte, auth }) {
                     </thead>
                 </DataTable>
             </MainLayout>
-       </>
+        </>
     );
 }
