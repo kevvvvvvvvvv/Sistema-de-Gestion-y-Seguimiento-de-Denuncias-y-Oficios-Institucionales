@@ -323,4 +323,12 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
     ->name('reportes.documentos-faltantes'); 
 
+
+Route::get('/reportes/documentos-faltantes/export', [ReporteDocumentosFaltantes::class, 'exportDocumentosFaltantes'])
+    ->name('reportes.documentos-faltantes.export');
+
+
+
+//REPORTE DE 
+
 require __DIR__.'/auth.php';

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             DepartamentoSeeder::class,
             ServidorSeeder::class,
             ParticularSeeder::class,
-            
+            ExpedienteSeeder::class
         ]);
     }
 }
