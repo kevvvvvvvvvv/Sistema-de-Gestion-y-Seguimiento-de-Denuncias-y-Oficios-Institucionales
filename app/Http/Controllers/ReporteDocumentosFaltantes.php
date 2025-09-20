@@ -12,7 +12,10 @@ class ReporteDocumentosFaltantes extends Controller
 {
     public function showDocumentosFaltantes()
     {
-        $datos = DB::select('select servidor.nombreCompleto, expediente.numero, 
+        $datos = DB::select('select servidor.nombreCompleto, 
+		institucion.nombreCompleto as nomInstitucion,
+		departamento.nombre,
+		expediente.numero, expediente.ofRespuesta,
         control.acProrroga as "Acuerdo de Prórroga", 
         control.acAuxilio as "Acuerdo de Auxilio para personal OR",
         control.acRegularizacion as "Acuerdo de Regularización", 
@@ -20,15 +23,18 @@ class ReporteDocumentosFaltantes extends Controller
         control.acOficioReque as "Oficio de Requerimiento de Declaración Patrimonial",
         control.acInicio as "Acuerdo de Inicio",   
         control.acModificacion as "Acuerdo de Modificacion",   
-        control.acConclusion as "Acuerdo de Conclusión y Archivo",   
-        expediente.ofRespuesta
-        from servidor inner join expediente on servidor.idServidor = expediente.idServidor
+        control.acConclusion as "Acuerdo de Conclusión y Archivo"
+        from institucion inner join departamento on institucion.idInstitucion = departamento.idInstitucion
+		inner join servidor on servidor.idDepartamento = departamento.idDepartamento
+        inner join expediente on servidor.idServidor = expediente.idServidor
         inner join control on control.numero = expediente.numero;');
 
         $datosReporte = [];
 
         foreach ($datos as $dato) {
             $nombreCompleto = $dato->nombreCompleto;
+            $nomInstitucion = $dato->nomInstitucion;
+            $departamento = $dato->nombre;
 
             if (is_null($dato->numero)) {
                 $numero = 'Sin número de expediente asignado';
@@ -63,6 +69,8 @@ class ReporteDocumentosFaltantes extends Controller
                 $datosReporte[] = [
                     'nombreCompleto' => $nombreCompleto,
                     'numero' => $numero,
+                    'nomInstitucion' => $nomInstitucion,
+                    'departamento' => $departamento,
                     'ofFaltantes' => $ofFaltantes,
                     'totalFaltantes' => $totalFaltantes
                 ];

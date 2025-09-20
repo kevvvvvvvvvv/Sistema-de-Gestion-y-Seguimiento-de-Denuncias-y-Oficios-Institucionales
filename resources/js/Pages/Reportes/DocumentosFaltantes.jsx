@@ -23,6 +23,8 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
     const tableData = datosReporte.map(i => ({
         nombreCompleto: i.nombreCompleto,
         numero: i.numero,
+        nomInstitucion: i.nomInstitucion,
+        departamento: i.departamento,
         ofFaltantes: i.ofFaltantes,
         totalFaltantes: i.totalFaltantes,
     }));
@@ -41,7 +43,7 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
             <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
                 <Head title="Reporte de documentos faltantes por expediente" />
 
-                <Card title={"No. de expedientes con documentos faltantes"} data={conteo} />
+                <Card title={"No. de expedientes incompletos"} data={conteo} />
 
                 <DataTable 
                     data={tableData} 
@@ -64,30 +66,19 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                             infoFiltered: "(filtrado de _MAX_ registros en total)",
                             zeroRecords: "No se encontraron resultados",
                         },
-                        exportOptions: {
-                            columns: [1,2,3,4], 
-                            format: {
-                                body: function (data, row, column, node) {
-                                    // Detecta la columna ofFaltantes (última)
-                                    if (column === 4 && Array.isArray(tableData[row].ofFaltantes)) {
-                                        return tableData[row].ofFaltantes.join("\n");
-                                    }
-                                    return data;
-                                }
-                            }
-                        },
                         columns: [
                             { 
                                 title: "",
                                 data: null,
                                 defaultContent: '',
                                 className: "dt-control",
-                                orderable: false,
                                 width: "20px"
                             },
-                            { title: "Nombre completo del servidor", data: "nombreCompleto" },
                             { title: "Número de expediente", data: "numero" },
-                            { title: "Número de oficios y acuerdos faltantes", data: "totalFaltantes" },
+                            { title: "Nombre completo del servidor", data: "nombreCompleto" },
+                            { title: "Institución del servidor", data: "nomInstitucion" },
+                            { title: "Departamento del servidor", data: "departamento" },
+                            { title: "Número de oficios y acuerdos faltantes", data: "totalFaltantes", className: "dt-left" },
                             { title: "Oficios faltantes", data: "ofFaltantes", visible: false },
                         ],
                         // Función para inicializar la tabla con child rows
@@ -121,8 +112,11 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                     <thead>
                         <tr>
                             <th></th>
+                            <th>Número de expediente</th>
                             <th>Nombre completo del servidor</th>
                             <th>Número de expediente</th>
+                            <th>Institución del servidor</th>
+                            <th>Departamento del servidor</th>
                             <th>Número de oficios y acuerdos sin entregar</th>
                         </tr>
                     </thead>
