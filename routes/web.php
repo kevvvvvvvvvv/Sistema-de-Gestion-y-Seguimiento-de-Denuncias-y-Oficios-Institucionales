@@ -13,6 +13,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
+use App\Http\Controllers\ReporteExpedienteCompleto;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -319,8 +320,12 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->middleware('can:eliminar bajas'); 
 
     
-//REPORTE DE DOCUEMNTOS FALTANTES EN EXPEDIENTES
+//REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
     ->name('reportes.documentos-faltantes'); 
+
+//REPORTE DE EXPEDIENTES COMPLETOS
+Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
+    ->name('reportes.expedientes-completos'); 
 
 require __DIR__.'/auth.php';
