@@ -18,4 +18,5 @@ class Control extends Model
     public function expediente(){
         return $this->belongsTo(Expediente::class, 'numero', 'numero');
     }
+
 }

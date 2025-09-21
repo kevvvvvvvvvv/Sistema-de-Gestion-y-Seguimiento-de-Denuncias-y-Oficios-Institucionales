@@ -13,6 +13,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
+use App\Http\Controllers\ReporteSeguimientoDenuncias;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -324,8 +325,8 @@ Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class,
     ->name('reportes.documentos-faltantes'); 
 
 
-Route::get('/reportes/documentos-faltantes/export', [ReporteDocumentosFaltantes::class, 'exportDocumentosFaltantes'])
-    ->name('reportes.documentos-faltantes.export');
+Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenuncias::class, 'showSeguimietoDenuncias'])
+    ->name('reportes.seguimiento-deununcias');
 
 
 

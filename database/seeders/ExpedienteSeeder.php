@@ -31,6 +31,8 @@ class ExpedienteSeeder extends Seeder
             'acRequerimiento' => 1,
             'acOficioReque' => 1,
             'acConclusion' => 1,
+            'acInicio' => 1,
+            'acModificacion' => 1,
             'numero' =>'123456',
         ]);
 
@@ -48,6 +50,8 @@ class ExpedienteSeeder extends Seeder
             'acRequerimiento' => 2,
             'acOficioReque' => 2,
             'acConclusion' => 2,
+            'acInicio' => 1,
+            'acModificacion' => 2,
             'numero' =>'12',
         ]);
 
@@ -67,6 +71,8 @@ class ExpedienteSeeder extends Seeder
             'acRequerimiento' => 2,
             'acOficioReque' => 2,
             'acConclusion' => 2,
+            'acInicio' => 2,
+            'acModificacion' => 2,
             'numero' =>'13',
         ]);
 
@@ -87,6 +93,8 @@ class ExpedienteSeeder extends Seeder
             'acRequerimiento' => 1,
             'acOficioReque' => 2,
             'acConclusion' => 2,
+            'acInicio' => 1,
+            'acModificacion' => 2,
             'numero' =>'14',
         ]);
 
