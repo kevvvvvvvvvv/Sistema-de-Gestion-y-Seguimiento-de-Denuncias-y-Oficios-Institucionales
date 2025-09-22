@@ -68,10 +68,14 @@ class ReporteExpedienteCompleto extends Controller
                 ];
             }
 
+            //Oficios completos
             $conteo = count($ofCompletos);
+
+            //Oficios incompletos
+            $exIncompletos = count($datos) - $conteo;
             
         }
 
-        return Inertia::render('Reportes/ExpedientesCompletos', ['ofCompletos' => $ofCompletos, 'conteo' => $conteo]);
+        return Inertia::render('Reportes/ExpedientesCompletos', ['ofCompletos' => $ofCompletos, 'conteo' => $conteo, 'exIncompletos' => $exIncompletos]);
     }
 }

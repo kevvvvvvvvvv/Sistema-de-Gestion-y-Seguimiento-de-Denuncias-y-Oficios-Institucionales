@@ -79,3 +79,9 @@ npm install date-fns
 php artisan storage:link
 ```
 
+<h2>Instalar la dependencia de Highcharts</h2>
+
+```bash
+npm install highcharts @highcharts/react
+
+```

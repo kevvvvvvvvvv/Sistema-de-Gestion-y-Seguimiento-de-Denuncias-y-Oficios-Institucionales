@@ -1,5 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head } from '@inertiajs/react';
+import Card from '@/Components/Card';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -9,15 +10,16 @@ import Buttons from 'datatables.net-buttons-dt';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
+import { Chart, Series, Title, Tooltip, XAxis, YAxis } from '@highcharts/react';
+
 import JSZip from 'jszip';
-import Card from '@/Components/Card';
 
 window.JSZip = JSZip;
 
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ ofCompletos, conteo, auth }) {
+export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, auth }) {
     const permissions = auth.permissions;
     const tableData = ofCompletos.map(i => ({
         nombreCompleto: i.nombreCompleto,
@@ -32,6 +34,29 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, auth }) {
                 <Head title="Reporte de expedientes completos" />
 
                 <Card title={"No. de expedientes completos"} data={conteo} />
+
+                <Chart>
+                    <Title>Comparación entre los expedientes completos e incompletos</Title>
+
+                    <XAxis categories={['Completos', 'Incompletos']}>
+                        <XAxis.Title>Tipo de expediente</XAxis.Title>
+                    </XAxis>
+
+                    <YAxis>
+                        <YAxis.Title>Número de expedientes</YAxis.Title>
+                    </YAxis>
+
+                    <Tooltip pointFormat="{point.y}" />
+
+                    <Series type='column' 
+                        showInLegend={false}
+                        name=""
+                        data={[
+                            { y: conteo, color: "#90ed7d" },   
+                            { y: exIncompletos, color: "#f45b5b" } 
+                        ]} 
+                    />
+                </Chart>
 
                 <DataTable 
                     data={tableData} 
