@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class ReporteSeguimientoDenuncias extends Controller
+class ReporteSeguimientoDenunciasController extends Controller
 {
     public function showSeguimietoDenuncias(){
         $datosReporte = DB::select('
