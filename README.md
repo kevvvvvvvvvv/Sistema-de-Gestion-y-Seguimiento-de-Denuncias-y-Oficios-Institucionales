@@ -84,3 +84,13 @@ php artisan storage:link
 ```bash
 npm install highcharts highcharts-react-official
 ```
+
+<h2>Instalar paquete para la creación de PDF</h2>
+
+```bash
+composer require spatie/browsershot
+```
+
+```bash
+npm install puppeteer
+```

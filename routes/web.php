@@ -330,8 +330,13 @@ Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasContro
     ->name('reportes.seguimiento-deununcias');
 
 
+//REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
     ->name('reportes.denuncias-institucion');
+
+Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
+    ->name('reportes.denuncias.pdf');
+
 
 
 //REPORTE DE 

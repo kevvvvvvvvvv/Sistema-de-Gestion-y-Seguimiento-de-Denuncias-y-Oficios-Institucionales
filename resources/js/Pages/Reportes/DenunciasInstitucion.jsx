@@ -1,8 +1,9 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Head } from '@inertiajs/react';
+import {Head} from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import RegisterButton from "@/Components/RegisterButton";
 
 export default function DenunciasInstitucion({ auth, denuncias }) {
 
@@ -27,16 +28,28 @@ export default function DenunciasInstitucion({ auth, denuncias }) {
         }
     }, [denuncias]);
 
+
     return (
         <MainLayout auth={auth} topHeader="Reporte de denuncias por institución" insideHeader={""}>
             <Head title="Reporte de denuncias por institución" />
+
+            <div className="w-full flex justify-end mb-10">
+                <RegisterButton
+                    onClick={() => window.location.href = route('reportes.denuncias.pdf')}>
+                    Descargar PDF
+                </RegisterButton>
+            </div>
+                    
+
+
+
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartOptions}
             />
 
 
-            <h2 class="w-full text-center font-bold">Total de expedientes por institución</h2>
+            <h2 className="w-full text-center font-bold">Total de expedientes por institución</h2>
             <div className="mt-8 overflow-x-auto">
                 <table className="min-w-full border border-gray-300">
                     <thead className="bg-gray-100">

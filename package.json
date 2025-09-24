@@ -32,6 +32,7 @@
         "highcharts-react-official": "^3.2.2",
         "jszip": "^3.10.1",
         "lucide-react": "^0.541.0",
+        "puppeteer": "^24.22.3",
         "react-datepicker": "^8.7.0",
         "react-select": "^5.10.2",
         "sweetalert2": "^11.22.5"
