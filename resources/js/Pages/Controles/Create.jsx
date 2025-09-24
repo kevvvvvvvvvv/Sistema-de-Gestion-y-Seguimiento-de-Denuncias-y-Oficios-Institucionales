@@ -5,6 +5,7 @@ import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
 import SelectInput from "@/Components/SelectInput";
 import InputTextArea from "@/Components/InputTextArea";
+import InputDate from "@/Components/InputDate";
 
 export default function Create({ auth, errors, expedientes  }) {
   // Estado de los inputs
@@ -16,6 +17,8 @@ export default function Create({ auth, errors, expedientes  }) {
     acRequerimiento: "",
     acOficioReque: "",
     acConclusion: "",
+    feEntregaInicio: "",
+    feEntregaModif: "",
     comentarios: "",
     numero: ""
   });
@@ -125,6 +128,14 @@ export default function Create({ auth, errors, expedientes  }) {
             error={errors.acInicio}
         />
 
+        <InputDate 
+            description="Fecha de entrega del Acuerdo de Inicio"
+            id="feEntregaInicio"
+            value={values.feEntregaInicio}
+            onChange={(date) => setValues({ ...values, feEntregaInicio: date })}
+            error={errors.feEntregaInicio}
+        />
+
         <SelectInput
             label="¿Cuenta con Acuerdo de Modificación?"
             id="acModificacion"
@@ -135,6 +146,14 @@ export default function Create({ auth, errors, expedientes  }) {
             value={values.acModificacion}
             onChange={(val) => setValues({ ...values, acModificacion: val })}
             error={errors.acModificacion}
+        />
+
+        <InputDate 
+            description="Fecha de entrega del Acuerdo de Modificación"
+            id="feEntregaModif"
+            value={values.feEntregaModif}
+            onChange={(date) => setValues({ ...values, feEntregaModif: date })}
+            error={errors.feEntregaModif}
         />
 
         <SelectInput

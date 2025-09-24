@@ -22,9 +22,10 @@ return new class extends Migration
             $table->enum('acInicio', ['Si', 'No']);
             $table->enum('acModificacion', ['Si', 'No']);
             $table->enum('acConclusion', ['Si', 'No']);
+            $table->date('feEntregaInicio')->nullable();
+            $table->date('feEntregaModif')->nullable();
             $table->mediumText('comentarios')->nullable();
             $table->string('numero', 45);
-
             $table->foreign('numero')->references('numero')->on('expediente')->onDelete('cascade');
         });
     }
