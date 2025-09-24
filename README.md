@@ -83,5 +83,11 @@ php artisan storage:link
 
 ```bash
 npm install highcharts @highcharts/react
+```
 
+<h2>Instalar la Browsershot para generar PDF</h2>
+
+```bash
+composer require spatie/browsershot
+npm install puppeteer
 ```

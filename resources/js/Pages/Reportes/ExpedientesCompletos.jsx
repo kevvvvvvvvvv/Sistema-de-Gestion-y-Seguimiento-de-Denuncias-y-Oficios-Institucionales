@@ -1,5 +1,5 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import Card from '@/Components/Card';
 
 import DataTable from 'datatables.net-react';
@@ -13,11 +13,16 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import { Chart, Series, Title, Tooltip, XAxis, YAxis } from '@highcharts/react';
 
 import JSZip from 'jszip';
+import PDFButton from '@/Components/PDFButton';
 
 window.JSZip = JSZip;
 
 DataTable.use(DT);
 DataTable.use(Buttons);
+
+function generatePDF() {
+    router.post("/reportes/expedientes-completos/generacionPDF");
+}
 
 export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, auth }) {
     const permissions = auth.permissions;
@@ -33,7 +38,9 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
             <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""}>
                 <Head title="Reporte de expedientes completos" />
 
-                <Card title={"No. de expedientes completos"} data={conteo} />
+                <Card title={"No. de expedientes completos"} data={conteo} 
+                    title2={"No. de expedientes incompletos"} data2={exIncompletos}
+                />
 
                 <Chart>
                     <Title>Comparación entre los expedientes completos e incompletos</Title>
@@ -57,7 +64,8 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                         ]} 
                     />
                 </Chart>
-
+                <br />
+                <br />
                 <DataTable 
                     data={tableData} 
                     className="display"
@@ -96,6 +104,8 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                         </tr>
                     </thead>
                 </DataTable>
+
+                <PDFButton onClick={generatePDF}>Descargar en PDF</PDFButton>
             </MainLayout>
         </>
     );

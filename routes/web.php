@@ -327,5 +327,7 @@ Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class,
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
     ->name('reportes.expedientes-completos'); 
+Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'generateExpedientes'])
+    ->name('reportes.expedientes-completos-generacionPDF'); 
 
 require __DIR__.'/auth.php';
