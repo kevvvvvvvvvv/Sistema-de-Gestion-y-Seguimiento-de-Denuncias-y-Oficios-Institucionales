@@ -19,6 +19,7 @@ export default function Create({ auth, errors, expedientes  }) {
     acConclusion: "",
     feEntregaInicio: "",
     feEntregaModif: "",
+    feEntregaCon: "",
     comentarios: "",
     numero: ""
   });
@@ -166,6 +167,14 @@ export default function Create({ auth, errors, expedientes  }) {
             value={values.acConclusion}
             onChange={(val) => setValues({ ...values, acConclusion: val })}
             error={errors.acConclusion}
+        />
+
+        <InputDate 
+            description="Fecha de entrega del Acuerdo de Conclusión y Archivo"
+            id="feEntregaCon"
+            value={values.feEntregaCon}
+            onChange={(date) => setValues({ ...values, feEntregaCon: date })}
+            error={errors.feEntregaCon}
         />
 
         <InputTextArea 

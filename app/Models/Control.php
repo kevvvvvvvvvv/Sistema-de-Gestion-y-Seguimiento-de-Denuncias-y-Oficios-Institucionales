@@ -13,7 +13,7 @@ class Control extends Model
     protected $primaryKey = 'consecutivo';
     protected $fillable = ['acProrroga', 'acAuxilio', 'acRegularizacion', 
     'acRequerimiento', 'acOficioReque', 'acInicio', 'acModificacion', 'acConclusion', 
-    'feEntregaInicio', 'feEntregaModif', 'comentarios', 'numero'];
+    'feEntregaInicio', 'feEntregaModif', 'feEntregaCon', 'comentarios', 'numero'];
     public $timestamps = false;
 
     public function expediente(){

@@ -32,6 +32,9 @@ class ControlController extends Controller
         if(isset($data['feEntregaModif'])){
             $data['feEntregaModif'] = \Carbon\Carbon::parse($data['feEntregaModif'])->format('Y-m-d');
         }
+        if(isset($data['feEntregaCon'])){
+            $data['feEntregaCon'] = \Carbon\Carbon::parse($data['feEntregaCon'])->format('Y-m-d');
+        }
 
         Control::create($data);
         return redirect()->route('controles.index');
@@ -56,6 +59,9 @@ class ControlController extends Controller
         }
         if(isset($data['feEntregaModif'])){
             $data['feEntregaModif'] = \Carbon\Carbon::parse($data['feEntregaModif'])->format('Y-m-d');
+        }
+        if(isset($data['feEntregaCon'])){
+            $data['feEntregaCon'] = \Carbon\Carbon::parse($data['feEntregaCon'])->format('Y-m-d');
         }
         
         $control->update($data);

@@ -166,6 +166,14 @@ export default function Edit({ auth, errors, control, expedientes }) {
                     onChange={(val) => setValues({ ...values, acConclusion: val })}
                     error={errors.acConclusion}
                 />
+
+                <InputDate 
+                    description="Fecha de entrega del Acuerdo de Conclusión y Archivo"
+                    id="feEntregaCon"
+                    value={values.feEntregaCon}
+                    onChange={(date) => setValues({ ...values, feEntregaCon: date })}
+                    error={errors.feEntregaCon}
+                />
         
                 <InputTextArea 
                     placeholder="Aa"

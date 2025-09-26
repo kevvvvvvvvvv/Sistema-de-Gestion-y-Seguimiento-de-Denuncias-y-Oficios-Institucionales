@@ -18,7 +18,6 @@ class ControlSeeder extends Seeder
         $i = 1;
 
         foreach ($expedientes as $exp) {
-            // Alternamos casos
             switch ($i) {
                 case 1: // Solo inicio
                     Control::create([
@@ -35,6 +34,7 @@ class ControlSeeder extends Seeder
                         'numero' => $exp->numero,
                     ]);
                     break;
+
                 case 2: // Inicio + Modificación
                     Control::create([
                         'acInicio' => 'Si',
@@ -51,6 +51,7 @@ class ControlSeeder extends Seeder
                         'numero' => $exp->numero,
                     ]);
                     break;
+
                 case 3: // Todos los acuerdos
                     Control::create([
                         'acInicio' => 'Si',
@@ -58,6 +59,7 @@ class ControlSeeder extends Seeder
                         'acModificacion' => 'Si',
                         'feEntregaModif' => now()->subDays(180),
                         'acConclusion' => 'Si',
+                        'feEntregaCon' => now()->subDays(160), // ✅ agregado
                         'comentarios' => 'Servidor cumplió con todos los acuerdos.',
                         'acProrroga' => 'No',
                         'acAuxilio' => 'No',
@@ -67,6 +69,7 @@ class ControlSeeder extends Seeder
                         'numero' => $exp->numero,
                     ]);
                     break;
+
                 case 4: // Ninguno
                     Control::create([
                         'acInicio' => 'No',
@@ -81,13 +84,17 @@ class ControlSeeder extends Seeder
                         'numero' => $exp->numero,
                     ]);
                     break;
+
                 default: // Mezcla aleatoria
+                    $hasConclusion = $i % 4 == 0;
+
                     Control::create([
                         'acInicio' => $i % 2 == 0 ? 'Si' : 'No',
                         'feEntregaInicio' => $i % 2 == 0 ? now()->subDays(150) : null,
                         'acModificacion' => $i % 3 == 0 ? 'Si' : 'No',
                         'feEntregaModif' => $i % 3 == 0 ? now()->subDays(120) : null,
-                        'acConclusion' => $i % 4 == 0 ? 'Si' : 'No',
+                        'acConclusion' => $hasConclusion ? 'Si' : 'No',
+                        'feEntregaCon' => $hasConclusion ? now()->subDays(100) : null, // ✅ agregado solo si aplica
                         'comentarios' => 'Caso de prueba número ' . $i,
                         'acProrroga' => 'No',
                         'acAuxilio' => 'No',
