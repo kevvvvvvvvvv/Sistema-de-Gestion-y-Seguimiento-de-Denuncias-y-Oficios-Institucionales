@@ -14,6 +14,7 @@ use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
 use App\Http\Controllers\ReporteExpedienteCompleto;
+use App\Http\Controllers\ReporteServidoresOmisosController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -329,5 +330,9 @@ Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class,
     ->name('reportes.expedientes-completos'); 
 Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'generateExpedientes'])
     ->name('reportes.expedientes-completos-generacionPDF'); 
+
+//REPORTE DE SERVIDORES OMISOS
+Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::class, 'showServidoresOmisos'])
+    ->name('reportes.servidores-omisos'); 
 
 require __DIR__.'/auth.php';

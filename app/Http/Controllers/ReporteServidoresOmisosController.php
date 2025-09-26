@@ -1,10 +1,86 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
-class ReporteExpedientesOmisosController extends Controller
+class ReporteServidoresOmisosController extends Controller
 {
-    
+    public function showServidoresOmisos() 
+    {
+        $servidores = DB::select('select servidor.nombreCompleto, servidor.fechaIngreso, 
+        institucion.nombreCompleto as institucion, departamento.nombre as departamento, 
+        expediente.numero, control.acInicio, control.acModificacion, control.acConclusion,
+        control.feEntregaInicio, control.feEntregaModif
+        from servidor inner join institucion on  servidor.idInstitucion = institucion.idInstitucion
+        inner join departamento on servidor.idDepartamento = departamento.idDepartamento
+        inner join baja on baja.idServidor = servidor.idServidor
+        inner join expediente on expediente.idServidor = servidor.idServidor
+        inner join control on control.numero = expediente.numero
+        where servidor.estatus = "Alta"
+        group by servidor.nombreCompleto
+        having count(baja.idServidor) = 1;');
+
+
+        $servidoresOmisos = [];
+        foreach($servidores as $servidor) {
+            //Cuando no se tiene ningún acuerdo
+            if($servidor->acInicio === 'No') {
+                $diasDif = Carbon::parse($servidor->fechaIngreso)->diffInDays(now());
+                if($diasDif > 60) {
+                    $fechaLimiteIni = Carbon::parse($servidor->fechaIngreso)->addDays(60);
+                    $fechaLimiteModi = "En espera de entrega de Acuerdo de Inicio";
+                    $difDiasIni = floor($fechaLimiteIni->diffInDays(now()));
+                    $difDiasModi = "N/A";
+
+                    $servidor->fechaLimiteIni = Carbon::parse($servidor->fechaIngreso)->addDays(60)->format('d/m/Y');
+                    $servidor->fechaLimiteModi = $fechaLimiteModi;
+                    $servidor->difDiasIni = $difDiasIni;
+                    $servidor->difDiasModi = $difDiasModi;
+
+                    $servidoresOmisos[] = $servidor;
+                }
+            //Cuando se tiene el de inicio solamente
+            }else if($servidor->acModificacion === 'No') {
+                $diasDif = Carbon::parse($servidor->feEntregaInicio)->diffInDays(now());
+                if($diasDif > 60) {
+                    $fechaLimiteIni = "Acuerdo de Inicio entregado el: " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
+                    $fechaLimiteModi = Carbon::parse($servidor->feEntregaInicio)->addDays(60);
+                    $difDiasIni = "N/A";
+                    $difDiasModi = floor($fechaLimiteModi->diffInDays(now()));
+
+                    $servidor->fechaLimiteIni = $fechaLimiteIni;
+                    $servidor->fechaLimiteModi = Carbon::parse($servidor->feEntregaInicio)->addDays(60)->format('d/m/Y');
+                    $servidor->difDiasIni = $difDiasIni;
+                    $servidor->difDiasModi = $difDiasModi;
+
+                    $servidoresOmisos[] = $servidor;
+                }
+            //Cuando falta el de conclusión
+            }else if($servidor->acConclusion === 'No') {
+                $diasDif = $servidor->feEntregaModif->diffInDays(now());
+                if($diasDif > 60) {
+                    $fechaLimiteIni = "Acuerdo de Inicio entregado el: " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
+                    $fechaLimiteModi = "Acuerdo de Modificación entregado el: " . Carbon::parse($servidor->feEntregaModif)->format('d/m/Y');
+                    $difDiasIni = "N/A";
+                    $difDiasModi = "N/A";
+
+                    $servidor->fechaLimiteIni = $fechaLimiteIni;
+                    $servidor->fechaLimiteModi = $fechaLimiteModi;
+                    $servidor->difDiasIni = $difDiasIni;
+                    $servidor->difDiasModi = $difDiasModi;
+
+                    $servidoresOmisos[] = $servidor;
+                }
+            }
+            
+        }
+
+        return Inertia::render('Reportes/ServidoresOmisos', [
+            'servidoresOmisos' => $servidoresOmisos
+        ]);
+    }
 }
