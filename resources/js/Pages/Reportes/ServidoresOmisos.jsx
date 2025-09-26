@@ -31,8 +31,10 @@ export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
         acConclusion: i.acConclusion,
         fechaLimiteIni: i.fechaLimiteIni,
         fechaLimiteModi: i.fechaLimiteModi,
+        fechaLimiteCon: i.fechaLimiteCon,
         difDiasIni: i.difDiasIni,
-        difDiasModi: i.difDiasModi
+        difDiasModi: i.difDiasModi,
+        difDiasCon: i.difDiasCon
     }));
 
     // Función para formatear los datos del desplegable
@@ -43,8 +45,11 @@ export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
                     <li><b>Fecha límite para entregar Acuerdo de Inicio:</b> ${data.fechaLimiteIni}</li>
                     <li><b>Días desde la omsión:</b> ${data.difDiasIni}</li>
                     <br>
-                    <li><b>Fecha límite para entregar para entregar Acuerdo de Modificación:</b> ${data.fechaLimiteModi}</li>
+                    <li><b>Fecha límite para entregar Acuerdo de Modificación:</b> ${data.fechaLimiteModi}</li>
                     <li><b>Días desde la omsión:</b> ${data.difDiasModi}</li>
+                    <br>
+                    <li><b>Fecha límite para entregar Acuerdo de Conclusión:</b> ${data.fechaLimiteCon}</li>
+                    <li><b>Días desde la omsión:</b> ${data.difDiasCon}</li>
                 </ul>
             </div>
         `;

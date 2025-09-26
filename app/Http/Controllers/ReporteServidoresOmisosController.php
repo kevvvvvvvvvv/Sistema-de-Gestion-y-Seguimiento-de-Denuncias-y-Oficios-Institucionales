@@ -33,13 +33,17 @@ class ReporteServidoresOmisosController extends Controller
                 if($diasDif > 60) {
                     $fechaLimiteIni = Carbon::parse($servidor->fechaIngreso)->addDays(60);
                     $fechaLimiteModi = "En espera de entrega de Acuerdo de Inicio";
+                    $fechaLimiteCon = "En espera de entrega de Acuerdo de Inicio";
                     $difDiasIni = floor($fechaLimiteIni->diffInDays(now()));
                     $difDiasModi = "N/A";
+                    $difDiasCon = "N/A";
 
                     $servidor->fechaLimiteIni = Carbon::parse($servidor->fechaIngreso)->addDays(60)->format('d/m/Y');
                     $servidor->fechaLimiteModi = $fechaLimiteModi;
+                    $servidor->fechaLimiteCon = $fechaLimiteCon;
                     $servidor->difDiasIni = $difDiasIni;
                     $servidor->difDiasModi = $difDiasModi;
+                    $servidor->difDiasCon = $difDiasCon;
 
                     $servidoresOmisos[] = $servidor;
                 }
@@ -47,15 +51,19 @@ class ReporteServidoresOmisosController extends Controller
             }else if($servidor->acModificacion === 'No') {
                 $diasDif = Carbon::parse($servidor->feEntregaInicio)->diffInDays(now());
                 if($diasDif > 60) {
-                    $fechaLimiteIni = "Acuerdo de Inicio entregado el: " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
+                    $fechaLimiteIni = "Acuerdo de Inicio entregado el " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
                     $fechaLimiteModi = Carbon::parse($servidor->feEntregaInicio)->addDays(60);
-                    $difDiasIni = "N/A";
+                    $fechaLimiteCon = "En espera de entrega de Acuerdo de Modificación";
+                    $difDiasIni = "Acuerdo de Inicio entregado";
                     $difDiasModi = floor($fechaLimiteModi->diffInDays(now()));
+                    $difDiasCon = "N/A";
 
                     $servidor->fechaLimiteIni = $fechaLimiteIni;
                     $servidor->fechaLimiteModi = Carbon::parse($servidor->feEntregaInicio)->addDays(60)->format('d/m/Y');
+                    $servidor->fechaLimiteCon = $fechaLimiteCon;
                     $servidor->difDiasIni = $difDiasIni;
                     $servidor->difDiasModi = $difDiasModi;
+                    $servidor->difDiasCon = $difDiasCon;
 
                     $servidoresOmisos[] = $servidor;
                 }
@@ -63,15 +71,19 @@ class ReporteServidoresOmisosController extends Controller
             }else if($servidor->acConclusion === 'No') {
                 $diasDif = $servidor->feEntregaModif->diffInDays(now());
                 if($diasDif > 60) {
-                    $fechaLimiteIni = "Acuerdo de Inicio entregado el: " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
-                    $fechaLimiteModi = "Acuerdo de Modificación entregado el: " . Carbon::parse($servidor->feEntregaModif)->format('d/m/Y');
-                    $difDiasIni = "N/A";
-                    $difDiasModi = "N/A";
+                    $fechaLimiteIni = "Acuerdo de Inicio entregado el " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
+                    $fechaLimiteModi = "Acuerdo de Modificación entregado el " . Carbon::parse($servidor->feEntregaModif)->format('d/m/Y');
+                    $fechaLimiteCon = Carbon::parse($servidor->feEntregaModif)->addDays(60);
+                    $difDiasIni = "Acuerdo de Inicio entregado";
+                    $difDiasModi = "Acuerdo de Modificación entregado";
+                    $difDiasCon = floor($fechaLimiteCon->diffInDays(now()));
 
                     $servidor->fechaLimiteIni = $fechaLimiteIni;
                     $servidor->fechaLimiteModi = $fechaLimiteModi;
+                    $servidor->fechaLimiteCon = Carbon::parse($servidor->feEntregaModif)->addDays(60)->format('d/m/Y');
                     $servidor->difDiasIni = $difDiasIni;
                     $servidor->difDiasModi = $difDiasModi;
+                    $servidor->difDiasCon = $difDiasCon;
 
                     $servidoresOmisos[] = $servidor;
                 }
