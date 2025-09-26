@@ -69,7 +69,7 @@ class ReporteServidoresOmisosController extends Controller
                 }
             //Cuando falta el de conclusión
             }else if($servidor->acConclusion === 'No') {
-                $diasDif = $servidor->feEntregaModif->diffInDays(now());
+                $diasDif = Carbon::parse($servidor->feEntregaModif)->diffInDays(now());
                 if($diasDif > 60) {
                     $fechaLimiteIni = "Acuerdo de Inicio entregado el " . Carbon::parse($servidor->feEntregaInicio)->format('d/m/Y');
                     $fechaLimiteModi = "Acuerdo de Modificación entregado el " . Carbon::parse($servidor->feEntregaModif)->format('d/m/Y');
