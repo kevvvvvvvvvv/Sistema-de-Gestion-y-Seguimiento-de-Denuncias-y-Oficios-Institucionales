@@ -15,6 +15,8 @@ use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ReporteDenunciasInstitucionController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
 use App\Http\Controllers\ReporteSeguimientoDenunciasController;
+use App\Http\Controllers\ReporteProgresoOficio;
+use App\Http\Controllers\ReporteSeguimientoViajerosController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -338,7 +340,11 @@ Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionCo
     ->name('reportes.denuncias.pdf');
 
 
+//REPORTE DE PROGRESO DE OFICIOS POR DIA
+Route::get('/reportes/progreso-oficio',[ReporteProgresoOficio::class,'showProgresoOficio']);
 
-//REPORTE DE 
+//REPORTE DE PROGRESO DE OFICIOS POR DIA
+Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
+    ->name('reportes.seguimiento-viajeros');
 
 require __DIR__.'/auth.php';

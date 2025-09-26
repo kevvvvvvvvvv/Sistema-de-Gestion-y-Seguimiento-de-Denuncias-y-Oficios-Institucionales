@@ -1,8 +1,8 @@
-export default function RegisterButton({ onClick, children }) {
+export default function RegisterButton({ onClick, children, type="button" }) {
   return (
     <div className="flex mt-4">
       <button
-        type="button"
+        type={type}
         onClick={onClick}
         className="bg-azulIMTA text-blancoIMTA px-20 py-2 rounded-lg 
                    hover:bg-azulIMTAHover transition duration-200 ease-in-out 
