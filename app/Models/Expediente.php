@@ -21,4 +21,9 @@ class Expediente extends Model
     public function servidor(){
         return $this->belongsTo(Servidor::class, 'idServidor', 'idServidor');
     }
+
+    public function control()
+    {
+        return $this->hasOne(Control::class, 'numero', 'numero');
+    }
 }

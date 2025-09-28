@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ParticularSeeder::class,
             ExpedienteSeeder::class,
             ControlSeeder::class,
+            ViajeroSeeder::class
         ]);
     }
 }

@@ -23,12 +23,12 @@ class ViajeroRequest extends FormRequest
     {
         return [
             'numOficio'      => 'required|string|max:100',
-            'fechaCreacion'  => 'required|date',
-            'fechaLlegada'   => 'required|date',
+            'fechaCreacion'  => 'required',
+            'fechaLlegada'   => 'required',
             'asunto'         => 'required|string|max:255',
             'resultado'      => 'nullable|string|max:255',
             'instruccion'    => 'nullable|string|max:255',
-            'fechaEntrega'   => 'nullable|date',
+            'fechaEntrega'   => 'nullable',
             'idUsuario'      => 'nullable integer',
         ];
     }
@@ -41,10 +41,8 @@ class ViajeroRequest extends FormRequest
             'numOficio.max'          => 'El número de oficio no debe exceder los 100 caracteres.',
 
             'fechaCreacion.required' => 'La fecha de creación es obligatoria.',
-            'fechaCreacion.date'     => 'La fecha de creación no es válida.',
 
             'fechaLlegada.required'  => 'La fecha de llegada es obligatoria.',
-            'fechaLlegada.date'      => 'La fecha de llegada no es válida.',
 
             'asunto.required'        => 'El asunto es obligatorio.',
             'asunto.string'          => 'El asunto debe ser una cadena de texto.',
@@ -56,7 +54,6 @@ class ViajeroRequest extends FormRequest
             'instruccion.string'     => 'La instrucción debe ser una cadena de texto.',
             'instruccion.max'        => 'La instrucción no debe exceder los 255 caracteres.',
 
-            'fechaEntrega.date'      => 'La fecha de entrega no es válida.',
 
             'idUsuario.integer'      => 'El usuario no es válido.',
         ];

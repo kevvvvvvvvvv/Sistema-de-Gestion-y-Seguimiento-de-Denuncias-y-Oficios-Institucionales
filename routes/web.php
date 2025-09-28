@@ -12,7 +12,11 @@ use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
 use App\Http\Controllers\ParticularController;
+use App\Http\Controllers\ReporteDenunciasInstitucionController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
+use App\Http\Controllers\ReporteSeguimientoDenunciasController;
+use App\Http\Controllers\ReporteProgresoOficio;
+use App\Http\Controllers\ReporteSeguimientoViajerosController;
 use App\Http\Controllers\ReporteExpedienteCompleto;
 use App\Http\Controllers\ReporteServidoresOmisosController;
 use Illuminate\Support\Facades\Auth;
@@ -324,6 +328,26 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
 //REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
     ->name('reportes.documentos-faltantes'); 
+
+
+Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
+    ->name('reportes.seguimiento-deununcias');
+
+
+//REPORTE DE DENUNCIAS POR INSTITUCION
+Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
+    ->name('reportes.denuncias-institucion');
+
+Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
+    ->name('reportes.denuncias.pdf');
+
+
+//REPORTE DE PROGRESO DE OFICIOS POR DIA
+Route::get('/reportes/progreso-oficio',[ReporteProgresoOficio::class,'showProgresoOficio']);
+
+//REPORTE DE PROGRESO DE OFICIOS POR DIA
+Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
+    ->name('reportes.seguimiento-viajeros');
 
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])

@@ -79,15 +79,18 @@ npm install date-fns
 php artisan storage:link
 ```
 
-<h2>Instalar la dependencia de Highcharts</h2>
+<h2>Instalar Highcharts</h2>
 
 ```bash
-npm install highcharts @highcharts/react
+npm install highcharts highcharts-react-official
 ```
 
-<h2>Instalar la Browsershot para generar PDF</h2>
+<h2>Instalar paquete para la creación de PDF</h2>
 
 ```bash
 composer require spatie/browsershot
+```
+
+```bash
 npm install puppeteer
 ```
