@@ -21,7 +21,6 @@
     },
     "dependencies": {
         "@fontsource/inter": "^5.2.6",
-        "@highcharts/react": "^4.0.0-beta.5",
         "datatables.net": "^2.3.3",
         "datatables.net-buttons": "^3.2.4",
         "datatables.net-buttons-dt": "^3.2.4",
@@ -31,11 +30,9 @@
         "date-fns": "^4.1.0",
         "highcharts": "^12.4.0",
         "highcharts-react-official": "^3.2.2",
-        "highcharts-react": "^0.0.3",
         "jszip": "^3.10.1",
         "lucide-react": "^0.541.0",
         "puppeteer": "^24.22.3",
-        "puppeteer": "^24.22.0",
         "react-datepicker": "^8.7.0",
         "react-select": "^5.10.2",
         "sweetalert2": "^11.22.5"
