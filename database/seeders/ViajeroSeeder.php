@@ -28,7 +28,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => '',
             'resultado' => '',
             'fechaEntrega' => null,
-            'status' => 'inicio',
+            'status' => 'Inicio',
             'numOficio' => 'OF-001',
         ]);
 
@@ -45,7 +45,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => '',
             'resultado' => '',
             'fechaEntrega' => null,
-            'status' => 'inicio',
+            'status' => 'Inicio',
             'numOficio' => 'OF-002',
         ]);
 
@@ -63,7 +63,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => 'Preparar un reporte trimestral',
             'resultado' => '',
             'fechaEntrega' => null,
-            'status' => 'intermedio',
+            'status' => 'En progreso',
             'numOficio' => 'OF-003',
         ]);
 
@@ -80,7 +80,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => 'Diseñar temario de curso técnico',
             'resultado' => '',
             'fechaEntrega' => null,
-            'status' => 'intermedio',
+            'status' => 'En progreso',
             'numOficio' => 'OF-004',
         ]);
 

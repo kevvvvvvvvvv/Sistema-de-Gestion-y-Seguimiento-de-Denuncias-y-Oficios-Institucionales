@@ -38,7 +38,7 @@ class Oficio extends Model
     }
 
     public function particularRemitente(){
-        return $this->belongsTo(Destinatario::class, 'idParticularRemitente', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
     }
 
 
@@ -51,7 +51,7 @@ class Oficio extends Model
     }
 
     public function particularDestinatario(){
-        return $this->belongsTo(Destinatario::class, 'idParticularRemitente', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
     }
 
 }

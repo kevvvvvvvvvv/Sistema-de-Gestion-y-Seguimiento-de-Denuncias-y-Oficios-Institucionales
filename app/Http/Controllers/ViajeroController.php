@@ -101,14 +101,21 @@ class ViajeroController extends Controller
             'idParticularDestinatario' => $request->idParticularDestinatario
         ]);
 
+        $estado = 'Inicio';
+        if ($request->resultado) { 
+            $estado = 'Finalizado';
+        } elseif ($request->instruccion) { 
+            $estado = 'En progreso';
+        }
+
         $viajero = Viajero::create([
-            'asunto'     => $request->asunto,
-            'resultado'  => $request->resultado,
-            'instruccion'=> $request->instruccion,
+            'asunto'      => $request->asunto,
+            'resultado'   => $request->resultado,
+            'instruccion' => $request->instruccion,
             'fechaEntrega'=> $fechaEntrega,
-            'status'     => 'En Proceso',
+            'status'      => $estado,
             'numOficio'   => $oficio->numOficio,
-            'idUsuario'  => $request->idUsuario,
+            'idUsuario'   => $request->idUsuario,
         ]);
     
         return redirect()->route('viajeros.index')
@@ -194,8 +201,6 @@ class ViajeroController extends Controller
 
     public function update(Request $request, $currentNumOficio)
     {
-
-        dd($request->all());
         $oficio = Oficio::where('numOficio', $currentNumOficio)->firstOrFail();
         $viajero = Viajero::where('numOficio', $currentNumOficio)->firstOrFail();
 
@@ -236,6 +241,13 @@ class ViajeroController extends Controller
             'idParticularDestinatario'  => $request->idParticularDestinatario,
         ]);
 
+        $estado = 'Inicio';
+        if ($request->resultado) { 
+            $estado = 'Finalizado';
+        } elseif ($request->instruccion) { 
+            $estado = 'En progreso';
+        }
+
         // Actualizar viajero
         $viajero->update([
             'asunto'       => $request->asunto,
@@ -243,7 +255,7 @@ class ViajeroController extends Controller
             'instruccion'  => $request->instruccion,
             'fechaEntrega' => $fechaEntrega,
             'idUsuario'    => $request->idUsuario,
-            // 'status' se conserva
+            'status'       => $estado,
         ]);
 
         return redirect()->route('viajeros.index')
