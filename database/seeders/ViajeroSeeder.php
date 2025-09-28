@@ -98,7 +98,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => 'Migrar información al nuevo servidor',
             'resultado' => 'Migración realizada exitosamente',
             'fechaEntrega' => '2025-09-22',
-            'status' => 'finalizado',
+            'status' => 'Finalizado',
             'numOficio' => 'OF-005',
             'idUsuario' => 2
         ]);
@@ -116,7 +116,7 @@ class ViajeroSeeder extends Seeder
             'instruccion' => 'Analizar propuestas y redactar documento final',
             'resultado' => 'Documento aprobado por dirección',
             'fechaEntrega' => '2025-09-19',
-            'status' => 'finalizado',
+            'status' => 'Finalizado',
             'numOficio' => 'OF-006',
             'idUsuario' => 1
         ]);
