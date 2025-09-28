@@ -1,6 +1,8 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
+import SelectInput from "@/Components/SelectInput";
+import ProgresoExpediente from '@/Components/ProgresoExpediente';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -20,6 +22,8 @@ DataTable.use(Buttons);
 
 export default function DocumentosFaltantes({ datosReporte,auth }) {
 
+    const [servidorSeleccionado, setServidorSeleccionado] = useState("");
+
     const tableData = datosReporte.map(i => ({
         numero : i.numero,
         nombreCompletoSer: i.nombreCompletoSer,
@@ -27,6 +31,15 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         fechaRequerimiento: i.fechaRequerimiento,
         Estado : i.Estado
     }));
+
+    const servidorOptions = [...new Set(datosReporte.map(d => d.nombreCompletoSer))].map(servidor => ({
+        value: servidor,
+        label: servidor
+    }));
+
+    const expedienteSeleccionado = datosReporte.find(
+        d => d.nombreCompletoSer === servidorSeleccionado
+    );
 
     return (
         <>
@@ -73,6 +86,24 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                         </tr>
                     </thead>
                 </DataTable>
+
+                <div className="mt-12 relative z-50">
+                    <h1 className="mb-4 font-bold text-lg">Línea de seguimiento</h1>
+                    <SelectInput
+                        label="Seleccionar servidor:"
+                        options={servidorOptions}
+                        value={servidorSeleccionado}
+                        onChange={setServidorSeleccionado}
+                    />
+                </div>
+
+                <div className="mt-14 mb-20">
+                    {expedienteSeleccionado ? (
+                        <ProgresoExpediente estado={expedienteSeleccionado.Estado} />
+                    ) : (
+                        <p className="text-gray-500 text-sm">Selecciona un servidor para ver el progreso.</p>
+                    )}
+                </div>
             </MainLayout>
         </>
     );
