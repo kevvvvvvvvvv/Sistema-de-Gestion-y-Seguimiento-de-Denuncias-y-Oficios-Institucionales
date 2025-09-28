@@ -324,15 +324,9 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->name('bajas.destroy')
     ->middleware('can:eliminar bajas'); 
 
-    
-//REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
-Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
-    ->name('reportes.documentos-faltantes'); 
-
-
+//REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
     ->name('reportes.seguimiento-deununcias');
-
 
 //REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
@@ -341,13 +335,16 @@ Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionControl
 Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
     ->name('reportes.denuncias.pdf');
 
-
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/progreso-oficio',[ReporteProgresoOficio::class,'showProgresoOficio']);
 
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
     ->name('reportes.seguimiento-viajeros');
+
+//REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
+Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
+    ->name('reportes.documentos-faltantes'); 
 
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])

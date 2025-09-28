@@ -55,46 +55,12 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                             zeroRecords: "No se encontraron resultados",
                         },
                         columns: [
-                            { 
-                                title: "",
-                                data: null,
-                                defaultContent: '',
-                                className: "dt-control",
-                                orderable: false,
-                                width: "20px"
-                            },
                             { title: "Número", data: "numero" },
                             { title: "Nombre del servidor", data: "nombreCompletoSer" },
                             { title: "Nombre de la institución", data: "nombreCompletoIns" },
                             { title: "Fecha de requerimiento", data: "fechaRequerimiento" },
                             { title: "Estado actual", data:"Estado" }
-                        ],
-                        // Función para inicializar la tabla con child rows
-                        initComplete: function () {
-                            const api = this.api();
-                            
-                            // Agregar evento de clic para las flechas
-                            api.on('click', 'td.dt-control', function (e) {
-                                const tr = e.target.closest('tr');
-                                const row = api.row(tr);
-                                
-                                if (row.child.isShown()) {
-                                    // Esta fila ya está abierta - cerrarla
-                                    row.child.hide();
-                                    tr.classList.remove('shown');
-                                } else {
-                                    // Abrir esta fila
-                                    const data = row.data();
-                                    row.child(`
-                                        <div class="p-4 bg-gray-50">
-                                            <h4 class="font-bold mb-2">Oficios faltantes:</h4>
-                                            ${formatOficiosFaltantes(data.ofFaltantes)}
-                                        </div>
-                                    `).show();
-                                    tr.classList.add('shown');
-                                }
-                            });
-                        }
+                        ]
                     }}
                 >
                     <thead>
