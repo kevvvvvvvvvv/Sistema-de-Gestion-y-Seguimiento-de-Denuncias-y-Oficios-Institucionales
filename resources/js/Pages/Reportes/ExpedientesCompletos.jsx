@@ -1,6 +1,10 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, router } from '@inertiajs/react';
 import Card from '@/Components/Card';
+import { useEffect, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import RegisterButton from "@/Components/RegisterButton";
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -10,8 +14,6 @@ import Buttons from 'datatables.net-buttons-dt';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
-import { Chart, Series, Title, Tooltip, XAxis, YAxis } from '@highcharts/react';
-
 import JSZip from 'jszip';
 import PDFButton from '@/Components/PDFButton';
 
@@ -19,10 +21,6 @@ window.JSZip = JSZip;
 
 DataTable.use(DT);
 DataTable.use(Buttons);
-
-function generatePDF() {
-    router.post("/reportes/expedientes-completos/generacionPDF");
-}
 
 export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, auth }) {
     const permissions = auth.permissions;
@@ -33,6 +31,20 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
         departamento: i.departamento,
     }));
 
+    const [chartOptions] = useState({
+        chart: { type: 'column' },
+        title: { text: 'Comparación entre los expedientes completos e incompletos' },
+        xAxis: { title: { text: 'Tipo de expediente' }, categories: ['Completos', 'Incompletos'] },
+        yAxis: { title: { text: 'Número de expedientes' } },
+        series: [{
+            name: 'Expedientes',
+            data: [
+                    { y: conteo, color: "#90ed7d" },  
+                    { y: exIncompletos, color: "#f45b5b" } 
+                ]
+        }]
+    });
+
     return (
         <>
             <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""}>
@@ -42,30 +54,14 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                     title2={"No. de expedientes incompletos"} data2={exIncompletos}
                 />
 
-                <Chart>
-                    <Title>Comparación entre los expedientes completos e incompletos</Title>
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={chartOptions}
+                />
 
-                    <XAxis categories={['Completos', 'Incompletos']}>
-                        <XAxis.Title>Tipo de expediente</XAxis.Title>
-                    </XAxis>
-
-                    <YAxis>
-                        <YAxis.Title>Número de expedientes</YAxis.Title>
-                    </YAxis>
-
-                    <Tooltip pointFormat="{point.y}" />
-
-                    <Series type='column' 
-                        showInLegend={false}
-                        name=""
-                        data={[
-                            { y: conteo, color: "#90ed7d" },   
-                            { y: exIncompletos, color: "#f45b5b" } 
-                        ]} 
-                    />
-                </Chart>
                 <br />
                 <br />
+
                 <DataTable 
                     data={tableData} 
                     className="display"
@@ -105,7 +101,7 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                     </thead>
                 </DataTable>
 
-                <PDFButton onClick={generatePDF}>Descargar en PDF</PDFButton>
+                <PDFButton>Descargar en PDF</PDFButton>
             </MainLayout>
         </>
     );

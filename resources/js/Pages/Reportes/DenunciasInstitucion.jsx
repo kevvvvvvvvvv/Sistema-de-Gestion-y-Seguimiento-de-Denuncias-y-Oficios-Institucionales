@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import RegisterButton from "@/Components/RegisterButton";
+import PDFButton from '@/Components/PDFButton';
 
 export default function DenunciasInstitucion({ auth, denuncias }) {
 
@@ -33,21 +34,17 @@ export default function DenunciasInstitucion({ auth, denuncias }) {
         <MainLayout auth={auth} topHeader="Reporte de denuncias por institución" insideHeader={""}>
             <Head title="Reporte de denuncias por institución" />
 
-            <div className="w-full flex justify-end mb-10">
+            {/* <div className="w-full flex justify-end mb-10">
                 <RegisterButton
                     onClick={() => window.location.href = route('reportes.denuncias.pdf')}>
                     Descargar PDF
                 </RegisterButton>
-            </div>
-                    
-
-
+            </div> */}
 
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartOptions}
             />
-
 
             <h2 className="w-full text-center font-bold">Total de expedientes por institución</h2>
             <div className="mt-8 overflow-x-auto">
@@ -69,7 +66,9 @@ export default function DenunciasInstitucion({ auth, denuncias }) {
                 </table>
             </div>
 
-
+            <PDFButton onClick={() => window.location.href = route('reportes.denuncias.pdf')}>
+                Descargar en PDF
+            </PDFButton>
         </MainLayout>
     );
 }

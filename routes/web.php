@@ -324,6 +324,7 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->name('bajas.destroy')
     ->middleware('can:eliminar bajas'); 
 
+
 //REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
     ->name('reportes.seguimiento-deununcias');
@@ -331,7 +332,6 @@ Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasContro
 //REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
     ->name('reportes.denuncias-institucion');
-
 Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
     ->name('reportes.denuncias.pdf');
 
@@ -351,7 +351,7 @@ Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class,
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
     ->name('reportes.expedientes-completos'); 
 Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'generateExpedientes'])
-    ->name('reportes.expedientes-completos-generacionPDF'); 
+    ->name('reportes.expedientes.completos.pdf'); 
 
 //REPORTE DE SERVIDORES OMISOS
 Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::class, 'showServidoresOmisos'])
