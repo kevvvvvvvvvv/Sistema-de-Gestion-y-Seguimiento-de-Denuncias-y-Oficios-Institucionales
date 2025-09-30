@@ -15,7 +15,7 @@ use App\Http\Controllers\ParticularController;
 use App\Http\Controllers\ReporteDenunciasInstitucionController;
 use App\Http\Controllers\ReporteDocumentosFaltantes;
 use App\Http\Controllers\ReporteSeguimientoDenunciasController;
-use App\Http\Controllers\ReporteProgresoOficio;
+use App\Http\Controllers\ReporteProgresoOficioController;
 use App\Http\Controllers\ReporteSeguimientoViajerosController;
 use App\Http\Controllers\ReporteExpedienteCompleto;
 use App\Http\Controllers\ReporteServidoresOmisosController;
@@ -336,7 +336,8 @@ Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionCo
     ->name('reportes.denuncias.pdf');
 
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
-Route::get('/reportes/progreso-oficio',[ReporteProgresoOficio::class,'showProgresoOficio']);
+Route::get('/reportes/progreso-oficio',[ReporteProgresoOficioController::class,'showProgresoOficio'])
+    ->name('reportes.progreso-oficio');
 
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])

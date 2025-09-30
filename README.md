@@ -94,3 +94,9 @@ composer require spatie/browsershot
 ```bash
 npm install puppeteer
 ```
+
+<h2>Instalar paquete para grafico</h2>
+
+```bash
+npm install chart.js chartjs-node-canvas
+```
