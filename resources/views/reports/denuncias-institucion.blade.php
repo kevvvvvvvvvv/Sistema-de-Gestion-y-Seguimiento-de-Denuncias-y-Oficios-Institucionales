@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Reporte de Denuncias por Institución</title>
     <style>
-        /* Traducción simple de tus clases de Tailwind a CSS plano */
         body {
             font-family: Arial, sans-serif;
             font-size: 14px;
@@ -19,7 +18,7 @@
             width: 100%;
         }
         .mt-8 {
-            margin-top: 2rem; /* 32px */
+            margin-top: 2rem; 
         }
         table {
             width: 100%;

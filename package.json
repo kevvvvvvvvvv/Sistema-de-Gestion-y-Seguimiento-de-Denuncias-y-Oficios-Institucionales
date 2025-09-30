@@ -21,6 +21,8 @@
     },
     "dependencies": {
         "@fontsource/inter": "^5.2.6",
+        "chart.js": "^4.5.0",
+        "chartjs-node-canvas": "^5.0.0",
         "datatables.net": "^2.3.3",
         "datatables.net-buttons": "^3.2.4",
         "datatables.net-buttons-dt": "^3.2.4",
