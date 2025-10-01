@@ -66,6 +66,11 @@
                     <th>Nombre completo del servidor</th>
                     <th>Institución del servidor</th>
                     <th>Departamento del servidor</th>
+                    <th>Oficio de requerimiento</th>
+                    <th>Fecha del oficio de requerimiento</th>
+                    <th>Oficio de respuesta</th>
+                    <th>Fecha del oficio de respuesta</th>
+                    <th>Fecha de recepción del oficio de respuesta</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,6 +80,11 @@
                         <td>{{ $ofCompleto->nombreCompleto }}</td>
                         <td>{{ $ofCompleto->nomInstitucion }}</td>
                         <td>{{ $ofCompleto->departamento }}</td>
+                        <td>{{ $ofCompleto->ofRequerimiento }}</td>
+                        <td>{{ $ofCompleto->fechaRequerimiento }}</td>
+                        <td>{{ $ofCompleto->ofRespuesta }}</td>
+                        <td>{{ $ofCompleto->fechaRespuesta }}</td>
+                        <td>{{ $ofCompleto->fechaRecepcion }}</td>
                     </tr>
                 @endforeach
             </tbody>

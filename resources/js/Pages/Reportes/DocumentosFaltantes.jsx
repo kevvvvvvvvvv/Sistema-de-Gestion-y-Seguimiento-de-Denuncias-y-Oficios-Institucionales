@@ -82,10 +82,11 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                             { title: "Número de oficios y acuerdos faltantes", data: "totalFaltantes", className: "dt-left" },
                             { title: "Oficios faltantes", data: "ofFaltantes", visible: false },
                         ],
-                        // Función para inicializar la tabla con child rows
+                        
                         initComplete: function () {
                             const api = this.api();
                             
+                            // Función para inicializar la tabla con child rows
                             // Agregar evento de clic para las flechas
                             api.on('click', 'td.dt-control', function (e) {
                                 const tr = e.target.closest('tr');

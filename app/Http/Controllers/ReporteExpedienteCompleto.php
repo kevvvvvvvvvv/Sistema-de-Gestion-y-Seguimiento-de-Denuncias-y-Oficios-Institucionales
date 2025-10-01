@@ -14,7 +14,8 @@ class ReporteExpedienteCompleto extends Controller
         $datos = DB::select('select servidor.nombreCompleto, 
 		institucion.nombreCompleto as nomInstitucion,
 		departamento.nombre,
-		expediente.numero, expediente.ofRespuesta,
+		expediente.numero, expediente.ofRequerimiento, expediente.ofRespuesta,
+        expediente.fechaRequerimiento, expediente.fechaRespuesta, expediente.fechaRecepcion,
         control.acProrroga as "Acuerdo de Prórroga", 
         control.acAuxilio as "Acuerdo de Auxilio para personal OR",
         control.acRegularizacion as "Acuerdo de Regularización", 
@@ -31,9 +32,6 @@ class ReporteExpedienteCompleto extends Controller
         $ofCompletos = [];
 
         foreach ($datos as $dato) {
-            $nombreCompleto = $dato->nombreCompleto;
-            $nomInstitucion = $dato->nomInstitucion;
-            $departamento = $dato->nombre;
 
             if (is_null($dato->numero)) {
                 $numero = 'Sin número de expediente asignado';
@@ -45,7 +43,9 @@ class ReporteExpedienteCompleto extends Controller
 
             foreach ($dato as $campo => $valor) {
                 //Ignorar campos que no son documentos
-                if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero'])) {
+                if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero', 
+                'nomInstitucion', 'ofRequerimiento', 'fechaRequerimiento', 
+                'fechaRespuesta', 'fechaRecepcion'])) {
                     continue;
                 }
 
@@ -63,10 +63,15 @@ class ReporteExpedienteCompleto extends Controller
             //Guardar los datos en el arreglo para el reporte, solo si están completos
             if($bandera == 0) {
                 $ofCompletos[] = [
-                    'nombreCompleto' => $nombreCompleto,
+                    'nombreCompleto' => $dato->nombreCompleto,
                     'numero' => $numero,
-                    'nomInstitucion' => $nomInstitucion,
-                    'departamento' => $departamento
+                    'nomInstitucion' => $dato->nomInstitucion,
+                    'departamento' => $dato->nombre,
+                    'ofRequerimiento' => $dato->ofRequerimiento,
+                    'fechaRequerimiento' => $dato->fechaRequerimiento,
+                    'ofRespuesta' => $dato->ofRespuesta,
+                    'fechaRespuesta' => $dato->fechaRespuesta,
+                    'fechaRecepcion' => $dato->fechaRecepcion
                 ];
             }
 
@@ -87,7 +92,8 @@ class ReporteExpedienteCompleto extends Controller
             $datos = DB::select('select servidor.nombreCompleto, 
             institucion.nombreCompleto as nomInstitucion,
             departamento.nombre,
-            expediente.numero, expediente.ofRespuesta,
+            expediente.numero, expediente.ofRequerimiento, expediente.ofRespuesta,
+            expediente.fechaRequerimiento, expediente.fechaRespuesta, expediente.fechaRecepcion,
             control.acProrroga as "Acuerdo de Prórroga", 
             control.acAuxilio as "Acuerdo de Auxilio para personal OR",
             control.acRegularizacion as "Acuerdo de Regularización", 
@@ -104,9 +110,6 @@ class ReporteExpedienteCompleto extends Controller
             $ofCompletos = [];
 
             foreach ($datos as $dato) {
-                $nombreCompleto = $dato->nombreCompleto;
-                $nomInstitucion = $dato->nomInstitucion;
-                $departamento = $dato->nombre;
 
                 if (is_null($dato->numero)) {
                     $numero = 'Sin número de expediente asignado';
@@ -117,7 +120,10 @@ class ReporteExpedienteCompleto extends Controller
                 $bandera = 0;
 
                 foreach ($dato as $campo => $valor) {
-                    if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero'])) {
+                    //Ignorar campos que no son documentos
+                    if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero', 
+                    'nomInstitucion', 'ofRequerimiento', 'fechaRequerimiento', 
+                    'fechaRespuesta', 'fechaRecepcion'])) {
                         continue;
                     }
 
@@ -127,22 +133,32 @@ class ReporteExpedienteCompleto extends Controller
                     }
                 }
 
+                //Verficiar el oficio de respuesta
                 if (is_null($dato->ofRespuesta)){
                     $bandera = 1;
                 }
 
+                //Guardar los datos en el arreglo para el reporte, solo si están completos
                 if($bandera == 0) {
                     $ofCompletos[] = (object)[
-                        'nombreCompleto' => $nombreCompleto,
+                        'nombreCompleto' => $dato->nombreCompleto,
                         'numero' => $numero,
-                        'nomInstitucion' => $nomInstitucion,
-                        'departamento' => $departamento
+                        'nomInstitucion' => $dato->nomInstitucion,
+                        'departamento' => $dato->nombre,
+                        'ofRequerimiento' => $dato->ofRequerimiento,
+                        'fechaRequerimiento' => $dato->fechaRequerimiento,
+                        'ofRespuesta' => $dato->ofRespuesta,
+                        'fechaRespuesta' => $dato->fechaRespuesta,
+                        'fechaRecepcion' => $dato->fechaRecepcion
                     ];
                 }
-
-                $conteo = count($ofCompletos);
-                $exIncompletos = count($datos) - $conteo;
             }
+
+            //Oficios completos
+            $conteo = count($ofCompletos);
+
+            //Oficios incompletos
+            $exIncompletos = count($datos) - $conteo;
 
             // GENERACIÓN DEL PDF
             $logoPath = public_path('images/imta-logo.png');
@@ -167,7 +183,7 @@ class ReporteExpedienteCompleto extends Controller
                 ->header('Content-Type', 'application/pdf')
                 ->header('Content-Disposition', 'attachment; filename="reporte_expedientes_completos.pdf"');
         } catch (\Exception $e) {
-            Log::error('Error al generar PDF de denuncias: ' . $e->getMessage());
+            Log::error('Error al generar PDF: ' . $e->getMessage());
             return response('Error al generar el reporte.', 500);
         }
     }
