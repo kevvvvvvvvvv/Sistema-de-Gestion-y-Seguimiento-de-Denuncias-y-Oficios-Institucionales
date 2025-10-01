@@ -36,6 +36,9 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
         title: { text: 'Comparación entre los expedientes completos e incompletos' },
         xAxis: { title: { text: 'Tipo de expediente' }, categories: ['Completos', 'Incompletos'] },
         yAxis: { title: { text: 'Número de expedientes' } },
+            legend: {
+            enabled: false  
+        },
         series: [{
             name: 'Expedientes',
             data: [
@@ -59,8 +62,12 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                     options={chartOptions}
                 />
 
-                <br />
-                <br />
+                <br/>
+                <br/>
+
+                <hr/>
+
+                <h2 className="w-full text-center font-bold my-10">Expedientes completos</h2>
 
                 <DataTable 
                     data={tableData} 
@@ -101,7 +108,9 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                     </thead>
                 </DataTable>
 
-                <PDFButton>Descargar en PDF</PDFButton>
+                <PDFButton onClick={() => window.location.href = route('reportes.expedientes.completos.pdf')}>
+                    Descargar en PDF
+                </PDFButton>
             </MainLayout>
         </>
     );

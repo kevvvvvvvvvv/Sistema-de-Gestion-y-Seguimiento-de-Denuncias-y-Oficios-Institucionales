@@ -350,7 +350,7 @@ Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class,
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
     ->name('reportes.expedientes-completos'); 
-Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'generateExpedientes'])
+Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'descargarReporteExpeComPdf'])
     ->name('reportes.expedientes.completos.pdf'); 
 
 //REPORTE DE SERVIDORES OMISOS
