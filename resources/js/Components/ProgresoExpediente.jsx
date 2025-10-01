@@ -1,16 +1,16 @@
 import React from "react";
 
 const pasos = [
-    "Inicio",
     "En espera del oficio de respuesta",
+    "Inicio",
     "En Proceso",
     "Finalizado",
 ];
 
 function getPasoIndex(estado) {
     switch (estado) {
-        case "Inicio": return 0;
-        case "En espera del oficio de respuesta": return 1;
+        case "En espera del oficio de respuesta": return 0;
+        case "Inicio": return 1;
         case "En Proceso": return 2;
         case "Finalizado": return 3;
         default: return 0;

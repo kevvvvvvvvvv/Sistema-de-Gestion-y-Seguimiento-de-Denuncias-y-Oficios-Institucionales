@@ -31,17 +31,7 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         Estado : i.Estado
     }));
 
-    const [servidorSeleccionado, setServidorSeleccionado] = useState("");
-
-    const servidorOptions = [...new Set(datosReporte.map(d => d.nombreCompletoSer))].map(servidor => ({
-        value: servidor,
-        label: servidor
-    }));
-
-    const expedienteSeleccionado = datosReporte.find(
-        d => d.nombreCompletoSer === servidorSeleccionado
-    );
-
+    //Filtros
     const [selectedStatus, setSelectedStatus] = useState("")
     const [selectedInstitucion, setSelectedInstitucion] = useState("");
 
@@ -64,6 +54,17 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         return statusMatch && institucionMatch;
     });
 
+    //Línea de seguimiento
+    const [servidorSeleccionado, setServidorSeleccionado] = useState("");
+
+    const servidorOptions = [...new Set(filteredTableData.map(d => d.nombreCompletoSer))].map(servidor => ({
+        value: servidor,
+        label: servidor
+    }));
+
+    const expedienteSeleccionado = filteredTableData.find(
+        d => d.nombreCompletoSer === servidorSeleccionado
+    );
 
     return (
         <>
