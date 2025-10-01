@@ -107,6 +107,36 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                                     tr.classList.add('shown');
                                 }
                             });
+
+                            api.columns(3).every(function () {
+                                const column = this;
+                                const select = document.createElement("select");
+                                select.classList.add("border", "px-2", "py-1", "text-sm");
+                                select.innerHTML = `<option value="">-- Todas --</option>`;
+
+                                // Insertar input en el header
+                                column.header().appendChild(select);
+
+                                // Llenar el select con valores únicos de la columna
+                                column
+                                    .data()
+                                    .unique()
+                                    .sort()
+                                    .each(function (d) {
+                                        if (d) {
+                                            const option = document.createElement("option");
+                                            option.value = d;
+                                            option.textContent = d;
+                                            select.appendChild(option);
+                                        }
+                                    });
+
+                                // Evento para filtrar cuando cambia el select
+                                select.addEventListener("change", function () {
+                                    const val = this.value;
+                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                });
+                            });
                         }
                     }}
                 >
