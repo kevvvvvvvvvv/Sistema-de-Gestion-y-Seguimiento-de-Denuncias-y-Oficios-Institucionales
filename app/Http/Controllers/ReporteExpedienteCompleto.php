@@ -144,12 +144,6 @@ class ReporteExpedienteCompleto extends Controller
                 $exIncompletos = count($datos) - $conteo;
             }
 
-            $jsonData =  json_encode([
-                'conteo' => $conteo, 
-                'exIncompletos' => $exIncompletos
-            ]);
-
-
             // GENERACIÓN DEL PDF
             $logoPath = public_path('images/imta-logo.png');
             $logoType = pathinfo($logoPath, PATHINFO_EXTENSION);

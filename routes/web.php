@@ -346,6 +346,8 @@ Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosControlle
 //REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
     ->name('reportes.documentos-faltantes'); 
+Route::get('/reportes/documentos-faltantes/generacionPDF', [ReporteDocumentosFaltantes::class, 'descargarReporteDocFaltPdf'])
+    ->name('reportes.documentos.faltantes.pdf'); 
 
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
