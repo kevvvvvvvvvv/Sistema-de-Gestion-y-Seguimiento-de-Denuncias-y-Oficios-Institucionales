@@ -3,6 +3,7 @@ import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
 import SelectInput from "@/Components/SelectInput";
 import ProgresoExpediente from '@/Components/ProgresoExpediente';
+import PDFButton from '@/Components/PDFButton';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -104,6 +105,10 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                         <p className="text-gray-500 text-sm">Selecciona un servidor para ver el progreso.</p>
                     )}
                 </div>
+
+                <PDFButton onClick={() => window.location.href = route('reportes.seguimiento.deununcias.pdf')}>
+                    Descargar en PDF
+                </PDFButton>
             </MainLayout>
         </>
     );

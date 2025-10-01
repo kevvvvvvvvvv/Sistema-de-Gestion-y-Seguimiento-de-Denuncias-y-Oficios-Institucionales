@@ -328,6 +328,8 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
 //REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
     ->name('reportes.seguimiento-deununcias');
+Route::get('/reportes/seguimiento-denuncias/generacionPDF', [ReporteSeguimientoDenunciasController::class, 'descargarReporteSegDenuPdf'])
+    ->name('reportes.seguimiento.deununcias.pdf');
 
 //REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
