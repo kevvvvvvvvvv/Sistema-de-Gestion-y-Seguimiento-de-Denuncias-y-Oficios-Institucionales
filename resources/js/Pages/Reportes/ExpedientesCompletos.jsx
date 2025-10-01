@@ -1,6 +1,11 @@
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { Head, router } from '@inertiajs/react';
+import Card from '@/Components/Card';
+import { useEffect, useState } from 'react';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import RegisterButton from "@/Components/RegisterButton";
+import ModalTable from '@/Components/ModalTable';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -11,7 +16,6 @@ import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
 import JSZip from 'jszip';
-import Card from '@/Components/Card';
 import PDFButton from '@/Components/PDFButton';
 
 window.JSZip = JSZip;
@@ -19,32 +23,60 @@ window.JSZip = JSZip;
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
+export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, auth }) {
     const permissions = auth.permissions;
-    const tableData = datosReporte.map(i => ({
+    const tableData = ofCompletos.map(i => ({
         nombreCompleto: i.nombreCompleto,
         numero: i.numero,
         nomInstitucion: i.nomInstitucion,
         departamento: i.departamento,
-        ofFaltantes: i.ofFaltantes,
-        totalFaltantes: i.totalFaltantes,
+        ofRequerimiento: i.ofRequerimiento,
+        fechaRequerimiento: i.fechaRequerimiento,
+        ofRespuesta: i.ofRespuesta,
+        fechaRespuesta: i.fechaRespuesta,
+        fechaRecepcion: i.fechaRecepcion,
     }));
 
-    // Función para formatear los oficios faltantes
-    const formatOficiosFaltantes = (oficios) => {
-        if (!oficios || !oficios.length) return "No hay oficios faltantes";
-        
-        return `<ul style="padding-left:16px; list-style-type: disc;">
-            ${oficios.map(d => `<li>${d}</li>`).join("")}
-        </ul>`;
-    };
+    const [chartOptions] = useState({
+        chart: { type: 'column' },
+        title: { text: 'Comparación entre los expedientes completos e incompletos' },
+        xAxis: { title: { text: 'Tipo de expediente' }, categories: ['Completos', 'Incompletos'] },
+        yAxis: { title: { text: 'Número de expedientes' } },
+            legend: {
+            enabled: false  
+        },
+        series: [{
+            name: 'Expedientes',
+            data: [
+                    { y: conteo, color: "#90ed7d" },  
+                    { y: exIncompletos, color: "#f45b5b" } 
+                ]
+        }]
+    });
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalData, setModalData] = useState(null);
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
-                <Head title="Reporte de documentos faltantes por expediente" />
+            <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""}>
+                <Head title="Reporte de expedientes completos" />
 
-                <Card title={"No. de expedientes incompletos"} data={conteo} />
+                <Card title={"No. de expedientes completos"} data={conteo} 
+                    title2={"No. de expedientes incompletos"} data2={exIncompletos}
+                />
+
+                <HighchartsReact
+                    highcharts={Highcharts}
+                    options={chartOptions}
+                />
+
+                <br/>
+                <br/>
+
+                <hr/>
+
+                <h2 className="w-full text-center font-bold my-10">Expedientes completos</h2>
 
                 <DataTable 
                     data={tableData} 
@@ -68,48 +100,31 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                             zeroRecords: "No se encontraron resultados",
                         },
                         columns: [
-                            { 
-                                title: "",
-                                data: null,
-                                defaultContent: '',
-                                className: "dt-control",
-                                width: "20px"
-                            },
                             { title: "Número de expediente", data: "numero" },
                             { title: "Nombre completo del servidor", data: "nombreCompleto" },
                             { title: "Institución del servidor", data: "nomInstitucion" },
                             { title: "Departamento del servidor", data: "departamento" },
-                            { title: "Número de oficios y acuerdos faltantes", data: "totalFaltantes", className: "dt-left" },
-                            { title: "Oficios faltantes", data: "ofFaltantes", visible: false },
+                            { title: "Oficio de requerimiento", data: "ofRequerimiento", visible: false },
+                            { title: "Fecha del oficio de requerimiento", data: "fechaRequerimiento", visible: false },
+                            { title: "Oficio de respuesta", data: "ofRespuesta", visible: false },
+                            { title: "Fecha del oficio de respuesta", data: "fechaRespuesta", visible: false },
+                            { title: "Fecha de recepción del oficio de respuesta", data: "fechaRecepcion", visible: false },
+                            { 
+                                title: "Acciones",
+                                data: null, 
+                                orderable: false,
+                                searchable: false,
+                                render: function(data, type, row) {
+                                    return `<button class="btn-ver-detalles px-3 py-1 bg-azulIMTA text-white text-sm rounded">Ver detalles</button>`;
+                                }
+                            }
                         ],
-                        
+
                         initComplete: function () {
                             const api = this.api();
                             
-                            // Función para inicializar la tabla con child rows
-                            // Agregar evento de clic para las flechas
-                            api.on('click', 'td.dt-control', function (e) {
-                                const tr = e.target.closest('tr');
-                                const row = api.row(tr);
-                                
-                                if (row.child.isShown()) {
-                                    // Esta fila ya está abierta - cerrarla
-                                    row.child.hide();
-                                    tr.classList.remove('shown');
-                                } else {
-                                    // Abrir esta fila
-                                    const data = row.data();
-                                    row.child(`
-                                        <div class="p-4 bg-gray-50">
-                                            <h4 class="font-bold mb-2">Oficios faltantes:</h4>
-                                            ${formatOficiosFaltantes(data.ofFaltantes)}
-                                        </div>
-                                    `).show();
-                                    tr.classList.add('shown');
-                                }
-                            });
-
-                            api.columns(3).every(function () {
+                            // FILTRADO DE COLUMNA
+                            api.columns(2).every(function () {
                                 const column = this;
                                 const select = document.createElement("select");
                                 select.classList.add("border", "px-2", "py-1", "text-sm");
@@ -138,23 +153,34 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                                     column.search(val ? '^' + val + '$' : '', true, false).draw();
                                 });
                             });
+
+                            // ABRIR EL MODAL
+                            api.on('click', '.btn-ver-detalles', function(){
+                                const tr = this.closest('tr');
+                                const row = api.row(tr);
+                                setModalData(row.data());
+                                setModalOpen(true);
+                            });
                         }
                     }}
                 >
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Número de expediente</th>
                             <th>Nombre completo del servidor</th>
-                            <th>Número de expediente</th>
                             <th>Institución del servidor</th>
                             <th>Departamento del servidor</th>
-                            <th>Número de oficios y acuerdos sin entregar</th>
                         </tr>
                     </thead>
                 </DataTable>
 
-                <PDFButton onClick={() => window.location.href = route('reportes.documentos.faltantes.pdf')}>
+                <ModalTable
+                    open={modalOpen} 
+                    onClose={() => setModalOpen(false)} 
+                    data={modalData} 
+                />
+
+                <PDFButton onClick={() => window.location.href = route('reportes.expedientes.completos.pdf')}>
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>

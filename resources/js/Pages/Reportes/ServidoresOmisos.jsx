@@ -19,32 +19,49 @@ window.JSZip = JSZip;
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
+export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
     const permissions = auth.permissions;
-    const tableData = datosReporte.map(i => ({
+    const tableData = servidoresOmisos.map(i => ({
         nombreCompleto: i.nombreCompleto,
         numero: i.numero,
-        nomInstitucion: i.nomInstitucion,
+        fechaIngreso: i.fechaIngreso,
+        institucion: i.institucion,
         departamento: i.departamento,
-        ofFaltantes: i.ofFaltantes,
-        totalFaltantes: i.totalFaltantes,
+        acInicio: i.acInicio,
+        acModificacion: i.acModificacion,
+        acConclusion: i.acConclusion,
+        fechaLimiteIni: i.fechaLimiteIni,
+        fechaLimiteModi: i.fechaLimiteModi,
+        fechaLimiteCon: i.fechaLimiteCon,
+        difDiasIni: i.difDiasIni,
+        difDiasModi: i.difDiasModi,
+        difDiasCon: i.difDiasCon
     }));
 
-    // Función para formatear los oficios faltantes
-    const formatOficiosFaltantes = (oficios) => {
-        if (!oficios || !oficios.length) return "No hay oficios faltantes";
-        
-        return `<ul style="padding-left:16px; list-style-type: disc;">
-            ${oficios.map(d => `<li>${d}</li>`).join("")}
-        </ul>`;
+    // Función para formatear los datos del desplegable
+    const formatDetalle = (data) => {
+        return `
+            <div class="p-4 bg-gray-50">
+                <ul style="padding-left:16px; list-style-type: disc;">
+                    <li><b>Fecha límite para entregar Acuerdo de Inicio:</b> ${data.fechaLimiteIni}</li>
+                    <li><b>Días desde la omsión:</b> ${data.difDiasIni}</li>
+                    <br>
+                    <li><b>Fecha límite para entregar Acuerdo de Modificación:</b> ${data.fechaLimiteModi}</li>
+                    <li><b>Días desde la omsión:</b> ${data.difDiasModi}</li>
+                    <br>
+                    <li><b>Fecha límite para entregar Acuerdo de Conclusión:</b> ${data.fechaLimiteCon}</li>
+                    <li><b>Días desde la omsión:</b> ${data.difDiasCon}</li>
+                </ul>
+            </div>
+        `;
     };
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
-                <Head title="Reporte de documentos faltantes por expediente" />
+            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""}>
+                <Head title="Reporte de servidores omisos" />
 
-                <Card title={"No. de expedientes incompletos"} data={conteo} />
+                {/* <Card title={"No. de expedientes incompletos"} data={conteo} /> */}
 
                 <DataTable 
                     data={tableData} 
@@ -77,16 +94,20 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                             },
                             { title: "Número de expediente", data: "numero" },
                             { title: "Nombre completo del servidor", data: "nombreCompleto" },
-                            { title: "Institución del servidor", data: "nomInstitucion" },
+                            { title: "Institución del servidor", data: "institucion" },
                             { title: "Departamento del servidor", data: "departamento" },
-                            { title: "Número de oficios y acuerdos faltantes", data: "totalFaltantes", className: "dt-left" },
-                            { title: "Oficios faltantes", data: "ofFaltantes", visible: false },
+                            { title: "¿Cuenta con Acuerdo de Inicio?", data: "acInicio" },
+                            { title: "¿Cuenta con Acuerdo de Modificación?", data: "acModificacion" },
+                            { title: "¿Cuenta con Acuerdo de Conclusión?", data: "acConclusion" },
+                            { title: "Fecha límite para entregar Acuerdo de Inicio", data: "fechaLimiteIni", visible: false },
+                            { title: "Días desde la omsión", data: "difDiasIni", visible: false },
+                            { title: "Fecha límite para entregar para entregar Acuerdo de Modificación", data: "fechaLimiteModi", visible: false },
+                            { title: "Días desde la omsión", data: "difDiasModi", visible: false }
                         ],
-                        
+                        // Función para inicializar la tabla con child rows
                         initComplete: function () {
                             const api = this.api();
                             
-                            // Función para inicializar la tabla con child rows
                             // Agregar evento de clic para las flechas
                             api.on('click', 'td.dt-control', function (e) {
                                 const tr = e.target.closest('tr');
@@ -99,44 +120,9 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                                 } else {
                                     // Abrir esta fila
                                     const data = row.data();
-                                    row.child(`
-                                        <div class="p-4 bg-gray-50">
-                                            <h4 class="font-bold mb-2">Oficios faltantes:</h4>
-                                            ${formatOficiosFaltantes(data.ofFaltantes)}
-                                        </div>
-                                    `).show();
+                                    row.child(formatDetalle(data)).show();
                                     tr.classList.add('shown');
                                 }
-                            });
-
-                            api.columns(3).every(function () {
-                                const column = this;
-                                const select = document.createElement("select");
-                                select.classList.add("border", "px-2", "py-1", "text-sm");
-                                select.innerHTML = `<option value="">-- Todas --</option>`;
-
-                                // Insertar input en el header
-                                column.header().appendChild(select);
-
-                                // Llenar el select con valores únicos de la columna
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function (d) {
-                                        if (d) {
-                                            const option = document.createElement("option");
-                                            option.value = d;
-                                            option.textContent = d;
-                                            select.appendChild(option);
-                                        }
-                                    });
-
-                                // Evento para filtrar cuando cambia el select
-                                select.addEventListener("change", function () {
-                                    const val = this.value;
-                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
-                                });
                             });
                         }
                     }}
@@ -146,15 +132,16 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                             <th></th>
                             <th>Número de expediente</th>
                             <th>Nombre completo del servidor</th>
-                            <th>Número de expediente</th>
                             <th>Institución del servidor</th>
                             <th>Departamento del servidor</th>
-                            <th>Número de oficios y acuerdos sin entregar</th>
+                            <th>¿Cuenta con Acuerdo de Inicio?</th>
+                            <th>¿Cuenta con Acuerdo de Modificación?</th>
+                            <th>¿Cuenta con Acuerdo de Conclusión?</th>
                         </tr>
                     </thead>
                 </DataTable>
 
-                <PDFButton onClick={() => window.location.href = route('reportes.documentos.faltantes.pdf')}>
+                <PDFButton onClick={() => window.location.href = route('reportes.servidores.omisos.pdf')}>
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>

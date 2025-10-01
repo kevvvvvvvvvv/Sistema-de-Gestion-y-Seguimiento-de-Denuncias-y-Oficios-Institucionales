@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ServidorSeeder::class,
             ParticularSeeder::class,
             ExpedienteSeeder::class,
+            ControlSeeder::class,
             ViajeroSeeder::class
         ]);
     }

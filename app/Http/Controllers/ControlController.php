@@ -24,7 +24,19 @@ class ControlController extends Controller
 
     public function store(ControlRequest $request)
     {
-        Control::create($request->validated());
+        $data = $request->all();
+
+        if(isset($data['feEntregaInicio'])){
+            $data['feEntregaInicio'] = \Carbon\Carbon::parse($data['feEntregaInicio'])->format('Y-m-d');
+        }
+        if(isset($data['feEntregaModif'])){
+            $data['feEntregaModif'] = \Carbon\Carbon::parse($data['feEntregaModif'])->format('Y-m-d');
+        }
+        if(isset($data['feEntregaCon'])){
+            $data['feEntregaCon'] = \Carbon\Carbon::parse($data['feEntregaCon'])->format('Y-m-d');
+        }
+
+        Control::create($data);
         return redirect()->route('controles.index');
     }
 
@@ -41,6 +53,17 @@ class ControlController extends Controller
         $control = Control::findOrFail($id);
 
         $data = $request->validated();
+
+        if(isset($data['feEntregaInicio'])){
+            $data['feEntregaInicio'] = \Carbon\Carbon::parse($data['feEntregaInicio'])->format('Y-m-d');
+        }
+        if(isset($data['feEntregaModif'])){
+            $data['feEntregaModif'] = \Carbon\Carbon::parse($data['feEntregaModif'])->format('Y-m-d');
+        }
+        if(isset($data['feEntregaCon'])){
+            $data['feEntregaCon'] = \Carbon\Carbon::parse($data['feEntregaCon'])->format('Y-m-d');
+        }
+        
         $control->update($data);
 
         return redirect()->route('controles.index');

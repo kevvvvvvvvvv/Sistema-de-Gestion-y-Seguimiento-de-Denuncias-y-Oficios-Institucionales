@@ -31,7 +31,7 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
             {/* Sidebar Izquierdo */}
-            <div className="col-span-1 grid grid-rows-[20%_60%_20%] m-10 justify-center">
+            <div className="col-span-1 grid grid-rows-[20%_60%_20%] m-10 justify-center gap-8">
                 <a className='flex items-center' href={route('dashboard')}>
                     <ApplicationLogo className="h-[140px] w-[220px] fill-current text-gray-500" />
                 </a>

@@ -31,6 +31,8 @@ class ControlRequest extends FormRequest
             'acInicio' => ['required', 'in:Si,No'],
             'acModificacion' => ['required', 'in:Si,No'],
             'acConclusion' => ['required', 'in:Si,No'],
+            'feEntregaInicio' => ['nullable', 'date'],
+            'feEntregaModif' => ['nullable', 'date'],
             'comentarios' => ['nullable', 'string'],
             'numero' => ['required', 'string', 'max:45',
                 Rule::unique(table:'control', column:'numero')->ignore($this->route(param: 'id'), 'consecutivo'),

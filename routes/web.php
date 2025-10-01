@@ -17,6 +17,8 @@ use App\Http\Controllers\ReporteDocumentosFaltantes;
 use App\Http\Controllers\ReporteSeguimientoDenunciasController;
 use App\Http\Controllers\ReporteProgresoOficioController;
 use App\Http\Controllers\ReporteSeguimientoViajerosController;
+use App\Http\Controllers\ReporteExpedienteCompleto;
+use App\Http\Controllers\ReporteServidoresOmisosController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -322,23 +324,18 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->name('bajas.destroy')
     ->middleware('can:eliminar bajas'); 
 
-    
-//REPORTE DE DOCUEMNTOS FALTANTES EN EXPEDIENTES
-Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
-    ->name('reportes.documentos-faltantes'); 
 
-
+//REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
     ->name('reportes.seguimiento-deununcias');
-
+Route::get('/reportes/seguimiento-denuncias/generacionPDF', [ReporteSeguimientoDenunciasController::class, 'descargarReporteSegDenuPdf'])
+    ->name('reportes.seguimiento.deununcias.pdf');
 
 //REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
     ->name('reportes.denuncias-institucion');
-
 Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
     ->name('reportes.denuncias.pdf');
-
 
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/progreso-oficio',[ReporteProgresoOficioController::class,'showProgresoOficio'])
@@ -347,5 +344,23 @@ Route::get('/reportes/progreso-oficio',[ReporteProgresoOficioController::class,'
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
     ->name('reportes.seguimiento-viajeros');
+
+//REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
+Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
+    ->name('reportes.documentos-faltantes'); 
+Route::get('/reportes/documentos-faltantes/generacionPDF', [ReporteDocumentosFaltantes::class, 'descargarReporteDocFaltPdf'])
+    ->name('reportes.documentos.faltantes.pdf'); 
+
+//REPORTE DE EXPEDIENTES COMPLETOS
+Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
+    ->name('reportes.expedientes-completos'); 
+Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'descargarReporteExpeComPdf'])
+    ->name('reportes.expedientes.completos.pdf'); 
+
+//REPORTE DE SERVIDORES OMISOS
+Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::class, 'showServidoresOmisos'])
+    ->name('reportes.servidores-omisos'); 
+Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisosController::class, 'descargarReporteServOmisoPdf'])
+    ->name('reportes.servidores.omisos.pdf'); 
 
 require __DIR__.'/auth.php';

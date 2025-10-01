@@ -8,16 +8,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-use function PHPUnit\Framework\isNull;
-
-class ReporteDocumentosFaltantes extends Controller
+class ReporteExpedienteCompleto extends Controller
 {
-    public function showDocumentosFaltantes()
-    {
+    public function showExpedientes(){
         $datos = DB::select('select servidor.nombreCompleto, 
 		institucion.nombreCompleto as nomInstitucion,
 		departamento.nombre,
-		expediente.numero, expediente.ofRespuesta,
+		expediente.numero, expediente.ofRequerimiento, expediente.ofRespuesta,
+        expediente.fechaRequerimiento, expediente.fechaRespuesta, expediente.fechaRecepcion,
         control.acProrroga as "Acuerdo de Prórroga", 
         control.acAuxilio as "Acuerdo de Auxilio para personal OR",
         control.acRegularizacion as "Acuerdo de Regularización", 
@@ -31,12 +29,9 @@ class ReporteDocumentosFaltantes extends Controller
         inner join expediente on servidor.idServidor = expediente.idServidor
         inner join control on control.numero = expediente.numero;');
 
-        $datosReporte = [];
+        $ofCompletos = [];
 
         foreach ($datos as $dato) {
-            $nombreCompleto = $dato->nombreCompleto;
-            $nomInstitucion = $dato->nomInstitucion;
-            $departamento = $dato->nombre;
 
             if (is_null($dato->numero)) {
                 $numero = 'Sin número de expediente asignado';
@@ -44,55 +39,61 @@ class ReporteDocumentosFaltantes extends Controller
                 $numero = $dato->numero;
             }
 
-            //Conteo de los documentos faltantes
-            $totalFaltantes = 0;
-            $ofFaltantes = [];
+            $bandera = 0;
 
             foreach ($dato as $campo => $valor) {
                 //Ignorar campos que no son documentos
-                if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero'])) {
+                if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero', 
+                'nomInstitucion', 'ofRequerimiento', 'fechaRequerimiento', 
+                'fechaRespuesta', 'fechaRecepcion'])) {
                     continue;
                 }
 
                 if ($valor === 'No') {
-                    $ofFaltantes[] = $campo;
-                    $totalFaltantes++;
+                    $bandera = 1;
+                    break;
                 }
             }
 
             //Verficiar el oficio de respuesta
             if (is_null($dato->ofRespuesta)){
-                $ofFaltantes[] = 'Oficio de Respuesta';
-                $totalFaltantes++;
+                $bandera = 1;
             }
 
-            //Guardar los datos en el arreglo para el reporte, solo si existen documentos faltantes
-            if($totalFaltantes != 0) {
-                $datosReporte[] = [
-                    'nombreCompleto' => $nombreCompleto,
+            //Guardar los datos en el arreglo para el reporte, solo si están completos
+            if($bandera == 0) {
+                $ofCompletos[] = [
+                    'nombreCompleto' => $dato->nombreCompleto,
                     'numero' => $numero,
-                    'nomInstitucion' => $nomInstitucion,
-                    'departamento' => $departamento,
-                    'ofFaltantes' => $ofFaltantes,
-                    'totalFaltantes' => $totalFaltantes
+                    'nomInstitucion' => $dato->nomInstitucion,
+                    'departamento' => $dato->nombre,
+                    'ofRequerimiento' => $dato->ofRequerimiento,
+                    'fechaRequerimiento' => $dato->fechaRequerimiento,
+                    'ofRespuesta' => $dato->ofRespuesta,
+                    'fechaRespuesta' => $dato->fechaRespuesta,
+                    'fechaRecepcion' => $dato->fechaRecepcion
                 ];
             }
 
-            $conteo = count($datosReporte);
+            //Oficios completos
+            $conteo = count($ofCompletos);
+
+            //Oficios incompletos
+            $exIncompletos = count($datos) - $conteo;
             
         }
 
-        return Inertia::render('Reportes/DocumentosFaltantes', ['datosReporte' => $datosReporte, 'conteo' => $conteo]);
+        return Inertia::render('Reportes/ExpedientesCompletos', ['ofCompletos' => $ofCompletos, 'conteo' => $conteo, 'exIncompletos' => $exIncompletos]);
     }
 
-    public function descargarReporteDocFaltPdf() {
-
+    public function descargarReporteExpeComPdf() {
         try {
             // DATOS PARA EL REPORTE
             $datos = DB::select('select servidor.nombreCompleto, 
             institucion.nombreCompleto as nomInstitucion,
             departamento.nombre,
-            expediente.numero, expediente.ofRespuesta,
+            expediente.numero, expediente.ofRequerimiento, expediente.ofRespuesta,
+            expediente.fechaRequerimiento, expediente.fechaRespuesta, expediente.fechaRecepcion,
             control.acProrroga as "Acuerdo de Prórroga", 
             control.acAuxilio as "Acuerdo de Auxilio para personal OR",
             control.acRegularizacion as "Acuerdo de Regularización", 
@@ -106,12 +107,9 @@ class ReporteDocumentosFaltantes extends Controller
             inner join expediente on servidor.idServidor = expediente.idServidor
             inner join control on control.numero = expediente.numero;');
 
-            $datosReporte = [];
+            $ofCompletos = [];
 
             foreach ($datos as $dato) {
-                $nombreCompleto = $dato->nombreCompleto;
-                $nomInstitucion = $dato->nomInstitucion;
-                $departamento = $dato->nombre;
 
                 if (is_null($dato->numero)) {
                     $numero = 'Sin número de expediente asignado';
@@ -119,42 +117,48 @@ class ReporteDocumentosFaltantes extends Controller
                     $numero = $dato->numero;
                 }
 
-                //Conteo de los documentos faltantes
-                $totalFaltantes = 0;
-                $ofFaltantes = [];
+                $bandera = 0;
 
                 foreach ($dato as $campo => $valor) {
                     //Ignorar campos que no son documentos
-                    if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero'])) {
+                    if (in_array($campo, ['ofRespuesta', 'nombreCompleto', 'numero', 
+                    'nomInstitucion', 'ofRequerimiento', 'fechaRequerimiento', 
+                    'fechaRespuesta', 'fechaRecepcion'])) {
                         continue;
                     }
 
                     if ($valor === 'No') {
-                        $ofFaltantes[] = $campo;
-                        $totalFaltantes++;
+                        $bandera = 1;
+                        break;
                     }
                 }
 
                 //Verficiar el oficio de respuesta
                 if (is_null($dato->ofRespuesta)){
-                    $ofFaltantes[] = 'Oficio de Respuesta';
-                    $totalFaltantes++;
+                    $bandera = 1;
                 }
 
-                //Guardar los datos en el arreglo para el reporte, solo si existen documentos faltantes
-                if($totalFaltantes != 0) {
-                    $datosReporte[] = (object)[
-                        'nombreCompleto' => $nombreCompleto,
+                //Guardar los datos en el arreglo para el reporte, solo si están completos
+                if($bandera == 0) {
+                    $ofCompletos[] = (object)[
+                        'nombreCompleto' => $dato->nombreCompleto,
                         'numero' => $numero,
-                        'nomInstitucion' => $nomInstitucion,
-                        'departamento' => $departamento,
-                        'ofFaltantes' => $ofFaltantes,
-                        'totalFaltantes' => $totalFaltantes
+                        'nomInstitucion' => $dato->nomInstitucion,
+                        'departamento' => $dato->nombre,
+                        'ofRequerimiento' => $dato->ofRequerimiento,
+                        'fechaRequerimiento' => $dato->fechaRequerimiento,
+                        'ofRespuesta' => $dato->ofRespuesta,
+                        'fechaRespuesta' => $dato->fechaRespuesta,
+                        'fechaRecepcion' => $dato->fechaRecepcion
                     ];
                 }
             }
 
-            $conteo = count($datosReporte);
+            //Oficios completos
+            $conteo = count($ofCompletos);
+
+            //Oficios incompletos
+            $exIncompletos = count($datos) - $conteo;
 
             // GENERACIÓN DEL PDF
             $logoPath = public_path('images/imta-logo.png');
@@ -162,9 +166,10 @@ class ReporteDocumentosFaltantes extends Controller
             $logoData = file_get_contents($logoPath);
             $logoBase64 = 'data:image/' . $logoType . ';base64,' . base64_encode($logoData);
 
-            $html = view('reports.documentos-faltantes', [
-                    'datosReporte' => $datosReporte,
+            $html = view('reports.expedientes-completos', [
+                    'ofCompletos' => $ofCompletos,
                     'conteo' => $conteo,
+                    'exIncompletos' => $exIncompletos,
                     'logoBase64' => $logoBase64 
                 ])->render();
 
@@ -176,8 +181,7 @@ class ReporteDocumentosFaltantes extends Controller
 
             return response($pdf)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="reporte_documentos_faltantes.pdf"');
-
+                ->header('Content-Disposition', 'attachment; filename="reporte_expedientes_completos.pdf"');
         } catch (\Exception $e) {
             Log::error('Error al generar PDF: ' . $e->getMessage());
             return response('Error al generar el reporte.', 500);

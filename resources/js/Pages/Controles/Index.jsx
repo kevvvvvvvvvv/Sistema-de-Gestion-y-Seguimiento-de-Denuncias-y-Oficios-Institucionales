@@ -34,6 +34,9 @@ export default function Index({ controles, auth }) {
         acInicio: i.acInicio,
         acModificacion: i.acModificacion,
         acConclusion: i.acConclusion,
+        feEntregaInicio: i.feEntregaInicio,
+        feEntregaModif: i.feEntregaModif,
+        feEntregaCon: i.feEntregaCon,
         comentarios: i.comentarios,
         numero: i.expediente.numero
     }));
@@ -106,8 +109,11 @@ export default function Index({ controles, auth }) {
                     { title: "Consecutivo", data: "consecutivo" },
                     { title: "Número de oficio", data: "numero" },
                     { title: "Acuerdo de inicio", data: "acInicio"},
+                    { title: "Fecha de entrega del Acuerdo de Incio", data: "feEntregaInicio", visible: false},
                     { title: "Acuerdo de modificacion", data: "acModificacion"},
+                    { title: "Fecha de entrega del Acuerdo de Modificación", data: "feEntregaModif", visible: false},
                     { title: "Acuerdo de conclusión y archivo", data: "acConclusion"},
+                    { title: "Fecha de entrega del Acuerdo de conclusión y archivo", data: "feEntregaCon", visible: false},
                     { title: "Acuerdo de prórroga", data: "acProrroga" },
                     { title: "Acuerdo de auxilio personal OR", data: "acAuxilio"},
                     { title: "Acuerdo de regularización ", data: "acRegularizacion"},
