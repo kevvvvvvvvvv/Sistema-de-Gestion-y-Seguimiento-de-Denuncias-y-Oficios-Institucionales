@@ -12,6 +12,7 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
 import JSZip from 'jszip';
 import Card from '@/Components/Card';
+import PDFButton from '@/Components/PDFButton';
 
 window.JSZip = JSZip;
 
@@ -139,6 +140,10 @@ export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
                         </tr>
                     </thead>
                 </DataTable>
+
+                <PDFButton onClick={() => window.location.href = route('reportes.servidores.omisos.pdf')}>
+                    Descargar en PDF
+                </PDFButton>
             </MainLayout>
         </>
     );

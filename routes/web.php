@@ -358,5 +358,7 @@ Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCo
 //REPORTE DE SERVIDORES OMISOS
 Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::class, 'showServidoresOmisos'])
     ->name('reportes.servidores-omisos'); 
+Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisosController::class, 'descargarReporteServOmisoPdf'])
+    ->name('reportes.servidores.omisos.pdf'); 
 
 require __DIR__.'/auth.php';
