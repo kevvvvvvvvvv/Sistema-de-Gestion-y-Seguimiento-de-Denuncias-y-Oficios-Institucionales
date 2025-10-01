@@ -23,8 +23,6 @@ DataTable.use(Buttons);
 
 export default function DocumentosFaltantes({ datosReporte,auth }) {
 
-    const [servidorSeleccionado, setServidorSeleccionado] = useState("");
-
     const tableData = datosReporte.map(i => ({
         numero : i.numero,
         nombreCompletoSer: i.nombreCompletoSer,
@@ -32,6 +30,8 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         fechaRequerimiento: i.fechaRequerimiento,
         Estado : i.Estado
     }));
+
+    const [servidorSeleccionado, setServidorSeleccionado] = useState("");
 
     const servidorOptions = [...new Set(datosReporte.map(d => d.nombreCompletoSer))].map(servidor => ({
         value: servidor,
@@ -42,13 +42,51 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         d => d.nombreCompletoSer === servidorSeleccionado
     );
 
+    const [selectedStatus, setSelectedStatus] = useState("")
+    const [selectedInstitucion, setSelectedInstitucion] = useState("");
+
+    const estadoOptions = [
+        { value: "", label: "Todos" },
+        ...[...new Set(datosReporte.map(d => d.Estado))].map(estado => ({
+            value: estado,
+            label: estado
+        }))
+    ];
+
+    const institucionOptions = [
+        { value: "", label: "Todos" },
+        ...[...new Set(datosReporte.map(d => d.nombreCompletoIns))].map(i => ({ value: i, label: i }))
+    ];
+
+    const filteredTableData = tableData.filter(d => {
+        const statusMatch = selectedStatus ? d.Estado === selectedStatus : true;
+        const institucionMatch = selectedInstitucion ? d.nombreCompletoIns === selectedInstitucion : true;
+        return statusMatch && institucionMatch;
+    });
+
+
     return (
         <>
             <MainLayout auth={auth} topHeader="Reporte de Seguimiento de Denuncias" insideHeader={""}>
                 <Head title="Reporte de seguimiento de denuncias" />
 
+                <div className="mb-10">
+                    <SelectInput
+                        label="Filtrar por estado:"
+                        options={estadoOptions}
+                        value={selectedStatus}
+                        onChange={setSelectedStatus}
+                    />
+                    <SelectInput
+                        label="Filtrar por institución:"
+                        options={institucionOptions}
+                        value={selectedInstitucion}
+                        onChange={setSelectedInstitucion}
+                    />
+                </div>
+
                 <DataTable 
-                    data={tableData} 
+                    data={filteredTableData} 
                     className="display"
                     options={{ 
                         dom: '<"dt-toolbar flex justify-between items-center mb-4"fB>rt<"dt-footer flex justify-between items-center mt-4 text-xs"lip>', 
