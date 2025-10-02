@@ -5,6 +5,7 @@ import HighchartsReact from 'highcharts-react-official';
 import RegisterButton from "@/Components/RegisterButton";
 import InputDate from "@/Components/InputDate";
 import { Head, router } from '@inertiajs/react';
+import PDFButton from '@/Components/PDFButton';
 
 
 export default function DenunciasInstitucion({ auth, resultados, filtro}) {
@@ -68,6 +69,10 @@ export default function DenunciasInstitucion({ auth, resultados, filtro}) {
                     options={chartOptions}
                 />
             </div>
+            <PDFButton onClick={() => window.location.href = route('reporte.progreso-oficio.pdf')}>
+                Descargar en PDF
+            </PDFButton>
+            
         </MainLayout>
     );
 }

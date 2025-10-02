@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { router } from '@inertiajs/react';
 import InputDate from "@/Components/InputDate";
 import RegisterButton from "@/Components/RegisterButton";
+import PDFButton from '@/Components/PDFButton';
 
 export default function DenunciasInstitucion({ onClick, auth, errors, datos, datosTabla, filtros}) {
 
@@ -131,6 +132,10 @@ export default function DenunciasInstitucion({ onClick, auth, errors, datos, dat
                     </tbody>
                 </table>
             </div>
+
+            <PDFButton onClick={() => window.location.href = route('reportes.seguimiento-viajeros.pdf')}>
+                Descargar en PDF
+            </PDFButton>
 
         </MainLayout>
     );

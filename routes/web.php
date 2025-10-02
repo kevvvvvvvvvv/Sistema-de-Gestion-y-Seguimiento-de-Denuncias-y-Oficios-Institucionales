@@ -340,10 +340,14 @@ Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionCo
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/progreso-oficio',[ReporteProgresoOficioController::class,'showProgresoOficio'])
     ->name('reportes.progreso-oficio');
+Route::get('/reporte/progreso-oficio/pdf',[ReporteProgresoOficioController::class,'descargarProgresoOficioPdf'])
+    ->name('reporte.progreso-oficio.pdf');
 
-//REPORTE DE PROGRESO DE OFICIOS POR DIA
+//REPORTE DE SEGUIMIENTO DE VIAJEROS
 Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
     ->name('reportes.seguimiento-viajeros');
+Route::get('/reportes/seguimiento-viajeros/pdf',[ReporteSeguimientoViajerosController::class,'descargarReporteSeguimientoViajeroPdf'])
+    ->name('reportes.seguimiento-viajeros.pdf');
 
 //REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])

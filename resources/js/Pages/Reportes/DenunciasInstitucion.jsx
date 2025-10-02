@@ -34,13 +34,6 @@ export default function DenunciasInstitucion({ auth, denuncias }) {
         <MainLayout auth={auth} topHeader="Reporte de denuncias por institución" insideHeader={""}>
             <Head title="Reporte de denuncias por institución" />
 
-            {/* <div className="w-full flex justify-end mb-10">
-                <RegisterButton
-                    onClick={() => window.location.href = route('reportes.denuncias.pdf')}>
-                    Descargar PDF
-                </RegisterButton>
-            </div> */}
-
             <HighchartsReact
                 highcharts={Highcharts}
                 options={chartOptions}
