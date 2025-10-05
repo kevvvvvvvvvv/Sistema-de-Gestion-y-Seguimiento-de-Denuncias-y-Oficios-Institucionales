@@ -46,41 +46,72 @@
         
         <h1>Reporte de Servidores Omisos</h1>
 
+        <p>No. de servidores omisos sin Acuerdo de Conclusión: {{ $numOmisosBaja }}</p>
+        <p>No. de servidores omisos sin Acuerdo de Inicio: {{ $numOmisosAlta }}</p>
+
         <br>
 
+        <h2>Servidores omisos por falta del Acuerdo de Conclusión</h2>
         <table>
             <thead>
                 <tr>
                     <th>Número de expediente</th>
                     <th>Nombre completo del servidor</th>
-                    <th>Institución del servidor</th>
-                    <th>Departamento del servidor</th>
-                    <th>¿Cuenta con Acuerdo de Inicio?</th>
-                    <th>¿Cuenta con Acuerdo de Modificación?</th>
-                    <th>¿Cuenta con Acuerdo de Conclusión?</th>
+                    <th>Institución anterior del servidor</th>
+                    <th>Departamento anterior del servidor</th>
+                    <th>Fecha de la baja</th>
+                    <th>Descripción de la baja</th>
                     <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($servidoresOmisos as $servidor)
+                @foreach($servidoresOmisosBaja as $servidor)
                     <tr>
                         <td>{{ $servidor->numero }}</td>
                         <td>{{ $servidor->nombreCompleto }}</td>
                         <td>{{ $servidor->institucion }}</td>
                         <td>{{ $servidor->departamento }}</td>
-                        <td>{{ $servidor->acInicio }}</td>
-                        <td>{{ $servidor->acModificacion }}</td>
-                        <td>{{ $servidor->acConclusion }}</td>
+                        <td>{{ $servidor->fechaBaja }}</td>
+                        <td>{{ $servidor->descrBaja }}</td>
                         <td>
                             <ul>
-                                <li><span>Fecha límite para entregar Acuerdo de Inicio:</span>{{ $servidor->fechaLimiteIni }}</li>
-                                <li><span>Días desde la omisión:</span>{{ $servidor->difDiasIni }}</li>
-                                <br>
-                                <li><span>Fecha límite para entregar Acuerdo de Modificación:</span>{{ $servidor->fechaLimiteModi }}</li>
-                                <li><span>Días desde la omisión:</span>{{ $servidor->difDiasModi }}</li>
-                                <br>
-                                <li><span>Fecha límite para entregar Acuerdo de Conclusión:</span>{{ $servidor->fechaLimiteCon }}</li>
-                                <li><span>Días desde la omisión:</span>{{ $servidor->difDiasCon }}</li>
+                                <li><span>Fecha límite para entregar el acuerdo:</span>{{ $servidor->fechaLimite }}</li>
+                                <li><span>Días desde la omisión:</span>{{ $servidor->difDias }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>Servidores omisos por falta del Acuerdo de Inicio</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Número de expediente</th>
+                    <th>Nombre completo del servidor</th>
+                    <th>Institución actual del servidor</th>
+                    <th>Departamento actual del servidor</th>
+                    <th>Fecha de la alta (reingreso)</th>
+                    <th>Descripción de la alta</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($servidoresOmisosAlta as $servidor)
+                    <tr>
+                        <td>{{ $servidor->numero }}</td>
+                        <td>{{ $servidor->nombreCompleto }}</td>
+                        <td>{{ $servidor->institucion }}</td>
+                        <td>{{ $servidor->departamento }}</td>
+                        <td>{{ $servidor->fechaIngreso }}</td>
+                        <td>{{ $servidor->descrAlta }}</td>
+                        <td>
+                            <ul>
+                                <li><span>Fecha límite para entregar el acuerdo:</span>{{ $servidor->fechaLimite }}</li>
+                                <li><span>Días desde la omisión:</span>{{ $servidor->difDias }}</li>
                             </ul>
                         </td>
                     </tr>
