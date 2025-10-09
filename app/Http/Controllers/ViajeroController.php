@@ -27,10 +27,12 @@ class ViajeroController extends Controller
             'oficio.servidorRemitente',
             'oficio.departamentoRemitente',
             'oficio.particularRemitente',
+            'oficio.institucionRemitente',
 
             'oficio.servidorDestinatario',
             'oficio.departamentoDestinatario',
             'oficio.particularDestinatario',
+            'oficio.institucionDestinatario',
             
             'usuario'
         ])->get()
@@ -38,7 +40,8 @@ class ViajeroController extends Controller
               $v->url = $v->oficio?->url ? asset('storage/' . $v->oficio->url) : null;
               return $v;
           });
-        
+    
+
         return Inertia::render('Viajeros/Index', ['viajeros' => $viajeros]);
     }
     
@@ -48,12 +51,14 @@ class ViajeroController extends Controller
         $servidor = Servidor::all();
         $departamento = Departamento::all();
         $particular = Particular::all();
+        $institucion = Institucion::all();
         $user = User::all();
 
         return Inertia::render('Viajeros/Create',
         ['servidor' => $servidor,
         'departamento' => $departamento,
         'particular' => $particular,
+        'institucion' => $institucion,
         'user' => $user]);
     }
 
@@ -78,11 +83,11 @@ class ViajeroController extends Controller
         }
 
         //Validar que se reciba un remitente y un destinatario
-        if ($request->idServidorRemitente == null && $request->idDepartamentoRemitente == null && $request->idParticularRemitente == null) {
+        if ($request->idServidorRemitente == null && $request->idDepartamentoRemitente == null && $request->idParticularRemitente == null && $request->idInstitucionRemitente == null) {
             return back()->withErrors(['remitente' => 'Debe seleccionar un remitente']);
         }   
 
-        if ($request->idServidorDestinatario == null && $request->idDepartamentoDestinatario == null && $request->idParticularDestinatario == null) {
+        if ($request->idServidorDestinatario == null && $request->idDepartamentoDestinatario == null && $request->idParticularDestinatario == null && $request->idInstitucionDestinatario == null) {
             return back()->withErrors(['destinatario' => 'Debe seleccionar un destinatario']);
         }
 
@@ -95,10 +100,12 @@ class ViajeroController extends Controller
             'idServidorRemitente' => $request->idServidorRemitente,
             'idDepartamentoRemitente' => $request->idDepartamentoRemitente,
             'idParticularRemitente' => $request->idParticularRemitente,
+            'idInstitucionRemitente' => $request->idInstitucionRemitente,
 
             'idServidorDestinatario' => $request->idServidorDestinatario,
             'idDepartamentoDestinatario' => $request->idDepartamentoDestinatario,
-            'idParticularDestinatario' => $request->idParticularDestinatario
+            'idParticularDestinatario' => $request->idParticularDestinatario,
+            'idInstitucionDestinatario' => $request->idInstitucionDestinatario
         ]);
 
         $estado = 'Inicio';

@@ -22,19 +22,23 @@ return new class extends Migration
             $table->unsignedBigInteger('idServidorRemitente')->nullable();
             $table->unsignedBigInteger('idParticularRemitente')->nullable();
             $table->unsignedBigInteger('idDepartamentoRemitente')->nullable();
+            $table->unsignedBigInteger('idInstitucionRemitente')->nullable();
 
             // Destinatarios
             $table->unsignedBigInteger('idServidorDestinatario')->nullable();
             $table->unsignedBigInteger('idParticularDestinatario')->nullable();
             $table->unsignedBigInteger('idDepartamentoDestinatario')->nullable();
+            $table->unsignedBigInteger('idInstitucionDestinatario')->nullable();
 
             $table->foreign('idServidorRemitente')->references('idServidor')->on('servidor')->onDelete('cascade');
             $table->foreign('idParticularRemitente')->references('idParticular')->on('particular')->onDelete('cascade');
             $table->foreign('idDepartamentoRemitente')->references('idDepartamento')->on('departamento')->onDelete('cascade');
+            $table->foreign('idInstitucionRemitente')->references('idInstitucion')->on('institucion')->onDelete('cascade');
 
             $table->foreign('idServidorDestinatario')->references('idServidor')->on('servidor')->onDelete('cascade');
             $table->foreign('idParticularDestinatario')->references('idParticular')->on('particular')->onDelete('cascade');
             $table->foreign('idDepartamentoDestinatario')->references('idDepartamento')->on('departamento')->onDelete('cascade');
+            $table->foreign('idInstitucionDestinatario')->references('idInstitucion')->on('institucion')->onDelete('cascade');
         });
     }
 

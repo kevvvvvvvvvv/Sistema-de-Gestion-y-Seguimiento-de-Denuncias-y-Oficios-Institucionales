@@ -101,3 +101,15 @@ npm install puppeteer
 ```bash
 npm install chart.js chartjs-node-canvas
 ```
+
+<h2>Instalar paquete para grafico</h2>
+
+```bash
+php artisan lang:publish
+```
+
+```bash
+composer require laravel-lang/lang --dev
+php artisan lang:add es
+```
+

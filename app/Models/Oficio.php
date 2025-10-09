@@ -21,16 +21,22 @@ class Oficio extends Model
         'idServidorRemitente', 
         'idParticularRemitente', 
         'idDepartamentoRemitente',
+        'idInstitucionRemitente',
 
         'idServidorDestinatario', 
         'idParticularDestinatario', 
-        'idDepartamentoDestinatario'
+        'idDepartamentoDestinatario',
+        'idInstitucionDestinatario',
     ];
 
     public $timestamps = false;
 
     public function departamentoRemitente(){
         return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
+    }
+
+    public function institucionRemitente(){
+        return $this->belongsTo(Institucion::class, 'idInstitucionRemitente', 'idInstitucion');
     }
 
     public function servidorRemitente(){
@@ -52,6 +58,10 @@ class Oficio extends Model
 
     public function particularDestinatario(){
         return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
+    }
+
+    public function institucionDestinatario(){
+        return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion');
     }
 
 }

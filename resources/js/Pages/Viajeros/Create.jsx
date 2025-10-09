@@ -7,8 +7,8 @@ import SelectInput from "@/Components/SelectInput";
 import InputDate from "@/Components/InputDate";
 import { set } from "date-fns";
 
-export default function Create({ auth, errors, servidor, departamento, particular, user, remitente, destinatario }) {
-  // Estado de los inputs
+export default function Create({ auth, errors, servidor, departamento, particular, institucion ,user, remitente, destinatario }) {
+
   const [values, setValues] = useState({
     numOficio: "",
     fechaCreacion: "",
@@ -20,10 +20,12 @@ export default function Create({ auth, errors, servidor, departamento, particula
     idDepartamentoDestinatario: null,
     idServidorDestinatario: null,
     idParticularDestinatario: null,
+    idInstitucionDestinatario: null,
 
     idDepartamentoRemitente: null,
     idParticularRemitente: null,
     idServidorRemitente: null,
+    idInstitucionRemitente: null,
     idUsuario: null,
     pdfFile: null,
   });
@@ -33,7 +35,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
     destinatarioTipo: ""
   }); 
 
-  // Actualiza el estado al escribir
+
   function handleChange(e) {
     setValues({
       ...values,
@@ -41,16 +43,16 @@ export default function Create({ auth, errors, servidor, departamento, particula
     });
   }
 
-    // Maneja archivo PDF
+
   function handleFileChange(e) {
       setValues({ ...values, pdfFile: e.target.files[0] });
   }
 
-  // Función que envía los datos al backend
+
   function store() {
     const formData = new FormData();
 
-    // Agregamos todos los campos al formData
+
     Object.keys(values).forEach(key => {
       if(values[key] !== null) formData.append(key, values[key]);
     });
@@ -75,6 +77,11 @@ export default function Create({ auth, errors, servidor, departamento, particula
     label: instd.nombreCompleto,
   }));
 
+  const optionsInstitucionD = institucion.map((instid) => ({
+    value: instid.idInstitucion,
+    label: instid.nombreCompleto,
+  }));
+
   const optionsServidorR = servidor.map((srvr) => ({
     value: srvr.idServidor,
     label: srvr.nombreCompleto,
@@ -88,6 +95,11 @@ export default function Create({ auth, errors, servidor, departamento, particula
   const optionsParticularR = particular.map((instr) => ({
     value: instr.idParticular,
     label: instr.nombreCompleto,
+  }));
+
+  const optionsInstitucionR = institucion.map((instir) => ({
+    value: instir.idInstitucion,
+    label: instir.nombreCompleto,
   }));
 
   const optionsUser = user.map((user) => ({
@@ -137,6 +149,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
           { value: "servidor", label: "Servidor" },
           { value: "particular", label: "Particular" },
           { value: "departamento", label: "Departamento" },
+          { value: "institucion", label: "Institucion" },
         ]}
         value={valuesType.remitenteTipo}
         onChange={(val) => {
@@ -146,7 +159,8 @@ export default function Create({ auth, errors, servidor, departamento, particula
             ...values,
             idServidorRemitente: "",
             idDepartamentoRemitente: "",
-            idParticularRemitente: ""
+            idParticularRemitente: "",
+            idInstitucionRemitente: "",
           });
         }}
         error={errors.remitente}
@@ -185,6 +199,17 @@ export default function Create({ auth, errors, servidor, departamento, particula
         />
       )}
 
+      {valuesType.remitenteTipo === "institucion" && (
+        <SelectInput
+          label="Remitente"
+          id="idInstitucionRemitente"
+          options={optionsInstitucionR}
+          value={values.idInstitucionRemitente}
+          onChange={(val) => setValues({ ...values, idInstitucionRemitente: val })}
+          error={errors.idInstitucionRemitente}
+        />
+      )}
+
       <SelectInput
         label="Tipo de destinatario"
         id="destinatarioTipo"
@@ -192,6 +217,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
           { value: "servidor", label: "Servidor" },
           { value: "particular", label: "Particular" },
           { value: "departamento", label: "Departamento" },
+          { value: "institucion", label: "Institucion" },
         ]}
         value={valuesType.destinatarioTipo}
         onChange={
@@ -200,7 +226,8 @@ export default function Create({ auth, errors, servidor, departamento, particula
             ...values,
             idServidorDestinatario: "",
             idDepartamentoDestinatario: "",
-            idParticularDestinatario: ""
+            idParticularDestinatario: "",
+            idInstitucionDestinatario: "",
           });
         }}
         error={errors.destinatario}
@@ -236,6 +263,17 @@ export default function Create({ auth, errors, servidor, departamento, particula
           value={values.idParticularDestinatario}
           onChange={(val) => setValues({ ...values, idParticularDestinatario: val })}
           error={errors.idParticularDestinatario}
+        />
+      )}
+
+      {valuesType.destinatarioTipo === "institucion" && (
+        <SelectInput
+          label="Remitente"
+          id="idInstitucionDestinatario"
+          options={optionsInstitucionD}
+          value={values.idInstitucionDestinatario}
+          onChange={(val) => setValues({ ...values, idInstitucionDestinatario: val })}
+          error={errors.idInstitucionDestinatario}
         />
       )}
 
