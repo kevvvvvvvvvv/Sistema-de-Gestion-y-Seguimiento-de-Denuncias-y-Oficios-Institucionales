@@ -6,6 +6,7 @@ import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import RegisterButton from "@/Components/RegisterButton";
+import InputText from "@/Components/InputText";
 
 export default function Editor({auth}) {
     const permissions = auth.permissions;
@@ -28,11 +29,17 @@ export default function Editor({auth}) {
             </div>
 
             <div className="flex justify-end mt-6">
-                <RegisterButton>Guardar oficio</RegisterButton>
+                <RegisterButton className="px-6">Guardar oficio</RegisterButton>
             </div>
-                
-            <h3 className="text-xl font-bold mt-10">Editor de texto</h3>
-            <BlockNoteView className="mt-6" editor={editor} />
+            
+            <InputText
+                placeholder="Aa"
+                description="Título del oficio"
+                id="titulo"
+            />
+
+            <p className="text-sm mt-10">Contenido del oficio</p>
+            <BlockNoteView className="mt-4" editor={editor} />
         </MainLayout>
     );
 }
