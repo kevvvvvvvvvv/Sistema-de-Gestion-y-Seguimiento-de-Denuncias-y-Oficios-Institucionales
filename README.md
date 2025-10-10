@@ -113,3 +113,9 @@ composer require laravel-lang/lang --dev
 php artisan lang:add es
 ```
 
+
+<h2>Instalar blocknotes para el editor de texto</h2>
+
+```bash
+npm install @blocknote/core @blocknote/react @blocknote/mantine
+```

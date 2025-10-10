@@ -8,6 +8,7 @@ use App\Http\Controllers\BajaController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\GeneracionOficioController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
@@ -366,5 +367,9 @@ Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::cl
     ->name('reportes.servidores-omisos'); 
 Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisosController::class, 'descargarReporteServOmisoPdf'])
     ->name('reportes.servidores.omisos.pdf'); 
+
+//MÓDULO DE GENERACIÓN DE OFICIOS PARA EXPEDIENTES
+Route::get('/modulo/generacion-de-oficios/crear-oficio', [GeneracionOficioController::class, 'showEditor'])
+    ->name('modulo.oficios.crear'); 
 
 require __DIR__.'/auth.php';
