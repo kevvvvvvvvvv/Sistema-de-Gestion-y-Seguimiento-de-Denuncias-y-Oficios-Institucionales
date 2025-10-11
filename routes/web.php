@@ -379,5 +379,7 @@ Route::get('/modulo/generacion-de-oficios/editar-oficio/{id}', [GeneracionOficio
     ->name('modulo.oficios.editar'); 
 Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOficioController::class, 'actualizarPlantilla'])
     ->name('modulo.oficios.actualizar'); 
+Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionOficioController::class, 'eliminarPlantilla'])
+    ->name('modulo.oficios.eliminar'); 
 
 require __DIR__.'/auth.php';

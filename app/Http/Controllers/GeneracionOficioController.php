@@ -54,4 +54,12 @@ class GeneracionOficioController extends Controller
 
         return redirect()->route('modulo.oficios.index');
     }
+
+    public function eliminarPlantilla($id)
+    {
+        $plantilla = Plantilla::findOrFail($id);
+        $plantilla->delete();
+
+        return redirect()->route('modulo.oficios.index');
+    }
 }

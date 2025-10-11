@@ -32,14 +32,37 @@ export default function Index({ plantillas, auth }) {
     }));
     
     useEffect(() => {
-        const buttons = document.querySelectorAll('.edit-btn');
-        buttons.forEach(btn => {
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        editButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-            const id = btn.getAttribute('data-id');
-            router.visit(route('modulo.oficios.editar', id));
+                const id = btn.getAttribute('data-id');
+                router.visit(route('modulo.oficios.editar', id));
             });
         });
-    }, []);
+
+        deleteButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                confirm(
+                    {
+                        title: "¿Eliminar plantilla de oficio?",
+                        text: "No podrás deshacer esta acción",
+                        confirmText: "Sí, eliminar",
+                    },
+                    () => {
+                        router.delete(route("modulo.oficios.eliminar", id));
+                    }
+                );
+            });
+        });
+
+        return () => {
+            editButtons.forEach(btn => btn.replaceWith(btn.cloneNode(true)));
+            deleteButtons.forEach(btn => btn.replaceWith(btn.cloneNode(true)));
+        };
+    }, [plantillas]);
 
   return (
     <>
@@ -77,9 +100,13 @@ export default function Index({ plantillas, auth }) {
                         render: (data, type, row) => `
                             <div class="flex gap-8 justify-center">
                                 <button class="delete-btn" data-id="${row.idPlantilla}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>                                </button>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download-icon lucide-download"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+                                </button>
                                 <button class="edit-btn" data-id="${row.idPlantilla}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-move-diagonal-icon lucide-move-diagonal"><path d="M11 19H5v-6"/><path d="M13 5h6v6"/><path d="M19 5 5 19"/></svg>
+                                </button>
+                                <button class="delete-btn" data-id="${row.idPlantilla}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path></svg>
                                 </button>
                             </div>
                         `
