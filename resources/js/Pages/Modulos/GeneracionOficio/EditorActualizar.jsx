@@ -39,6 +39,12 @@ export default function EditorActualizar({ auth, plantilla }) {
             </div>
 
             <form onSubmit={handleSubmit} className="mt-6">
+                <div className="flex justify-end mt-6">
+                    <RegisterButton type="submit" className="px-6">
+                        Actualizar oficio
+                    </RegisterButton>
+                </div>
+                
                 <InputText
                     placeholder="Aa"
                     description="Título del oficio"
@@ -55,12 +61,6 @@ export default function EditorActualizar({ auth, plantilla }) {
                         setData("contenido", updatedContent);
                     }}
                 />
-
-                <div className="flex justify-end mt-6">
-                    <RegisterButton type="submit" className="px-6">
-                        Actualizar oficio
-                    </RegisterButton>
-                </div>
             </form>
         </MainLayout>
     );

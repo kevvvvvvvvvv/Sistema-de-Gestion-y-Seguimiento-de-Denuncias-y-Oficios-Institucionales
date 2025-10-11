@@ -21,9 +21,7 @@ export default function Editor({auth}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const jsonContent = JSON.stringify(editor.document);
-        setData("contenido", jsonContent);
-        post(route("modulo.oficios.guardar")); 
+        post(route("modulo.oficios.guardar"));
     };
 
     return(
@@ -42,6 +40,12 @@ export default function Editor({auth}) {
             </div>
 
             <form onSubmit={handleSubmit} className="mt-6">
+                <div className="flex justify-end mt-6">
+                    <RegisterButton type="submit" className="px-6">
+                        Guardar oficio
+                    </RegisterButton>
+                </div>
+                
                 <InputText
                     placeholder="Aa"
                     description="Título del oficio"
@@ -51,13 +55,13 @@ export default function Editor({auth}) {
                 />
 
                 <p className="text-sm mt-10">Contenido del oficio</p>
-                <BlockNoteView className="mt-4" editor={editor} />
-
-                <div className="flex justify-end mt-6">
-                    <RegisterButton type="submit" className="px-6">
-                        Guardar oficio
-                    </RegisterButton>
-                </div>
+                <BlockNoteView className="mt-4"
+                    editor={editor}
+                    onChange={() => {
+                        const updatedContent = JSON.stringify(editor.topLevelBlocks);
+                        setData("contenido", updatedContent);
+                    }} 
+                />
             </form>
         </MainLayout>
     );
