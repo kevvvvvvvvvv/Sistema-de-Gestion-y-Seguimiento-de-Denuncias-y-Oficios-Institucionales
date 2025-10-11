@@ -157,6 +157,14 @@ Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])
     ->name('instituciones.update')
     ->middleware('can:editar instituciones');
 
+Route::delete('/instituciones/{id}/restore', [InstitucionController::class, 'restore'])
+    ->name('instituciones.restore')
+    ->middleware('can:eliminar instituciones');
+
+Route::delete('/instituciones/{id}/force', [InstitucionController::class, 'forceDelete'])
+    ->name('instituciones.forceDelete')
+    ->middleware('can:eliminar instituciones');
+
 Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])
     ->name('instituciones.destroy')
     ->middleware('can:eliminar instituciones');

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigIncrements('idInstitucion');
             $table->string('nombreCompleto', 100);
             $table->string('siglas', 45);
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('institucion');
+        Schema::table('institucion', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
