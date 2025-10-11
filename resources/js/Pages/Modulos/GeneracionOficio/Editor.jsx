@@ -1,5 +1,5 @@
 import MainLayout from "@/Layouts/MainLayout";
-import { Head } from "@inertiajs/react";
+import { Head, useForm  } from "@inertiajs/react";
 import React from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/mantine/style.css";
@@ -8,10 +8,23 @@ import { BlockNoteView } from "@blocknote/mantine";
 import RegisterButton from "@/Components/RegisterButton";
 import InputText from "@/Components/InputText";
 
+
 export default function Editor({auth}) {
     const permissions = auth.permissions;
 
     const editor = useCreateBlockNote();
+
+    const { data, setData, post } = useForm({
+        titulo: "",
+        contenido: "",
+    });
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const jsonContent = JSON.stringify(editor.document);
+        setData("contenido", jsonContent);
+        post(route("modulo.oficios.guardar")); 
+    };
 
     return(
         <MainLayout auth={auth} topHeader="Creación de oficio para expediente" insideHeader={""}>
@@ -28,18 +41,24 @@ export default function Editor({auth}) {
                 </ul>
             </div>
 
-            <div className="flex justify-end mt-6">
-                <RegisterButton className="px-6">Guardar oficio</RegisterButton>
-            </div>
-            
-            <InputText
-                placeholder="Aa"
-                description="Título del oficio"
-                id="titulo"
-            />
+            <form onSubmit={handleSubmit} className="mt-6">
+                <InputText
+                    placeholder="Aa"
+                    description="Título del oficio"
+                    id="titulo"
+                    value={data.titulo}
+                    onChange={(e) => setData("titulo", e.target.value)}
+                />
 
-            <p className="text-sm mt-10">Contenido del oficio</p>
-            <BlockNoteView className="mt-4" editor={editor} />
+                <p className="text-sm mt-10">Contenido del oficio</p>
+                <BlockNoteView className="mt-4" editor={editor} />
+
+                <div className="flex justify-end mt-6">
+                    <RegisterButton type="submit" className="px-6">
+                        Guardar oficio
+                    </RegisterButton>
+                </div>
+            </form>
         </MainLayout>
     );
 }

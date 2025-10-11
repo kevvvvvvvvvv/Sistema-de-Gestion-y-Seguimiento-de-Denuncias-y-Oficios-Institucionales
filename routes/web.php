@@ -369,7 +369,11 @@ Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisos
     ->name('reportes.servidores.omisos.pdf'); 
 
 //MÓDULO DE GENERACIÓN DE OFICIOS PARA EXPEDIENTES
+Route::get('/modulo/generacion-de-oficios/ver-oficios', [GeneracionOficioController::class, 'verPlantillas'])
+    ->name('modulo.oficios.index'); 
 Route::get('/modulo/generacion-de-oficios/crear-oficio', [GeneracionOficioController::class, 'showEditor'])
     ->name('modulo.oficios.crear'); 
+Route::post('/modulo/generacion-de-oficios/guardar-oficio', [GeneracionOficioController::class, 'guardarPlantilla'])
+    ->name('modulo.oficios.guardar'); 
 
 require __DIR__.'/auth.php';
