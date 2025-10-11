@@ -32,13 +32,13 @@ export default function Index({ instituciones, auth }) {
         idInstitucion: i.idInstitucion,
         nombreCompleto: i.nombreCompleto,
         siglas: i.siglas,
-        estado: i.deleted_at ? "Inactiva" : "Activa"
+        estado: i.deleted_at ? "Inactivas" : "Activas"
     }));
 
-    const [selectedEstado, setSelectedEstado] = useState("Activa");
+    const [selectedEstado, setSelectedEstado] = useState("Activas");
     const estadoOptions = [
-        { value: "Activa", label: "Activa" },
-        { value: "Inactiva", label: "Inactiva" }
+        { value: "Activas", label: "Activas" },
+        { value: "Inactivas", label: "Inactivas" }
     ];
     const filteredTableData = tableData.filter(d => 
         selectedEstado ? d.estado === selectedEstado : true
@@ -154,9 +154,9 @@ export default function Index({ instituciones, auth }) {
             <AddButton href={route('instituciones.create')} />
         )}
 
-        <div className="mb-6 w-64">
+        <div className="mb-8 w-1/3">
             <SelectInput
-                label="Filtrar por estado"
+                label="Ver instituciones"
                 options={estadoOptions}
                 value={selectedEstado}
                 onChange={setSelectedEstado}
@@ -192,10 +192,10 @@ export default function Index({ instituciones, auth }) {
                       title: "Operaciones",
                       orderable: false,
                       render: (data, type, row) => {
-                          let buttons = `<div class="flex gap-2 justify-center">`;
+                          let buttons = `<div class="flex gap-6 justify-center">`;
           
-                          if (permissions.includes("editar instituciones")) {
-                                if (row.estado === "Activa") {
+                            if (permissions.includes("editar instituciones")) {
+                                if (row.estado === "Activas") {
                                     buttons += `
                                         <button class="edit-btn" data-id="${row.idInstitucion}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -203,6 +203,21 @@ export default function Index({ instituciones, auth }) {
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M12 20h9"></path>
                                                 <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                                            </svg>
+                                        </button>
+                                    `;
+                                }
+                            }
+          
+                            if (permissions.includes("eliminar instituciones")) {
+                                if (row.estado === "Activas") {
+                                    buttons += `
+                                        <button class="delete-btn" data-id="${row.idInstitucion}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" 
+                                                height="24" viewBox="0 0 24 24" fill="none" stroke="red" 
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                                                class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" 
+                                                cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
                                             </svg>
                                         </button>
                                     `;
@@ -216,24 +231,6 @@ export default function Index({ instituciones, auth }) {
                                                 <path d="M4 10a8 8 0 1 1 8 8H4"/><path d="m8 22-4-4 4-4"/>
                                             </svg>
                                         </button>
-                                    `;
-                                }
-                          }
-          
-                            if (permissions.includes("eliminar instituciones")) {
-                                if (row.estado === "Activa") {
-                                    buttons += `
-                                        <button class="delete-btn" data-id="${row.idInstitucion}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" 
-                                                height="24" viewBox="0 0 24 24" fill="none" stroke="red" 
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-                                                class="lucide lucide-circle-x-icon lucide-circle-x"><circle cx="12" 
-                                                cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/>
-                                            </svg>
-                                        </button>
-                                    `;
-                                }else{
-                                    buttons += `
                                         <button class="force-del-btn" data-id="${row.idInstitucion}">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                 viewBox="0 0 24 24" fill="none" stroke="red"
@@ -247,7 +244,6 @@ export default function Index({ instituciones, auth }) {
                                     `;
                                 }
                             }
-          
                             buttons += `</div>`;
                             return buttons;
                         }
