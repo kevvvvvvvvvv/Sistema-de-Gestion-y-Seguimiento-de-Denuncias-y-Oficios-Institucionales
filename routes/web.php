@@ -375,5 +375,9 @@ Route::get('/modulo/generacion-de-oficios/crear-oficio', [GeneracionOficioContro
     ->name('modulo.oficios.crear'); 
 Route::post('/modulo/generacion-de-oficios/guardar-oficio', [GeneracionOficioController::class, 'guardarPlantilla'])
     ->name('modulo.oficios.guardar'); 
+Route::get('/modulo/generacion-de-oficios/editar-oficio/{id}', [GeneracionOficioController::class, 'editarPlantilla'])
+    ->name('modulo.oficios.editar'); 
+Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOficioController::class, 'actualizarPlantilla'])
+    ->name('modulo.oficios.actualizar'); 
 
 require __DIR__.'/auth.php';
