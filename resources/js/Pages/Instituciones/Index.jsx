@@ -3,6 +3,7 @@ import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
 import {Trash2, SquarePen, icons} from 'lucide-react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
+import Swal from 'sweetalert2';
 import { router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
@@ -53,7 +54,17 @@ export default function Index({ instituciones, auth }) {
                     () => {
                       router.delete(route("instituciones.destroy", id), {
                         onSuccess: () => {
-                          router.reload({ only: ["instituciones"] });
+                            router.reload({ only: ["instituciones"] });
+
+                            Swal.fire({
+                                toast: true,             
+                                position: 'top-end',     
+                                icon: 'success',         
+                                title: 'Eliminación realizada correctamente',
+                                showConfirmButton: false, 
+                                timer: 4000,             
+                                timerProgressBar: true,  
+                            });
                         },
                       });
                     }
