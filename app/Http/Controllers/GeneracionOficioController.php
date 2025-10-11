@@ -10,7 +10,8 @@ class GeneracionOficioController extends Controller
 {
     public function verPlantillas() 
     {
-        return Inertia::render('Modulos/GeneracionOficio/Index');
+        $plantillas  = Plantilla::all();
+        return Inertia::render('Modulos/GeneracionOficio/Index', ['plantillas' =>  $plantillas]);
     }
 
     public function showEditor()
