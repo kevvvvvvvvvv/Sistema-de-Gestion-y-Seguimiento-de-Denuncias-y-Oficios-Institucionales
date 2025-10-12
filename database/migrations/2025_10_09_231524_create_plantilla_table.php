@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('institucion', function (Blueprint $table) {
+        Schema::create('plantilla', function (Blueprint $table) {
             $table->engine = 'InnoDB';
-            $table->bigIncrements('idInstitucion');
-            $table->string('nombreCompleto', 100);
-            $table->string('siglas', 45);
-            $table->softDeletes();
+            $table->bigIncrements('idPlantilla');
+            $table->string('titulo', 45);
+            $table->longText('contenido');
         });
     }
 
@@ -25,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('institucion', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
+        Schema::dropIfExists('plantilla');
     }
 };

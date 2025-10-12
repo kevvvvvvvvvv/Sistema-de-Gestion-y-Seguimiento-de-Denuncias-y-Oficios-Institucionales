@@ -16,7 +16,7 @@ class Servidor extends Model
     public $timestamps = false;
 
     public function institucion(){
-        return $this->belongsTo(Institucion::class, 'idInstitucion', 'idInstitucion');
+        return $this->belongsTo(Institucion::class, 'idInstitucion', 'idInstitucion')->withTrashed();
     }
 
     public function departamento(){

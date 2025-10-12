@@ -11,7 +11,7 @@ class InstitucionController extends Controller
 {
     public function index()
     {
-        $instituciones = Institucion::all();
+        $instituciones = Institucion::withTrashed()->get();
         return Inertia::render('Instituciones/Index', ['instituciones' => $instituciones]);
     }
 
@@ -52,6 +52,20 @@ class InstitucionController extends Controller
     public function destroy($id)
     {
         Institucion::findOrFail($id)->delete();
+        return redirect()->route('instituciones.index');
+    }
+
+    public function restore($id)
+    {
+        $institucion = Institucion::withTrashed()->find($id);
+        $institucion->restore();
+        return redirect()->route('instituciones.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $institucion = Institucion::withTrashed()->find($id);
+        $institucion->forceDelete();
         return redirect()->route('instituciones.index');
     }
 }

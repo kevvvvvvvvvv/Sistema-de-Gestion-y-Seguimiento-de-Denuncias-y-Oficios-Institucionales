@@ -8,6 +8,7 @@ use App\Http\Controllers\BajaController;
 use App\Http\Controllers\ControlController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\ExpedienteController;
+use App\Http\Controllers\GeneracionOficioController;
 use App\Http\Controllers\InstitucionController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ServidorController;
@@ -155,6 +156,14 @@ Route::get('/instituciones/{id}/edit', [InstitucionController::class, 'edit'])
 Route::put('/instituciones/{id}', [InstitucionController::class, 'update'])
     ->name('instituciones.update')
     ->middleware('can:editar instituciones');
+
+Route::delete('/instituciones/{id}/restore', [InstitucionController::class, 'restore'])
+    ->name('instituciones.restore')
+    ->middleware('can:eliminar instituciones');
+
+Route::delete('/instituciones/{id}/force', [InstitucionController::class, 'forceDelete'])
+    ->name('instituciones.forceDelete')
+    ->middleware('can:eliminar instituciones');
 
 Route::delete('/instituciones/{id}', [InstitucionController::class, 'destroy'])
     ->name('instituciones.destroy')
@@ -366,5 +375,19 @@ Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::cl
     ->name('reportes.servidores-omisos'); 
 Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisosController::class, 'descargarReporteServOmisoPdf'])
     ->name('reportes.servidores.omisos.pdf'); 
+
+//MÓDULO DE GENERACIÓN DE OFICIOS PARA EXPEDIENTES
+Route::get('/modulo/generacion-de-oficios/ver-oficios', [GeneracionOficioController::class, 'verPlantillas'])
+    ->name('modulo.oficios.index'); 
+Route::get('/modulo/generacion-de-oficios/crear-oficio', [GeneracionOficioController::class, 'showEditor'])
+    ->name('modulo.oficios.crear'); 
+Route::post('/modulo/generacion-de-oficios/guardar-oficio', [GeneracionOficioController::class, 'guardarPlantilla'])
+    ->name('modulo.oficios.guardar'); 
+Route::get('/modulo/generacion-de-oficios/editar-oficio/{id}', [GeneracionOficioController::class, 'editarPlantilla'])
+    ->name('modulo.oficios.editar'); 
+Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOficioController::class, 'actualizarPlantilla'])
+    ->name('modulo.oficios.actualizar'); 
+Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionOficioController::class, 'eliminarPlantilla'])
+    ->name('modulo.oficios.eliminar'); 
 
 require __DIR__.'/auth.php';
