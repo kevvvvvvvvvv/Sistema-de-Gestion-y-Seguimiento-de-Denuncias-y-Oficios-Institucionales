@@ -6,6 +6,7 @@ use App\Http\Requests\InstitucionRequest;
 use App\Models\Institucion;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class InstitucionController extends Controller
 {
@@ -65,7 +66,18 @@ class InstitucionController extends Controller
     public function forceDelete($id)
     {
         $institucion = Institucion::withTrashed()->find($id);
+        $consultaVal = DB::select('select * from servidor
+            inner join institucion on institucion.idInstitucion = servidor.idInstitucion
+            inner join expediente on servidor.idServidor = expediente.idServidor
+            where institucion.idInstitucion = ?;', [$id]);
+        
+         if (count($consultaVal) > 0) {
+            return redirect()->route('instituciones.index')
+            ->with('error', 'No se puede eliminar la institución porque tiene registros asociados');
+        }
+
         $institucion->forceDelete();
-        return redirect()->route('instituciones.index');
+        return redirect()->route('instituciones.index')
+        ->with('success', 'La institución ha sido eliminada permanentemente');
     }
 }
