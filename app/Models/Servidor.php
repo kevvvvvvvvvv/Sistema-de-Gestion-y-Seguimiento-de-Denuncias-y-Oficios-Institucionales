@@ -20,6 +20,6 @@ class Servidor extends Model
     }
 
     public function departamento(){
-        return $this->belongsTo(Departamento::class, 'idDepartamento', 'idDepartamento');
+        return $this->belongsTo(Departamento::class, 'idDepartamento', 'idDepartamento')->withTrashed();
     }
 }

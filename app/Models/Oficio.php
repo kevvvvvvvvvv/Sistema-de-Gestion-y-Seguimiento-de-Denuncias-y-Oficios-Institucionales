@@ -32,7 +32,7 @@ class Oficio extends Model
     public $timestamps = false;
 
     public function departamentoRemitente(){
-        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
+        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento')->withTrashed();
     }
 
     public function institucionRemitente(){
@@ -49,7 +49,7 @@ class Oficio extends Model
 
 
     public function departamentoDestinatario(){
-        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
+        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento')->withTrashed();
     }
 
     public function servidorDestinatario(){
