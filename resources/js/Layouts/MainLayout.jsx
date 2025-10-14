@@ -3,6 +3,7 @@ import { useState } from 'react'
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Archive, House, StickyNote } from 'lucide-react';
 import SidebarDropdown from '@/Components/SidebarDropdown';
+import NotificationContainer from '@/Components/NotificationContainer';
 
 export default function MainLayout({ children, auth, topHeader, insideHeader, backURL }) {
 
@@ -181,6 +182,9 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                     <div className="flex-grow border-t border-gray-400"></div>
                         <span className="mx-4 text-gray-600">Notificaciones</span>
                     <div className="flex-grow border-t border-gray-400"></div>
+                </div>
+                <div className="w-full h-full overflow-hidden">
+                    <NotificationContainer />
                 </div>
 
             </div>

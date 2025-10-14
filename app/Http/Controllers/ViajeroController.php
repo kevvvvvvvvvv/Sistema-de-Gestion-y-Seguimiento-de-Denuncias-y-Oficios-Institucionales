@@ -8,7 +8,7 @@ use App\Models\Users;
 use App\Models\Folio;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
-
+use App\Events\NewNotificationEvent;
 use App\Models\User;
 use App\Models\Institucion;
 use App\Models\Departamento;
@@ -124,6 +124,12 @@ class ViajeroController extends Controller
             'numOficio'   => $oficio->numOficio,
             'idUsuario'   => $request->idUsuario,
         ]);
+
+        $asuntoViajero = $viajero->asunto;
+        $mensajeNotificacion = "Se creó el viajero con asunto: \"{$asuntoViajero}\"";
+
+        event(new NewNotificationEvent($mensajeNotificacion, 'success'));
+        sleep(5);
     
         return redirect()->route('viajeros.index')
                          ->with('success', 'Viajero creado correctamente');
