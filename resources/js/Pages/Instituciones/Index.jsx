@@ -1,10 +1,9 @@
 import AddButton from '@/Components/AddButton';
 import MainLayout from '@/Layouts/MainLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {Trash2, SquarePen, icons} from 'lucide-react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
 import Swal from 'sweetalert2';
-import { router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 import DataTable from 'datatables.net-react';
@@ -27,6 +26,8 @@ const {confirm} = useSweetDelete();
 
 export default function Index({ instituciones, auth }) {
 
+    const { flash } = usePage().props;
+
     const permissions = auth.permissions;
     const tableData = instituciones.map(i => ({
         idInstitucion: i.idInstitucion,
@@ -43,6 +44,31 @@ export default function Index({ instituciones, auth }) {
     const filteredTableData = tableData.filter(d => 
         selectedEstado ? d.estado === selectedEstado : true
     );
+
+    useEffect(() => {
+        if (flash.success) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: flash.success, 
+                showConfirmButton: false,
+                timer: 4000,
+                timerProgressBar: true,
+            });
+        }
+        if (flash.error) {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: flash.error, 
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+            });
+        }
+    }, [flash]);
 
     useEffect(() => {
         const handleClick = (e) => {
@@ -122,19 +148,7 @@ export default function Index({ instituciones, auth }) {
                     },
                     () => {
                         router.delete(route("instituciones.forceDelete", id), {
-                            onSuccess: () => {
-                                router.reload({ only: ["instituciones"] });
-
-                                Swal.fire({
-                                    toast: true,             
-                                    position: 'top-end',     
-                                    icon: 'success',         
-                                    title: 'Eliminación realizada correctamente',
-                                    showConfirmButton: false, 
-                                    timer: 4000,             
-                                    timerProgressBar: true,  
-                                });
-                            },
+                            preserveScroll: true, 
                         });
                     }
                 );
