@@ -4,6 +4,8 @@ import { Head } from '@inertiajs/react';
 import { router } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
+import Swal from 'sweetalert2';
+
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -96,6 +98,15 @@ export default function Index({ viajeros, auth }) {
             router.delete(route("viajeros.destroy", id), {
               onSuccess: () => {
                 router.reload({ only: ["viajeros"] });
+                Swal.fire({
+                  toast: true,             
+                  position: 'top-end',     
+                  icon: 'success',         
+                  title: 'Eliminación realizada correctamente',
+                  showConfirmButton: false, 
+                  timer: 4000,             
+                  timerProgressBar: true,  
+              });
               },
             });
           }

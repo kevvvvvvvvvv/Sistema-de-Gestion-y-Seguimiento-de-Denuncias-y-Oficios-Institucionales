@@ -32,12 +32,14 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
         <main className="grid grid-cols-5 gap-4 h-screen bg-[#F9F7F5]">
 
             {/* Sidebar Izquierdo */}
-            <div className="col-span-1 grid grid-rows-[20%_60%_20%] m-10 justify-center gap-8">
-                <a className='flex items-center' href={route('dashboard')}>
-                    <ApplicationLogo className="h-[140px] w-[220px] fill-current text-gray-500" />
-                </a>
+             <div className="col-span-1 flex flex-col p-10 gap-8"> 
+                <div className="flex-shrink-0"> 
+                    <a className='flex justify-center items-center' href={route('dashboard')}>
+                        <ApplicationLogo className="h-[140px] w-[220px] fill-current text-gray-500" />
+                    </a>
+                </div>
 
-                <div className='flex flex-col gap-4 items-start justify-start'>
+                <div className='flex-grow flex flex-col gap-4 items-start justify-start'> 
                     <Link className='flex gap-2 hover:bg-black/10 rounded-md w-full p-2' 
                     href={route('dashboard')}>
                         <House />
@@ -57,7 +59,7 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                     />
                 </div>
 
-                <div className='flex flex-col justify-center'>
+                <div className='flex-shrink-0 flex flex-col justify-center'>
                     <a className='flex mb-4' href=''>
                         <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +135,7 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
             </div>
 
             {/* Sidebar Derecho */}
-            <div className="mt-12 col-span-1 grid grid-rows-[28%_5%_55%_20%] items-center">
+             <div className="col-span-1 grid grid-rows-[auto_auto_1fr] h-screen py-10 pr-6 pl-2">
 
                 <div className="justify-center text-center">
                     <div className="m-5 rounded-xl bg-[#FFFFFF] flex flex-col items-center p-5 relative">
@@ -171,22 +173,20 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                             </svg>
                         </div>
 
-                        {/* Nombre */}
                         <span className="text-center font-bold">
                         {auth.user?.nombre} {auth.user?.apPaterno}
                         </span>
                     </div>
-                    </div>
+                </div>
 
                 <div className="flex items-center my-4 px-6">
                     <div className="flex-grow border-t border-gray-400"></div>
-                        <span className="mx-4 text-gray-600">Notificaciones</span>
+                    <span className="mx-4 text-gray-600">Notificaciones</span>
                     <div className="flex-grow border-t border-gray-400"></div>
                 </div>
-                <div className="w-full h-full overflow-hidden">
-                    <NotificationContainer />
+                <div className="w-full overflow-hidden min-h-0">
+                    <NotificationContainer auth={auth}/>
                 </div>
-
             </div>
         </main>
     );

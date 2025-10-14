@@ -49,15 +49,15 @@ class Oficio extends Model
 
 
     public function departamentoDestinatario(){
-        return $this->belongsTo(Departamento::class, 'idDepartamentoRemitente', 'idDepartamento');
+        return $this->belongsTo(Departamento::class, 'idDepartamentoDestinatario', 'idDepartamento');
     }
 
     public function servidorDestinatario(){
-        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor');
+        return $this->belongsTo(Servidor::class, 'idServidorDestinatario', 'idServidor');
     }
 
     public function particularDestinatario(){
-        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularDestinatario', 'idParticular');
     }
 
     public function institucionDestinatario(){

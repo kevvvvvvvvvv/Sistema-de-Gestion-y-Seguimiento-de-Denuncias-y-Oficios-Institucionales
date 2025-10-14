@@ -124,4 +124,5 @@ npm install @blocknote/core @blocknote/react @blocknote/mantine
 
 ```bash
 php artisan install:broadcasting
+npm install axios
 ```
