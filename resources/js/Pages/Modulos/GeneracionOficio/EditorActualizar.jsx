@@ -32,6 +32,7 @@ export default function EditorActualizar({ auth, plantilla }) {
                 <p>Utiliza las siguientes claves para insertar datos dinámicos que se reemplazarán automáticamente:</p>
                 <ul>
                     <li><code>{'{servidor}'}</code>: Nombre completo del servidor público.</li>
+                    <li><code>{'{grado}'}</code>: Grado del servidor público.</li>
                     <li><code>{'{institucion}'}</code>: Nombre de la institución.</li>
                     <li><code>{'{departamento}'}</code>: Nombre del departamento.</li>
                     <li><code>{'{expediente}'}</code>: Número de expediente.</li>

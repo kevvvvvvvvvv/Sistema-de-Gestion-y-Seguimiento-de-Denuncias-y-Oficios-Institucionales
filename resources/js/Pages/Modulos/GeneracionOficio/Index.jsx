@@ -3,8 +3,14 @@ import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
 import {Trash2, SquarePen, icons} from 'lucide-react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
+import Swal from 'sweetalert2';
 import { router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+
+import { DOCXExporter, docxDefaultSchemaMappings } from "@blocknote/xl-docx-exporter";
+import { BlockNoteSchema } from "@blocknote/core";
+import { Packer } from "docx";
+import { saveAs } from "file-saver";
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -15,6 +21,7 @@ import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 
 import JSZip from 'jszip';
+import SelectInput from '@/Components/SelectInput';
 
 window.JSZip = JSZip;
 
@@ -23,17 +30,124 @@ DataTable.use(Buttons);
 
 const {confirm} = useSweetDelete();
 
-export default function Index({ plantillas, auth }) {
+/**
+ * @param {Array} blocks 
+ * @param {Object} replacements 
+ * @returns {Array} 
+ */
+
+const replacePlaceholdersInBlocks = (blocks, replacements) => {
+    const newBlocks = JSON.parse(JSON.stringify(blocks));
+
+    for (const block of newBlocks) {
+        if (block.content && Array.isArray(block.content)) {
+            for (const inlineContent of block.content) {
+                if (inlineContent.type === 'text' && inlineContent.text) {
+                    let currentText = inlineContent.text;
+                    for (const placeholder in replacements) {
+                        currentText = currentText.replaceAll(placeholder, replacements[placeholder]);
+                    }
+                    inlineContent.text = currentText;
+                }
+            }
+        }
+    }
+
+    return newBlocks;
+};
+
+export default function Index({ plantillas, auth, servidores, expedientes }) {
 
     const permissions = auth.permissions;
     const tableData = plantillas.map(i => ({
         idPlantilla: i.idPlantilla,
         titulo: i.titulo
     }));
+
+    const [selectedServidor, setSelectedServidor] = useState('');
+    const [selectedExpediente, setSelectedExpediente] = useState('');
+
+    const servidorOptions = servidores.map(s => ({
+        value: s.idServidor,
+        label: s.nombreCompleto
+    }));
+
+    const expedienteOptions = expedientes.map(e => ({
+        value: e.numero,
+        label: e.numero
+    }));
+
+    const handleServidorChange = (servidorId) => {
+        setSelectedServidor(servidorId);
+        const expedienteRelacionado = expedientes.find(e => e.idServidor === servidorId);
+        setSelectedExpediente(expedienteRelacionado ? expedienteRelacionado.numero : '');
+    };
+
+    const handleExpedienteChange = (expedienteNumero) => {
+        setSelectedExpediente(expedienteNumero);
+        const expedienteSeleccionado = expedientes.find(e => e.numero === expedienteNumero);
+        setSelectedServidor(expedienteSeleccionado ? expedienteSeleccionado.idServidor : '');
+    };
+
+    const handleDownload = async (plantillaId) => {
+        if (!selectedServidor) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Acción requerida',
+                text: 'Por favor, selecciona un servidor o expediente antes de descargar.',
+                confirmButtonColor: "#9C8372",
+            });
+            return;
+        }
+
+        const plantilla = plantillas.find(p => p.idPlantilla === plantillaId);
+        const servidor = servidores.find(s => s.idServidor === selectedServidor);
+        const expediente = expedientes.find(e => e.idServidor === selectedServidor);
+
+        if (!plantilla || !servidor) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se encontraron los datos de la plantilla o del servidor.',
+                confirmButtonColor: "#9C8372",
+            });
+            return;
+        }
+        
+        const replacements = {
+            '{servidor}': servidor.nombreCompleto,
+            '{grado}': servidor.grado || 'N/A',
+            '{institucion}': servidor.institucion?.nombreCompleto || 'N/A', 
+            '{departamento}': servidor.departamento?.nombre || 'N/A',
+            '{expediente}': expediente?.numero || 'N/A',
+        };
+
+        const originalBlocks = JSON.parse(plantilla.contenido);
+        const processedBlocks = replacePlaceholdersInBlocks(originalBlocks, replacements);
+
+        try {
+            const schema = BlockNoteSchema.create();
+            const exporter = new DOCXExporter(schema, docxDefaultSchemaMappings);
+            const docxDocument = await exporter.toDocxJsDocument(processedBlocks);
+            const blob = await Packer.toBlob(docxDocument);
+            const fileName = `${plantilla.titulo.replace(/\s+/g, '_') || 'documento'}.docx`;
+            saveAs(blob, fileName);
+
+        } catch (error) {
+            console.error("Error al exportar a DOCX:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al generar el documento.',
+                confirmButtonColor: "#9C8372",
+            });
+        }
+    };
     
     useEffect(() => {
         const editButtons = document.querySelectorAll('.edit-btn');
         const deleteButtons = document.querySelectorAll('.delete-btn');
+        const downloadButtons = document.querySelectorAll('.download-btn');
 
         editButtons.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -58,11 +172,24 @@ export default function Index({ plantillas, auth }) {
             });
         });
 
+        downloadButtons.forEach(btn => {
+            const plantillaId = parseInt(btn.getAttribute('data-id'));
+            const clickHandler = () => handleDownload(plantillaId);
+            
+            btn._clickHandler = clickHandler; 
+            btn.addEventListener('click', clickHandler);
+        });
+
         return () => {
             editButtons.forEach(btn => btn.replaceWith(btn.cloneNode(true)));
             deleteButtons.forEach(btn => btn.replaceWith(btn.cloneNode(true)));
+            downloadButtons.forEach(btn => {
+                if (btn._clickHandler) {
+                    btn.removeEventListener('click', btn._clickHandler);
+                }
+            });
         };
-    }, [plantillas]);
+    }, [plantillas, selectedServidor]);
 
   return (
     <>
@@ -70,6 +197,29 @@ export default function Index({ plantillas, auth }) {
         <Head title="Plantillas de oficios" />
 
         <AddButton href={route('modulo.oficios.crear')} />
+
+        <div className='rounded-lg bg-white shadow p-4 mb-10'>
+            <p className='font-bold'>
+                Selecciona el servidor o expediente para reemplazar los datos antes de descargar un oficio.
+            </p>
+            <br />
+            <div className="flex gap-4">
+                <SelectInput
+                    label="Servidor"
+                    options={servidorOptions}
+                    value={selectedServidor}
+                    onChange={handleServidorChange}
+                    placeholder="Seleccione un servidor"
+                />
+                <SelectInput
+                    label="Expediente"
+                    options={expedienteOptions}
+                    value={selectedExpediente}
+                    onChange={handleExpedienteChange}
+                    placeholder="Seleccione un expediente"
+                />
+            </div>
+        </div>
 
         <DataTable 
             data={tableData} 
