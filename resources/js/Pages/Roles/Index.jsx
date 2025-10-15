@@ -5,6 +5,7 @@ import {Trash2, SquarePen, icons} from 'lucide-react';
 import { useSweetDelete } from '@/Hooks/useSweetDelete';
 import { router } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -53,6 +54,15 @@ export default function Index({ roles, auth }) {
                     router.delete(route("roles.destroy", id), {
                       onSuccess: () => {
                         router.reload({ only: ["roles"] });
+                          Swal.fire({
+                              toast: true,             
+                              position: 'top-end',     
+                              icon: 'success',         
+                              title: 'Eliminación realizada correctamente',
+                              showConfirmButton: false, 
+                              timer: 4000,             
+                              timerProgressBar: true,  
+                          });
                       },
                     });
                   }

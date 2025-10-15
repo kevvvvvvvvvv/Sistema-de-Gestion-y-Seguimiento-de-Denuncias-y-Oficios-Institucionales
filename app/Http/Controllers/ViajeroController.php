@@ -17,6 +17,8 @@ use App\Models\Servidor;
 use App\Models\Oficio;
 use App\Models\Viajero;
 use App\Models\Particular;
+use App\Notifications\ViajeroCreadoNotification;
+use Illuminate\Support\Facades\Auth;
 
 class ViajeroController extends Controller
 {
@@ -91,6 +93,10 @@ class ViajeroController extends Controller
             return back()->withErrors(['destinatario' => 'Debe seleccionar un destinatario']);
         }
 
+        if (Oficio::where('numOficio', $request->numOficio)->exists()) {
+            return back()->withErrors(['numOficio' => 'El número de oficio ya existe.']);
+        }
+
         $oficio = Oficio::create([
             'numOficio'      => $request->numOficio,
             'fechaLlegada'   => \Carbon\Carbon::parse($fechaLlegada)->format('Y-m-d'),
@@ -128,9 +134,19 @@ class ViajeroController extends Controller
         $asuntoViajero = $viajero->asunto;
         $mensajeNotificacion = "Se creó el viajero con asunto: \"{$asuntoViajero}\"";
 
-        event(new NewNotificationEvent($mensajeNotificacion, 'success'));
-        sleep(5);
+        $creador = Auth::user();
+        $userToNotify = $creador;
+        if ($request->filled('idUsuario')) {
+            $encargado = User::find($request->idUsuario);
+            
+            if ($encargado) {
+                $userToNotify = $encargado;
+            }
+        }
+
+        $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
     
+        sleep(2); 
         return redirect()->route('viajeros.index')
                          ->with('success', 'Viajero creado correctamente');
 

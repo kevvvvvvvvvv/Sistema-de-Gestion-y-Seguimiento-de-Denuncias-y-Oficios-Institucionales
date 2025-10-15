@@ -123,8 +123,8 @@ npm install @blocknote/core @blocknote/react @blocknote/mantine
 <h2>Instalar el paquete para la comunicacion en tiempo real</h2>
 
 ```bash
-
 php artisan install:broadcasting
+npm install axios
 ```
 
 

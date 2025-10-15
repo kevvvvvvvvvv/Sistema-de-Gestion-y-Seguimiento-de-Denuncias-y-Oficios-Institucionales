@@ -20,6 +20,7 @@ use App\Http\Controllers\ReporteProgresoOficioController;
 use App\Http\Controllers\ReporteSeguimientoViajerosController;
 use App\Http\Controllers\ReporteExpedienteCompleto;
 use App\Http\Controllers\ReporteServidoresOmisosController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -397,5 +398,8 @@ Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOf
     ->name('modulo.oficios.actualizar'); 
 Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionOficioController::class, 'eliminarPlantilla'])
     ->name('modulo.oficios.eliminar'); 
+
+//NOTIFICACIONES
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
 require __DIR__.'/auth.php';

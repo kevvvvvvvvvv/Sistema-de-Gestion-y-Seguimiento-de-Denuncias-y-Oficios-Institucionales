@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'nombre' => 'Kevin',
-            'apPaterno' => 'Trinidad',
+            'apPaterno' => 'Medina',
             'apMaterno' => 'Medina',
             'email' => 'tmko220776@upemor.edu.mx',
             'password' => bcrypt('12345678'),

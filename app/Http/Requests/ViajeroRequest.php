@@ -29,7 +29,7 @@ class ViajeroRequest extends FormRequest
             'resultado'      => 'nullable|string|max:255',
             'instruccion'    => 'nullable|string|max:255',
             'fechaEntrega'   => 'nullable',
-            'idUsuario'      => 'nullable integer',
+            'idUsuario'      => 'nullable|integer',
         ];
     }
 
