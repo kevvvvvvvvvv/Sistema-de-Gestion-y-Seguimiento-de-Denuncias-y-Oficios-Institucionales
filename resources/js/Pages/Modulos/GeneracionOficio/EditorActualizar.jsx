@@ -24,7 +24,7 @@ export default function EditorActualizar({ auth, plantilla }) {
     };
 
     return(
-        <MainLayout auth={auth} topHeader="Creación de oficio para expediente" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Creación de oficio para expediente" insideHeader={""} backURL="/modulo/generacion-de-oficios/ver-oficios">
             <Head title="Creación de oficio para expediente" />
 
             <div className="bg-blancoIMTA border p-6 rounded-lg">
