@@ -12,10 +12,8 @@ const Notification = ({ notification, onClose }) => {
   };
 
   return (
-    // Contenedor principal de la notificación
     <div className="relative bg-white rounded-xl p-3 shadow-md w-full animate-slideIn border border-gray-200">
       
-      {/* Encabezado: Ícono, Nombre y Timestamp */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="bg-blue-500 rounded-full p-1 flex items-center justify-center">
@@ -26,8 +24,7 @@ const Notification = ({ notification, onClose }) => {
         <span className="text-xs text-gray-500">{timestamp}</span>
       </div>
       
-      {/* Cuerpo: Mensaje de la notificación */}
-      <p className="text-sm text-gray-600 pl-8"> {/* pl-8 para alinear con el nombre */}
+      <p className="text-sm text-gray-600 pl-8"> 
         {message}
       </p>
 

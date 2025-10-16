@@ -26,6 +26,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViajeroController;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\ViajeroCreadoNotification;
+use App\Models\Viajero;
 
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])
@@ -109,6 +111,9 @@ Route::delete('/viajeros/{id}',[ViajeroController::class,'destroy'])
     ->name('viajeros.destroy')
     ->middleware('can:eliminar viajeros');
 
+Route::get('/viajeros/{id}/pdf',[ViajeroController::class,'generarPDF'])
+    ->name('viajero.pdf')
+    ->middleware('auth');
 
 //GESTIÓN DE PARTICULARES
 

@@ -19,6 +19,8 @@ use App\Models\Viajero;
 use App\Models\Particular;
 use App\Notifications\ViajeroCreadoNotification;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Browsershot\Browsershot;
+use Illuminate\Support\Facades\File;
 
 class ViajeroController extends Controller
 {
@@ -287,6 +289,20 @@ class ViajeroController extends Controller
             'status'       => $estado,
         ]);
 
+        $creador = Auth::user();
+        $userToNotify = $creador;
+        if ($request->filled('idUsuario')) {
+            $encargado = User::find($request->idUsuario);
+            
+            if ($encargado) {
+                $userToNotify = $encargado;
+            }
+        }
+
+        $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
+    
+        sleep(2); 
+
         return redirect()->route('viajeros.index')
                         ->with('success', 'Viajero actualizado correctamente');
     }
@@ -316,5 +332,26 @@ class ViajeroController extends Controller
                          ->with('success', 'Viajero eliminado correctamente');
     }
 
+
+public function generarPDF()
+    {
+        $pathToImage = public_path('images/gobierno.png');
+
+        $type = pathinfo($pathToImage, PATHINFO_EXTENSION);
+        $data = File::get($pathToImage);
+        $imageBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $html = view('viajero', ['imagenGobierno' => $imageBase64])->render();
+
+
+        $pdf = Browsershot::html($html)
+            ->format('A4')
+            ->margins(20, 15, 15, 15)
+            ->pdf();
+
+        return response($pdf)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="reporte_viajero.pdf"');
+    }
 
 }

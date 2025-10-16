@@ -155,7 +155,6 @@ export default function MainLayout({ children, auth, topHeader, insideHeader, ba
                         />
                         </svg>
 
-                        {/* Ícono usuario centrado */}
                         <div className="rounded-full bg-azulIMTA p-4 mb-4">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

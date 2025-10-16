@@ -10,8 +10,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class ViajeroCreadoNotification extends Notification implements ShouldBroadcast
+class ViajeroCreadoNotification extends Notification implements ShouldBroadcastNow
 {
     use Queueable;
 
@@ -41,7 +42,7 @@ class ViajeroCreadoNotification extends Notification implements ShouldBroadcast
     {
         return [
             'viajero_folio' => $this->viajero->folio,
-            'message' => "Se creó un nuevo viajero con asunto: \"{$this->viajero->asunto}\"",
+            'message' => "Se creó un nuevo viajero con asunto: \"{$this->viajero->asunto}\", con número de oficio: \"{$this->viajero->numOficio}\"",
             'creator_name' => $this->creator->nombre . ' ' . $this->creator->apPaterno,
             'timestamp' => now()->format('d/m/Y h:i A'), 
         ];
@@ -50,7 +51,7 @@ class ViajeroCreadoNotification extends Notification implements ShouldBroadcast
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
-            'message' => "Se creó un nuevo viajero con asunto: \"{$this->viajero->asunto}\"",
+            'message' => "Se creó un nuevo viajero con asunto: \"{$this->viajero->asunto}\", con número de oficio: \"{$this->viajero->numOficio}\"",
             'creator_name' => $this->creator->nombre . ' ' . $this->creator->apPaterno,
             'timestamp' => now()->format('d/m/Y h:i A'),
         ]);
