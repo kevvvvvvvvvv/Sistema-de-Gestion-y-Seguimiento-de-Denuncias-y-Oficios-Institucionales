@@ -31,7 +31,7 @@ export default function DenunciasInstitucion({ auth, denuncias }) {
 
 
     return (
-        <MainLayout auth={auth} topHeader="Reporte de denuncias por institución" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Reporte de denuncias por institución" insideHeader={""} backURL={"/dashboard/expedientes"}>
             <Head title="Reporte de denuncias por institución" />
 
             <HighchartsReact

@@ -64,7 +64,7 @@ export default function DenunciasInstitucion({ onClick, auth, errors, datos, dat
     }, [datos])
 
     return (
-        <MainLayout auth={auth} topHeader="Reporte de seguimiento de viajeros" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Reporte de seguimiento de viajeros" insideHeader={""}  backURL="/dashboard/viajeros">
             <Head title="Reporte de seguimiento de viajeros" />
             
             <form onSubmit={handleSubmit} className="mb-4 flex gap-2">
@@ -133,7 +133,9 @@ export default function DenunciasInstitucion({ onClick, auth, errors, datos, dat
                 </table>
             </div>
 
-            <PDFButton onClick={() => window.location.href = route('reportes.seguimiento-viajeros.pdf')}>
+            <PDFButton onClick={() => window.location.href = route('reportes.seguimiento-viajeros.pdf',{            
+                fecha_inicio: fechaInicio, 
+                fecha_fin: fechaFin })}>
                 Descargar en PDF
             </PDFButton>
 

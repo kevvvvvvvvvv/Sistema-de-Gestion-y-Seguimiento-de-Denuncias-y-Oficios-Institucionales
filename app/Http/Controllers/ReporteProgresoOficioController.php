@@ -15,7 +15,7 @@ class ReporteProgresoOficioController extends Controller
     public function showProgresoOficio(Request $request)
     {
 
-         $fechaRecibida = $request->input('fecha_inicio');
+        $fechaRecibida = $request->input('fecha_inicio');
 
         $fechaParaConsulta = null; 
 

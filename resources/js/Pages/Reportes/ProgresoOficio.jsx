@@ -48,7 +48,7 @@ export default function DenunciasInstitucion({ auth, resultados, filtro}) {
 
 
     return (
-        <MainLayout auth={auth} topHeader="Reporte de progreso de oficios" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Reporte de progreso de oficios" insideHeader={""} backURL="/dashboard/viajeros">
             <Head title="Reporte de Progreso de Oficios" />
 
             <form onSubmit={handleSubmit} className="mb-4 flex items-center gap-2">
@@ -69,7 +69,28 @@ export default function DenunciasInstitucion({ auth, resultados, filtro}) {
                     options={chartOptions}
                 />
             </div>
-            <PDFButton onClick={() => window.location.href = route('reporte.progreso-oficio.pdf')}>
+
+            <h2 className="w-full text-center font-bold mt-8">Detalle de progreso de oficios</h2>
+            <div className="mt-4 overflow-x-auto">
+                <table className="min-w-full border border-gray-300">
+                    <thead className="bg-gray-100">
+                        <tr>
+                            <th className="px-4 py-2 border">Categoría (Fecha o Estatus)</th>
+                            <th className="px-4 py-2 border">Total de Oficios</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {Array.isArray(resultados) && resultados.map((item, index) => (
+                            <tr key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                                <td className="px-4 py-2 border">{item.Categoria}</td>
+                                <td className="px-4 py-2 border text-center">{item.Total}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            <PDFButton onClick={() => window.location.href = route('reporte.progreso-oficio.pdf',{fecha_inicio: fechaInicio})}>
                 Descargar en PDF
             </PDFButton>
             
