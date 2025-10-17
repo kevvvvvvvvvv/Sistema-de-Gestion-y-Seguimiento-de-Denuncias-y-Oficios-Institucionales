@@ -25,7 +25,7 @@ export default function Editor({auth}) {
     };
 
     return(
-        <MainLayout auth={auth} topHeader="Creación de oficio para expediente" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Creación de oficio para expediente" insideHeader={""} backURL="/modulo/generacion-de-oficios/ver-oficios">
             <Head title="Creación de oficio para expediente" />
 
             <div className="bg-blancoIMTA border p-6 rounded-lg">
@@ -33,6 +33,7 @@ export default function Editor({auth}) {
                 <p>Utiliza las siguientes claves para insertar datos dinámicos que se reemplazarán automáticamente:</p>
                 <ul>
                     <li><code>{'{servidor}'}</code>: Nombre completo del servidor público.</li>
+                    <li><code>{'{grado}'}</code>: Grado del servidor público.</li>
                     <li><code>{'{institucion}'}</code>: Nombre de la institución.</li>
                     <li><code>{'{departamento}'}</code>: Nombre del departamento.</li>
                     <li><code>{'{expediente}'}</code>: Número de expediente.</li>

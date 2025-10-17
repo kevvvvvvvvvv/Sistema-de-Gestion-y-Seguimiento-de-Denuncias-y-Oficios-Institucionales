@@ -198,6 +198,14 @@ Route::put('/departamentos/{id}', [DepartamentoController::class, 'update'])
     ->name('departamentos.update')
     ->middleware('can:editar departamentos');
 
+Route::delete('/departamentos/{id}/restore', [DepartamentoController::class, 'restore'])
+    ->name('departamentos.restore')
+    ->middleware('can:eliminar departamentos');
+
+Route::delete('/departamentos/{id}/force', [DepartamentoController::class, 'forceDelete'])
+    ->name('departamentos.forceDelete')
+    ->middleware('can:eliminar departamentos');
+
 Route::delete('/departamentos/{id}', [DepartamentoController::class, 'destroy'])
     ->name('departamentos.destroy')
     ->middleware('can:eliminar departamentos');

@@ -126,3 +126,10 @@ npm install @blocknote/core @blocknote/react @blocknote/mantine
 php artisan install:broadcasting
 npm install axios
 ```
+
+
+<h2>Instalar la extendión para descargar en word el contenido de blocknote</h2>
+
+```bash
+npm install @blocknote/xl-docx-exporter docx file-saver
+```

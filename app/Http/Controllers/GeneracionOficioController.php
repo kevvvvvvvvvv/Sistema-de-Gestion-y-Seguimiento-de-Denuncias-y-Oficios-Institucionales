@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expediente;
 use App\Models\Plantilla;
+use App\Models\Servidor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,7 +13,13 @@ class GeneracionOficioController extends Controller
     public function verPlantillas() 
     {
         $plantillas  = Plantilla::all();
-        return Inertia::render('Modulos/GeneracionOficio/Index', ['plantillas' =>  $plantillas]);
+        $servidores = Servidor::with(['institucion', 'departamento'])->get();
+        $expedientes = Expediente::all();
+        return Inertia::render('Modulos/GeneracionOficio/Index', [
+            'plantillas' =>  $plantillas,
+            'servidores' => $servidores,
+            'expedientes' => $expedientes
+        ]);
     }
 
     public function showEditor()

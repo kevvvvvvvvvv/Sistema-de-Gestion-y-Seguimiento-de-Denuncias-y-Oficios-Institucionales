@@ -7,12 +7,13 @@ use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Institucion;
+use Illuminate\Support\Facades\DB;
 
 class DepartamentoController extends Controller
 {
     public function index()
     {
-        $departamentos = Departamento::with('institucion')->get();
+        $departamentos = Departamento::with('institucion')->withTrashed()->get();
 
         return Inertia::render('Departamentos/Index', ['departamentos' => $departamentos]);
     }
@@ -52,5 +53,31 @@ class DepartamentoController extends Controller
     {
         Departamento::findOrFail($id)->delete();
         return redirect()->route('departamentos.index');
+    }
+
+    public function restore($id)
+    {
+        $departamento = Departamento::withTrashed()->find($id);
+        $departamento->restore();
+        return redirect()->route('departamentos.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $consultaVal = DB::select('select * from servidor
+            inner join institucion on institucion.idInstitucion = servidor.idInstitucion
+            inner join departamento on departamento.idInstitucion = institucion.idInstitucion
+            inner join expediente on servidor.idServidor = expediente.idServidor
+            where departamento.idDepartamento = ?;', [$id]);
+        
+        if (count($consultaVal) > 0) {
+            return redirect()->route('departamentos.index')
+            ->with('error', 'No se puede eliminar el registro porque tiene registros asociados');
+        }
+
+        $departamento = Departamento::withTrashed()->find($id);
+        $departamento->forceDelete();
+        return redirect()->route('departamentos.index')
+        ->with('success', 'El registro ha sido eliminado permanentemente');
     }
 }

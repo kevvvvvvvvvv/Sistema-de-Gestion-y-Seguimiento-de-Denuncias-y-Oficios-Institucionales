@@ -16,6 +16,7 @@ return new class extends Migration
                 $table->bigIncrements('idDepartamento');
                 $table->string('nombre', 100);
                 $table->unsignedBigInteger('idInstitucion');
+                $table->softDeletes();
 
                 $table->foreign('idInstitucion')->references('idInstitucion')->on('institucion')->onDelete('cascade');
         });
@@ -26,6 +27,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('departamento');
+        Schema::table('departamento', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
