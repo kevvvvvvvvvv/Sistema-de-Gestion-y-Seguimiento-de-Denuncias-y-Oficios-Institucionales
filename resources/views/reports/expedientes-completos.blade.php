@@ -46,6 +46,16 @@
         
         <h1>Reporte de Expedientes Completos</h1>
 
+        <div>
+            @if($filtro)
+                <p><strong>Mostrando resultados para la institución:</strong> {{ $filtro }}</p>
+            @else
+                <p><strong>Mostrando resultados para todas las instituciones.</strong></p>
+            @endif
+        </div>
+
+        <br>
+
         <p>Número de expedientes completos: {{ $conteo }}</p>
         <p>Número de expedientes incompletos: {{ $exIncompletos }}</p>
 

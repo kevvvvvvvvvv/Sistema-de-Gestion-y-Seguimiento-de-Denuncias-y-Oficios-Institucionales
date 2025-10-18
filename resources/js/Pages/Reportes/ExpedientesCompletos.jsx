@@ -181,7 +181,10 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
 
                 <PDFButton 
                     onClick={() => {
-                        const url = route('reportes.expedientes.completos.pdf', { institucion: selectedInstitucion });
+                        const url = route('reportes.expedientes.completos.pdf', { 
+                            institucion: selectedInstitucion 
+                        });
+                        
                         window.open(url, '_blank');
                     }}
                 >

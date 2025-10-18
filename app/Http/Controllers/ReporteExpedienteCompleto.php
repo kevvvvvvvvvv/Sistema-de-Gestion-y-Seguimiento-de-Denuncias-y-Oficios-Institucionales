@@ -99,28 +99,38 @@ class ReporteExpedienteCompleto extends Controller
         ]);
     }
 
-    public function descargarReporteExpeComPdf() {
+    public function descargarReporteExpeComPdf(Request $request) {
         try {
             // DATOS PARA EL REPORTE
-            $datos = DB::select('select servidor.nombreCompleto, 
-            institucion.nombreCompleto as nomInstitucion,
-            departamento.nombre,
-            expediente.numero, expediente.ofRequerimiento, expediente.ofRespuesta,
-            expediente.fechaRequerimiento, expediente.fechaRespuesta, expediente.fechaRecepcion,
-            control.acProrroga as "Acuerdo de Prórroga", 
-            control.acAuxilio as "Acuerdo de Auxilio para personal OR",
-            control.acRegularizacion as "Acuerdo de Regularización", 
-            control.acRequerimiento as "Acuerdo de Requerimiento de Declaración Patrimonial",
-            control.acOficioReque as "Oficio de Requerimiento de Declaración Patrimonial",
-            control.acInicio as "Acuerdo de Inicio",   
-            control.acModificacion as "Acuerdo de Modificacion",   
-            control.acConclusion as "Acuerdo de Conclusión y Archivo"
-            from institucion inner join departamento on institucion.idInstitucion = departamento.idInstitucion
-            inner join servidor on servidor.idDepartamento = departamento.idDepartamento
-            inner join expediente on servidor.idServidor = expediente.idServidor
-            inner join control on control.numero = expediente.numero;');
+            $query = DB::table('institucion')
+            ->join('departamento', 'institucion.idInstitucion', '=', 'departamento.idInstitucion')
+            ->join('servidor', 'servidor.idDepartamento', '=', 'departamento.idDepartamento')
+            ->join('expediente', 'servidor.idServidor', '=', 'expediente.idServidor')
+            ->join('control', 'control.numero', '=', 'expediente.numero')
+            ->select(
+                'servidor.nombreCompleto', 
+                'institucion.nombreCompleto as nomInstitucion',
+                'departamento.nombre',
+                'expediente.numero', 'expediente.ofRequerimiento', 'expediente.ofRespuesta',
+                'expediente.fechaRequerimiento', 'expediente.fechaRespuesta', 'expediente.fechaRecepcion',
+                'control.acProrroga as "Acuerdo de Prórroga"', 
+                'control.acAuxilio as "Acuerdo de Auxilio para personal OR"',
+                'control.acRegularizacion as "Acuerdo de Regularización"', 
+                'control.acRequerimiento as "Acuerdo de Requerimiento de Declaración Patrimonial"',
+                'control.acOficioReque as "Oficio de Requerimiento de Declaración Patrimonial"',
+                'control.acInicio as "Acuerdo de Inicio"', 
+                'control.acModificacion as "Acuerdo de Modificacion"', 
+                'control.acConclusion as "Acuerdo de Conclusión y Archivo"'
+            )->groupBy('expediente.numero');
+
+            $query->when($request->institucion, function ($q, $institucion) {
+                return $q->where('institucion.nombreCompleto', $institucion);
+            });
+
+            $datos = $query->get();
 
             $ofCompletos = [];
+            $totalIncompletos = 0;
 
             foreach ($datos as $dato) {
 
@@ -167,11 +177,8 @@ class ReporteExpedienteCompleto extends Controller
                 }
             }
 
-            //Oficios completos
-            $conteo = count($ofCompletos);
-
-            //Oficios incompletos
-            $exIncompletos = count($datos) - $conteo;
+            $conteoCompletos = count($ofCompletos);
+            $conteoIncompletos = count($datos) - $conteoCompletos;
 
             // GENERACIÓN DEL PDF
             $logoPath = public_path('images/imta-logo.png');
@@ -181,8 +188,9 @@ class ReporteExpedienteCompleto extends Controller
 
             $html = view('reports.expedientes-completos', [
                     'ofCompletos' => $ofCompletos,
-                    'conteo' => $conteo,
-                    'exIncompletos' => $exIncompletos,
+                    'conteo' => $conteoCompletos,
+                    'exIncompletos' => $conteoIncompletos,
+                    'filtro' => $request->institucion,
                     'logoBase64' => $logoBase64 
                 ])->render();
 
