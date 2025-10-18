@@ -9,6 +9,7 @@ use App\Models\Folio;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use App\Events\NewNotificationEvent;
+use App\Mail\ViajeroCreadoMail;
 use App\Models\User;
 use App\Models\Institucion;
 use App\Models\Departamento;
@@ -21,6 +22,7 @@ use App\Notifications\ViajeroCreadoNotification;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 
 class ViajeroController extends Controller
 {
@@ -148,10 +150,20 @@ class ViajeroController extends Controller
 
         $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
     
+
+        //Envío del correo 
+        if ($request->filled('idUsuario')) {
+            $usuario = User::find($request->idUsuario);
+        }else{
+            $usuario = Auth::user();
+        }
+        $correo = $usuario->email;
+
+        Mail::to($correo)->send(new ViajeroCreadoMail($viajero, $oficio));
+        
         sleep(2); 
         return redirect()->route('viajeros.index')
                          ->with('success', 'Viajero creado correctamente');
-
     }
 
 
