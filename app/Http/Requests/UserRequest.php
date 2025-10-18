@@ -31,6 +31,7 @@ class UserRequest extends FormRequest
                 'email', 
                 Rule::unique(table:'users', column:'email')->ignore($this->route(param: 'id'), 'idUsuario'),
             ],
+            'role' => 'required',
         ];
 
         if($this->routeIs('users.store')) {
@@ -59,6 +60,7 @@ class UserRequest extends FormRequest
             'email.unique' => 'El correo electrónico ya está en uso.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'role.required' => 'El rol es obligatorio.',
         ];
     }
 }

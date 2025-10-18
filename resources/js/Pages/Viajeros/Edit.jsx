@@ -30,7 +30,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
     idParticularRemitente: null,
     idServidorRemitente: null,
 
-    idUsuario: null,
+    idUsuario: viajero.idUsuario || null,
     pdfFile: null,
   });
 
@@ -263,7 +263,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
 
       {valuesType.destinatarioTipo === "departamento" && (
         <SelectInput
-          label="Remitente"
+          label="Destinatario"
           id="idDepartamentoDestinatario"
           options={optionsDepartamentoD}
           value={values.idDepartamentoDestinatario}
@@ -274,7 +274,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
 
       {valuesType.destinatarioTipo === "particular" && (
         <SelectInput
-          label="Remitente"
+          label="Destinatario"
           id="idParticularDestinatario"
           options={optionsParticularD}
           value={values.idParticularDestinatario}

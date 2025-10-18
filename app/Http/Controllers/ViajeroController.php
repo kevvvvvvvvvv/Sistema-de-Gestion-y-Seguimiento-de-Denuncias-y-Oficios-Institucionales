@@ -179,13 +179,13 @@ class ViajeroController extends Controller
         $viajero = Viajero::with('oficio')->findOrFail($id);
         $oficio = Oficio::where('numOficio', $viajero->numOficio)->first();
 
-        $departamentoDestinatario = Departamento::where('idDepartamento', $oficio->idDepartamentoRemitente)->first();
-        $servidorDestinatario = Servidor::where('idServidor', $oficio->idServidorRemitente)->first();
-        $particularDestinatario = Particular::where('idParticular', $oficio->idParticularRemitente)->first();
+        $departamentoDestinatario = Departamento::where('idDepartamento', $oficio->idDepartamentoDestinatario)->first();
+        $servidorDestinatario = Servidor::where('idServidor', $oficio->idServidorDestinatario)->first();
+        $particularDestinatario = Particular::where('idParticular', $oficio->idParticularDestinatario)->first();
 
-        $departamentoRemitente = Departamento::where('idDepartamento', $oficio->idDepartamentoDestinatario)->first();
-        $servidorRemitente = Servidor::where('idServidor', $oficio->idServidorDestinatario)->first();
-        $particularRemitente = Particular::where('idParticular', $oficio->idParticularDestinatario)->first();
+        $departamentoRemitente = Departamento::where('idDepartamento', $oficio->idDepartamentoRemitente)->first();
+        $servidorRemitente = Servidor::where('idServidor', $oficio->idServidorRemitente)->first();
+        $particularRemitente = Particular::where('idParticular', $oficio->idParticularRemitente)->first();
 
         $remitente = null;
         if($departamentoRemitente){
@@ -370,7 +370,7 @@ class ViajeroController extends Controller
     }
 
 
-public function generarPDF()
+    public function generarPDF(Viajero $viajero)
     {
         $pathToImage = public_path('images/gobierno.png');
 
@@ -378,7 +378,11 @@ public function generarPDF()
         $data = File::get($pathToImage);
         $imageBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
-        $html = view('viajero', ['imagenGobierno' => $imageBase64])->render();
+        $html = view('viajero', [
+            'imagenGobierno' => $imageBase64,
+            'viajero' => $viajero,
+            
+            ])->render();
 
 
         $pdf = Browsershot::html($html)

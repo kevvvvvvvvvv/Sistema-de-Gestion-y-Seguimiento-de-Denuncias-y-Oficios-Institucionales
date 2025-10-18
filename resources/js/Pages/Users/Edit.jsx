@@ -3,14 +3,16 @@ import { Head, router } from '@inertiajs/react';
 import MainLayout from '@/Layouts/MainLayout';
 import InputText from '@/Components/InputText';
 import RegisterButton from '@/Components/RegisterButton';
+import SelectInput from "@/Components/SelectInput";
 
-export default function Edit({auth, user, errors }) {
+export default function Edit({auth, user, errors, roles }) {
     const [values, setValues] = useState({
         nombre: user.nombre,
         apPaterno: user.apPaterno,
         apMaterno: user.apMaterno,
         email: user.email,
         password: "",
+        role: user.roles?.[0]?.id || null,
     });
 
     function handleChange(e) {
@@ -19,6 +21,11 @@ export default function Edit({auth, user, errors }) {
         [e.target.id]: e.target.value,
         });
     }  
+
+    const options = roles.map((r) => ({
+        value: r.id,
+        label: r.name,
+    }));
     
     function update() {
         router.put(`/users/${user.idUsuario}`, values);
@@ -63,13 +70,21 @@ export default function Edit({auth, user, errors }) {
                 />
                 <InputText
                     placeholder="Aa"
-                    description="Contraseña"
+                    description="Contraseña (dejar en blanco si no desea cambiar la conraseña)"
                     id="password"
                     type="password"
                     value={values.password}
                     onChange={handleChange}
                     error={errors.password}
                 />
+            <SelectInput
+                label="Rol del usuario"
+                id="role"
+                options={options}
+                value={values.role}
+                onChange={(val) => setValues({ ...values, role: val })}
+                error={errors.role}
+            ></SelectInput>
             </div>
 
             <RegisterButton onClick={update}>Actualizar</RegisterButton>
