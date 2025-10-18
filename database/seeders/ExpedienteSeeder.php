@@ -17,18 +17,18 @@ class ExpedienteSeeder extends Seeder
     {
         $servidores = Servidor::all();
 
-        $i = 1;
-        foreach ($servidores as $servidor) {
+        foreach ($servidores as $index => $servidor) {
+            $hasRespuesta = ($index + 1) % 3 !== 0;
+
             Expediente::create([
-                'numero' => 'EXP-' . str_pad($i, 3, '0', STR_PAD_LEFT),
-                'ofRequerimiento' => 'OF-' . str_pad($i, 3, '0', STR_PAD_LEFT),
+                'numero' => 'EXP-2025-' . str_pad($servidor->idServidor, 4, '0', STR_PAD_LEFT),
+                'ofRequerimiento' => 'OF-REQ-' . str_pad($servidor->idServidor, 4, '0', STR_PAD_LEFT),
                 'fechaRequerimiento' => now()->subDays(300)->format('Y-m-d'),
-                'ofRespuesta' => 'RESP-' . str_pad($i, 3, '0', STR_PAD_LEFT),
-                'fechaRespuesta' => now()->subDays(295)->format('Y-m-d'),
-                'fechaRecepcion' => now()->subDays(294)->format('Y-m-d'),
+                'ofRespuesta' => $hasRespuesta ? 'OF-RESP-' . str_pad($servidor->idServidor, 4, '0', STR_PAD_LEFT) : null,
+                'fechaRespuesta' => $hasRespuesta ? now()->subDays(295)->format('Y-m-d') : null,
+                'fechaRecepcion' => $hasRespuesta ? now()->subDays(294)->format('Y-m-d') : null,
                 'idServidor' => $servidor->idServidor,
             ]);
-            $i++;
         }
     }
 }

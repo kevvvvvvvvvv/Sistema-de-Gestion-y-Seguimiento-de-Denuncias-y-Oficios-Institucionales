@@ -13,32 +13,14 @@ class InstitucionSeeder extends Seeder
      */
     public function run(): void
     {
-        $departamento = Institucion::create(
-            [
-                'nombreCompleto' => 'Comisión Federal de Electricidad',
-                'siglas' => 'CFE'
-            ]
-        );
+        Institucion::create([
+            'nombreCompleto' => 'Comisión Federal de Electricidad',
+            'siglas' => 'CFE'
+        ]);
 
-        $departamento = Institucion::create(
-            [
-                'nombreCompleto' => 'Petróleos Mexicanos',
-                'siglas' => 'PEMEX'
-            ]
-        );
-
-        $departamento = Institucion::create(
-            [
-                'nombreCompleto' => 'Instituto Mexicano del Seguro Social',
-                'siglas' => 'IMSS'
-            ]
-        );
-
-        $departamento = Institucion::create(
-            [
-                'nombreCompleto' => 'Secretaría de Educación Pública',
-                'siglas' => 'SEP'
-            ]
-        );
+        Institucion::create([
+            'nombreCompleto' => 'Petróleos Mexicanos',
+            'siglas' => 'PEMEX'
+        ]);
     }
 }
