@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viajero Actualizado</title>
+    <title>Viajero Finalizado</title>
     <style>
         /* Estilos generales para el cuerpo del correo */
         body {
@@ -92,8 +92,8 @@
                     <li><strong>Asunto:</strong> {{ $viajero->asunto }}</li>
                 </ul>
 
-                <p>Las instrucciones son las siguientes:</p>
-                <p class="instruccion">{{ $viajero->instruccion }}</p>
+                <p>Los resultados reportados son las siguientes:</p>
+                <p class="instruccion">{{ $viajero->resultado }}</p>
 
                 <p>Puedes revisar los detalles completos y gestionar el viajero haciendo clic en el siguiente botón:</p>
 
