@@ -30,8 +30,15 @@ class ReporteExpedienteCompleto extends Controller
         inner join control on control.numero = expediente.numero;');
 
         $ofCompletos = [];
+        $incompletosPorInstitucion = [];
 
         foreach ($datos as $dato) {
+
+            $nomInstitucion = $dato->nomInstitucion;
+
+            if (!isset($incompletosPorInstitucion[$nomInstitucion])) {
+                $incompletosPorInstitucion[$nomInstitucion] = 0;
+            }
 
             if (is_null($dato->numero)) {
                 $numero = 'Sin número de expediente asignado';
@@ -73,17 +80,23 @@ class ReporteExpedienteCompleto extends Controller
                     'fechaRespuesta' => $dato->fechaRespuesta,
                     'fechaRecepcion' => $dato->fechaRecepcion
                 ];
+            }else{
+                $incompletosPorInstitucion[$nomInstitucion]++;
             }
-
-            //Oficios completos
-            $conteo = count($ofCompletos);
-
-            //Oficios incompletos
-            $exIncompletos = count($datos) - $conteo;
-            
         }
 
-        return Inertia::render('Reportes/ExpedientesCompletos', ['ofCompletos' => $ofCompletos, 'conteo' => $conteo, 'exIncompletos' => $exIncompletos]);
+        //Oficios completos
+        $conteo = count($ofCompletos);
+
+        //Oficios incompletos
+        $exIncompletos = array_sum($incompletosPorInstitucion);
+
+        return Inertia::render('Reportes/ExpedientesCompletos', [
+            'ofCompletos' => $ofCompletos, 
+            'conteo' => $conteo, 
+            'exIncompletos' => $exIncompletos,
+            'incompletosPorInstitucion' => $incompletosPorInstitucion
+        ]);
     }
 
     public function descargarReporteExpeComPdf() {

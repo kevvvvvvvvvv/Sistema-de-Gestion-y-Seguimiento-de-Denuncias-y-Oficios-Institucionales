@@ -164,9 +164,6 @@ export default function DocumentosFaltantes({ datosReporte, auth }) {
                     </thead>
                 </DataTable>
 
-                {/* <PDFButton onClick={() => window.location.href = route('reportes.documentos.faltantes.pdf')}>
-                    Descargar en PDF
-                </PDFButton> */}
                 <PDFButton
                     onClick={() => {
                         const filterParams = {};
