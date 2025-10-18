@@ -49,6 +49,14 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
+        /* Box de instrucciones */
+        .instruccion {
+            background-color: #D9D9D9;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
         /* Botón de acción */
         .button {
             display: inline-block;
@@ -76,13 +84,16 @@
             <td class="content">
                 <h1>¡Hola!</h1>
 
-                <p>Se ha registrado un nuevo viajero en el sistema con los siguientes datos de identificación:</p>
+                <p>Se ha actualizado un viajero en el sistema con los siguientes datos de identificación:</p>
 
                 <ul>
                     <li><strong>Folio del viajero:</strong> {{ $viajero->folio }}</li>
                     <li><strong>Número del oficio:</strong> {{ $oficio->numOficio }}</li>
                     <li><strong>Asunto:</strong> {{ $viajero->asunto }}</li>
                 </ul>
+
+                <p>Las instrucciones son las siguientes:</p>
+                <p class="instruccion">{{ $viajero->instruccion }}</p>
 
                 <p>Puedes revisar los detalles completos y gestionar el viajero haciendo clic en el siguiente botón:</p>
 
