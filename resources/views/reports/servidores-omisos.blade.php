@@ -39,12 +39,22 @@
             <img src="{{ $logoBase64 }}" alt="Logo IMTA">
             <div class="address">
                 <p><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
-                <p>Departamento de Representación</p>
+                <p>Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
                 <p>Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
             </div>
         </header>
         
-        <h1>Reporte de Servidores Omisos</h1>
+        <h1>Reporte de servidores omisos</h1>
+
+        <div>
+            @if(!empty($filtro))
+                <p>Filtro aplicado: {{ $filtro }}</p>
+            @else
+                <p>Mostrando todos los registros sin filtrar.</p>
+            @endif
+        </div>
+
+        <br>
 
         <p>No. de servidores omisos sin Acuerdo de Conclusión: {{ $numOmisosBaja }}</p>
         <p>No. de servidores omisos sin Acuerdo de Inicio: {{ $numOmisosAlta }}</p>
