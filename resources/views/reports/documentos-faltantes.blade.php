@@ -39,12 +39,30 @@
             <img src="{{ $logoBase64 }}" alt="Logo IMTA">
             <div class="address">
                 <p><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
-                <p>Departamento de Representación</p>
+                <p>Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
                 <p>Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
             </div>
         </header>
         
-        <h1>Reporte de Documentos Faltantes por Expediente</h1>
+        <h1>Reporte de documentos faltantes por expediente</h1>
+
+        <br>
+
+        <div>
+            @if(!empty($filtros['institucion']) || !empty($filtros['oficio']))
+                <p>Filtros aplicados en este reporte:</p>
+                <ul>
+                    @if(!empty($filtros['institucion']))
+                        <li><strong>Institución:</strong> {{ $filtros['institucion'] }}</li>
+                    @endif
+                    @if(!empty($filtros['oficio']))
+                        <li><strong>Oficio Faltante:</strong> {{ $filtros['oficio'] }}</li>
+                    @endif
+                </ul>
+            @else
+                <p>Mostrando todos los registros sin filtrar.</p>
+            @endif
+        </div>
 
         <br>
 

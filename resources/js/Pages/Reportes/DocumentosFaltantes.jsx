@@ -1,6 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -13,22 +13,47 @@ import 'datatables.net-buttons-dt/css/buttons.dataTables.css';
 import JSZip from 'jszip';
 import Card from '@/Components/Card';
 import PDFButton from '@/Components/PDFButton';
+import SelectInput from '@/Components/SelectInput';
 
 window.JSZip = JSZip;
 
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
+export default function DocumentosFaltantes({ datosReporte, auth }) {
     const permissions = auth.permissions;
-    const tableData = datosReporte.map(i => ({
-        nombreCompleto: i.nombreCompleto,
-        numero: i.numero,
-        nomInstitucion: i.nomInstitucion,
-        departamento: i.departamento,
-        ofFaltantes: i.ofFaltantes,
-        totalFaltantes: i.totalFaltantes,
-    }));
+
+    //Filtros
+    const[selectedInstitucion, setSelectedInstitucion] = useState("");
+    const[selectedOficio, setSelectedOficio] = useState("");
+
+    const institucionOptions = [
+        { value: "", label: "Todos" },
+        ...[...new Set(datosReporte.map(d => d.nomInstitucion))].map(i => ({ value: i, label: i }))
+    ];
+
+    const oficioOptions = [
+        { value: "", label: "Todos" },
+        ...[...new Set(datosReporte.flatMap(d => d.ofFaltantes))].sort().map(oficio => ({ value: oficio, label: oficio }))
+    ];
+
+    const tableData = useMemo(() => {
+        const filteredData = datosReporte.filter(item => {
+            const institucionMatch = selectedInstitucion ? item.nomInstitucion === selectedInstitucion : true;
+            const oficioMatch = selectedOficio ? item.ofFaltantes.includes(selectedOficio) : true;
+            
+            return institucionMatch && oficioMatch;
+        });
+
+        return filteredData.map(i => ({
+            nombreCompleto: i.nombreCompleto,
+            numero: i.numero,
+            nomInstitucion: i.nomInstitucion,
+            departamento: i.departamento,
+            ofFaltantes: i.ofFaltantes,
+            totalFaltantes: i.totalFaltantes,
+        }));
+    }, [datosReporte, selectedInstitucion, selectedOficio]);
 
     // Función para formatear los oficios faltantes
     const formatOficiosFaltantes = (oficios) => {
@@ -44,7 +69,22 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
             <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
                 <Head title="Reporte de documentos faltantes por expediente" />
 
-                <Card title={"No. de expedientes incompletos"} data={conteo} />
+                <Card title={"No. de expedientes incompletos"} data={tableData.length} />
+
+                <div className="mb-10">
+                    <SelectInput
+                        label="Filtrar por institución:"
+                        options={institucionOptions}
+                        value={selectedInstitucion}
+                        onChange={setSelectedInstitucion}
+                    />
+                    <SelectInput
+                        label="Filtrar por oficio faltante:"
+                        options={oficioOptions}
+                        value={selectedOficio}
+                        onChange={setSelectedOficio}
+                    />
+                </div>
 
                 <DataTable 
                     data={tableData} 
@@ -108,36 +148,6 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                                     tr.classList.add('shown');
                                 }
                             });
-
-                            api.columns(3).every(function () {
-                                const column = this;
-                                const select = document.createElement("select");
-                                select.classList.add("border", "px-2", "py-1", "text-sm");
-                                select.innerHTML = `<option value="">-- Todas --</option>`;
-
-                                // Insertar input en el header
-                                column.header().appendChild(select);
-
-                                // Llenar el select con valores únicos de la columna
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function (d) {
-                                        if (d) {
-                                            const option = document.createElement("option");
-                                            option.value = d;
-                                            option.textContent = d;
-                                            select.appendChild(option);
-                                        }
-                                    });
-
-                                // Evento para filtrar cuando cambia el select
-                                select.addEventListener("change", function () {
-                                    const val = this.value;
-                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
-                                });
-                            });
                         }
                     }}
                 >
@@ -154,7 +164,23 @@ export default function DocumentosFaltantes({ datosReporte, conteo, auth }) {
                     </thead>
                 </DataTable>
 
-                <PDFButton onClick={() => window.location.href = route('reportes.documentos.faltantes.pdf')}>
+                {/* <PDFButton onClick={() => window.location.href = route('reportes.documentos.faltantes.pdf')}>
+                    Descargar en PDF
+                </PDFButton> */}
+                <PDFButton
+                    onClick={() => {
+                        const filterParams = {};
+                        if(selectedInstitucion) {
+                            filterParams.institucion = selectedInstitucion;
+                        }
+                        if(selectedOficio) {
+                            filterParams.oficio = selectedOficio;
+                        }
+
+                        const url = route('reportes.documentos.faltantes.pdf', filterParams)
+                        window.open(url, '_blank');
+                    }}
+                >
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>
