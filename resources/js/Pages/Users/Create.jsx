@@ -3,8 +3,9 @@ import { Head, router } from "@inertiajs/react";
 import MainLayout from "@/Layouts/MainLayout";
 import InputText from "@/Components/InputText";
 import RegisterButton from "@/Components/RegisterButton";
+import SelectInput from "@/Components/SelectInput";
 
-export default function Create({ auth, errors }) {
+export default function Create({ auth, errors, roles }) {
   // Estado de los inputs
   const [values, setValues] = useState({
     nombre: "",
@@ -12,7 +13,13 @@ export default function Create({ auth, errors }) {
     apMaterno: "",
     email: "",
     password: "",
+    role: null,
   });
+
+  const options = roles.map((r)=>({
+    value: r.id,
+    label: r.name,
+  }));
 
   // Actualiza el estado al escribir
   function handleChange(e) {
@@ -73,6 +80,17 @@ export default function Create({ auth, errors }) {
           onChange={handleChange}
           error={errors.password}
         />
+
+        <SelectInput
+          label="Rol del usuario"
+          id="role" 
+          options={options}
+          value={values.role} 
+          onChange={(val) => setValues({ ...values, role: val })}
+          error={errors.role} 
+        >
+
+        </SelectInput>
       </div>
 
       <RegisterButton onClick={store}>Registrar</RegisterButton>

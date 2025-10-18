@@ -246,7 +246,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
 
       {valuesType.destinatarioTipo === "departamento" && (
         <SelectInput
-          label="Remitente"
+          label="Destinatario"
           id="idDepartamentoDestinatario"
           options={optionsDepartamentoD}
           value={values.idDepartamentoDestinatario}
@@ -257,7 +257,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
 
       {valuesType.destinatarioTipo === "particular" && (
         <SelectInput
-          label="Remitente"
+          label="Destinatario"
           id="idParticularDestinatario"
           options={optionsParticularD}
           value={values.idParticularDestinatario}
@@ -268,7 +268,7 @@ export default function Create({ auth, errors, servidor, departamento, particula
 
       {valuesType.destinatarioTipo === "institucion" && (
         <SelectInput
-          label="Remitente"
+          label="Destinatario"
           id="idInstitucionDestinatario"
           options={optionsInstitucionD}
           value={values.idInstitucionDestinatario}
