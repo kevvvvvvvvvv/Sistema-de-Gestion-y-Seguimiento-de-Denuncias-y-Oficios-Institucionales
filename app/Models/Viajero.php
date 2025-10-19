@@ -11,6 +11,7 @@ class Viajero extends Model
     protected $primaryKey = 'folio';
 
     protected $fillable = [
+        'folio',
         'asunto', 
         'instruccion', 
         'resultado', 
@@ -21,6 +22,11 @@ class Viajero extends Model
     ];
 
     public $timestamps = false;
+
+    public function getRouteKeyName()
+    {
+        return 'folio'; 
+    }
 
     public function oficio(){
         return $this->belongsTo(Oficio::class, 'numOficio', 'numOficio');

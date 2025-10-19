@@ -341,10 +341,10 @@ class ViajeroController extends Controller
         $data = File::get($pathToImage);
         $imageBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
+        $viajero->load('oficio');
         $html = view('viajero', [
             'imagenGobierno' => $imageBase64,
             'viajero' => $viajero,
-            
             ])->render();
 
 
