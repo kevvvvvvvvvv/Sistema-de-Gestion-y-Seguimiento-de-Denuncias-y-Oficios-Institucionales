@@ -1,3 +1,6 @@
+@php
+    use Carbon\Carbon;
+@endphp
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -39,12 +42,34 @@
             <img src="{{ $logoBase64 }}" alt="Logo IMTA">
             <div class="address">
                 <p><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
-                <p>Departamento de Representación</p>
+                <p>Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
                 <p>Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
             </div>
         </header>
         
-        <h1>Reporte de Seguimiento de Denuncias</h1>
+        <h1>Reporte de seguimiento de denuncias</h1>
+
+        <div>
+            @if(!empty($filtros['institucion']) || !empty($filtros['estado']) || !empty($filtros['fecha_inicio']) || !empty($filtros['fecha_fin']))
+                <p>Filtros aplicados en este reporte:</p>
+                <ul>
+                    @if(!empty($filtros['institucion']))
+                        <li><strong>Institución:</strong> {{ $filtros['institucion'] }}</li>
+                    @endif
+                    @if(!empty($filtros['estado']))
+                        <li><strong>Estado:</strong> {{ $filtros['estado'] }}</li>
+                    @endif
+                    @if(!empty($filtros['fecha_inicio']))
+                        <li><strong>Desde:</strong> {{ Carbon::parse($filtros['fecha_inicio'])->format('d/m/Y') }}</li>
+                    @endif
+                    @if(!empty($filtros['fecha_fin']))
+                        <li><strong>Hasta:</strong> {{ Carbon::parse($filtros['fecha_fin'])->format('d/m/Y') }}</li>
+                    @endif
+                </ul>
+            @else
+                <p>Mostrando todos los registros sin filtrar.</p>
+            @endif
+        </div>
 
         <br>
 
