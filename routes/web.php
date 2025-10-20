@@ -347,6 +347,9 @@ Route::delete('/bajas/{id}', [BajaController::class, 'destroy'])
     ->name('bajas.destroy')
     ->middleware('can:eliminar bajas'); 
 
+Route::get('bajas/{id}/showOne', [BajaController::class, 'showOne'])
+    ->name('bajas.showOne');
+
 
 //REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
