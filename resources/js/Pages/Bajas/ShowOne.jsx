@@ -20,6 +20,11 @@ export default function ShowOne({ auth, baja }) {
                     value={baja.servidor?.nombreCompleto}
                     readOnly={true}
                 />
+                <InputText
+                    description="Institución"
+                    value={baja.servidor?.departamento?.institucion?.nombreCompleto}
+                    readOnly={true}
+                /> 
             </div>
 
             <div className="flex items-center gap-4 my-6">
@@ -27,11 +32,6 @@ export default function ShowOne({ auth, baja }) {
                 <hr className="w-full border-gray-300" />
             </div>
             <div className="grid grid-cols-2 gap-4 flex-1">
-                {/* <InputText
-                    description="Institución"
-                    value={baja.institucionAnt}
-                    readOnly={true}
-                /> */}
                 <InputText
                     description="Adscripción"
                     value={baja.adscripcionAnt}
@@ -71,11 +71,6 @@ export default function ShowOne({ auth, baja }) {
             {baja.servidor.estatus === 'Alta' ? (
             
                     <div className="grid grid-cols-2 gap-4 flex-1">
-                        {/* <InputText
-                            description="Institución"
-                            value={baja.servidor?.departamento?.istitucion?.nombreCompleto}
-                            readOnly={true}
-                        /> */}
                         <InputText
                             description="Adscripción"
                             value={baja.servidor?.departamento?.nombre}
