@@ -111,8 +111,8 @@ Route::delete('/viajeros/{id}',[ViajeroController::class,'destroy'])
     ->name('viajeros.destroy')
     ->middleware('can:eliminar viajeros');
 
-Route::get('/viajeros/{id}/pdf',[ViajeroController::class,'generarPDF'])
-    ->name('viajero.pdf')
+Route::get('/viajeros/{viajero}/pdf',[ViajeroController::class,'generarPDF'])
+    ->name('viajeros.pdf')
     ->middleware('auth');
 
 //GESTIÓN DE PARTICULARES

@@ -35,12 +35,13 @@ export default function Index({ viajeros, auth }) {
     { title: "Instrucción", data: "instruccion" },
     { title: "Resultado", data: "resultado" },
     { title: "Fecha de Entrega", data: "fechaEntrega" },
-    { title: "Usuario", data: "usuario.nombre" },
+    { title: "Destino final", data: "usuario.nombre" },
     {
       title: "Operaciones",
       orderable: false,
       render: (data, type, row) => `
-      <div class="flex gap-2 justify-center">
+      <div class="flex gap-2 justify-center items-center">
+        
         <button class="edit-btn" data-id="${row.folio}">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
             fill="none" stroke="currentColor" stroke-width="2" 
@@ -61,17 +62,36 @@ export default function Index({ viajeros, auth }) {
           </svg>
         </button>
     
-        ${row.url ? `
-          <a href="${row.url}" target="_blank" class="flex items-center justify-center p-1 bg-gray-200 rounded hover:bg-gray-300">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" 
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16v16H4z"></path>
-              <path d="M4 12h16"></path>
-              <path d="M12 4v16"></path>
+        <div class="relative inline-block text-left group">
+          
+          <button class="p-1 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />
             </svg>
-          </a>
-        ` : ''}
-      </div>
+          </button>
+
+          <div class="absolute right-0 z-10 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden group-hover:block group-focus-within:block"
+               role="menu" aria-orientation="vertical" tabindex="-1">
+            <div class="py-1" role="none">
+              
+              ${row.url ? `
+                <a href="${row.url}" target="_blank" 
+                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" 
+                   role="menuitem" tabindex="-1">
+                  Visualizar
+                </a>
+              ` : ''}
+              
+              <button 
+                 class="pdf-btn text-gray-700 block w-full text-left px-4 py-2 text-sm hover:bg-gray-100" 
+                 role="menuitem" tabindex="-1" data-id="${row.folio}">
+                Descargar PDF
+              </button>
+
+            </div>
+          </div>
+        </div>
+        </div>
     `
     }
   ];
@@ -80,7 +100,7 @@ export default function Index({ viajeros, auth }) {
     const handleClick = (e) => {
       const editBtn = e.target.closest(".edit-btn");
       const deleteBtn = e.target.closest(".delete-btn");
-
+      const pdfBtn = e.target.closest(".pdf-btn"); 
       if (editBtn) {
         const id = editBtn.dataset.id;
         router.visit(route("viajeros.edit", id));
@@ -111,6 +131,12 @@ export default function Index({ viajeros, auth }) {
             });
           }
         );
+      }
+
+      if (pdfBtn) {
+        const id = pdfBtn.dataset.id;
+
+        window.open(route("viajeros.pdf", id), "_blank");
       }
     };
 

@@ -46,6 +46,12 @@
             font-weight: bold;
             font-size: 10pt;
         }
+
+        .ingreso{
+            font-size: 13px;
+        }
+
+
         .light-gray-bg {
             background-color: #e0e0e0; 
         }
@@ -129,13 +135,16 @@
             height: 25px; 
         }
         .asunto-box-content {
+            font-size: 12px;
              height: 60px;
         }
          .instruccion-box-content {
              height: 60px;
+             font-size: 12px;
         }
         .resultados-box-content {
              height: 60px;
+            font-size: 12px;
         }
 
     </style>
@@ -156,8 +165,8 @@
         </div>
 
         <div class="flex-row bordered" style="border-top: none;">
-            <div class="full-width-cell light-gray-bg" style="width: 120px; border-right: 1px solid black;"><span class="label">Fecha de ingreso</span></div>
-            <div class="full-width-cell flex-grow"></div>
+            <div class="full-width-cell light-gray-bg" style="width: 120px; border-right: 1px solid black;"><span class="label ingreso">Fecha de ingreso</span></div>
+            <div class="full-width-cell flex-grow">{{$viajero->oficio['fechaLlegada']}}</div>
         </div>
 
         <div class="flex-row bordered" style="border-top: none;">
@@ -174,17 +183,17 @@
         
         <div class="bordered" style="border-top: none; padding: 4px;">
             <span class="label light-gray-bg" style="padding: 4px; display: inline-block;">ASUNTO</span>
-            <div class="asunto-box-content"></div> 
+            <div class="asunto-box-content">{{$viajero['asunto']}}</div> 
         </div>
 
         <div class="flex-col flex-grow bordered" style="border-top: none;">
             <div class="large-section flex-grow">
                 <div class="header-bar">INSTRUCCIÓN</div>
-                <div class="instruccion-box-content"></div> 
+                <div class="instruccion-box-content">{{$viajero['instruccion']}}</div> 
             </div>
             <div class="large-section flex-grow">
                 <div class="header-bar">RESULTADOS</div>
-                <div class="resultados-box-content"></div>
+                <div class="resultados-box-content">{{$viajero['resultado']}}</div>
             </div>
         </div>
 
@@ -195,9 +204,9 @@
                 <div class="footer-cell light-gray-bg"><span class="label">Folio</span></div>
             </div>
              <div class="footer-grid empty-box">
+                <div class="footer-cell">{{now()->format('Y-m-d')}}</div>
                 <div class="footer-cell"></div>
-                <div class="footer-cell"></div>
-                <div class="footer-cell"></div>
+                <div class="footer-cell">{{$viajero['folio']}}</div>
             </div>
         </div>
 
