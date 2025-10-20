@@ -83,7 +83,7 @@ export default function DocumentosFaltantes({ servidoresOmisosBaja, servidoresOm
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de servidores omisos" />
 
                 <SelectInput

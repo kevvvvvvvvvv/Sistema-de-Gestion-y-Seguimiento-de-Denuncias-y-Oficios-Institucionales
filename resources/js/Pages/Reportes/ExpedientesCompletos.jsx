@@ -82,7 +82,7 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de expedientes completos" />
 
                 <SelectInput

@@ -83,7 +83,7 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de seguimiento de denuncias" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de seguimiento de denuncias" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de seguimiento de denuncias" />
 
                 <div className="mb-10">

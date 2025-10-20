@@ -78,7 +78,7 @@ export default function Index({ controles, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de controles" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de controles" insideHeader={""} backURL="/dashboard/expedientes">
         <Head title="Controles" />
         {auth.permissions.includes('crear controles') && (
         <AddButton href={route('controles.create')} />

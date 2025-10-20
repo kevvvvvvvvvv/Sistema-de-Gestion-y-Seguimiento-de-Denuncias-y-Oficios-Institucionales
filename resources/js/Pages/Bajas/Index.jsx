@@ -80,7 +80,7 @@ export default function Index({ bajas, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de bajas" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de bajas" insideHeader={""} backURL="/dashboard/expedientes">
         <Head title="Bajas" />
 
         {auth.permissions.includes("crear bajas") && (

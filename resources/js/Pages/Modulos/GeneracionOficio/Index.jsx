@@ -193,7 +193,7 @@ export default function Index({ plantillas, auth, servidores, expedientes }) {
 
   return (
     <>
-      <MainLayout auth={auth} topHeader="Plantillas de los oficios" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Plantillas de los oficios" insideHeader={""} backURL="/dashboard/expedientes">
         <Head title="Plantillas de oficios" />
 
         <AddButton href={route('modulo.oficios.crear')} />

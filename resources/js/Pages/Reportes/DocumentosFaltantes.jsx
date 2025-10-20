@@ -66,7 +66,7 @@ export default function DocumentosFaltantes({ datosReporte, auth }) {
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de documentos faltantes por expediente" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de documentos faltantes por expediente" />
 
                 <Card title={"No. de expedientes incompletos"} data={tableData.length} />

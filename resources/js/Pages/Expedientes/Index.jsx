@@ -72,7 +72,7 @@ export default function Index({ expedientes, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de expedientes" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de expedientes" insideHeader={""} backURL="/dashboard/expedientes">
         <Head title="Expedientes" />
 
         {auth.permissions.includes('crear expedientes') && (
