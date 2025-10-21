@@ -52,6 +52,7 @@
                 <tr>
                     <th>Institución</th>
                     <th>Total de Expedientes</th>
+                    <th>Fecha de requerimiento</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,6 +60,7 @@
                 <tr>
                     <td>{{ $denuncia->nombre }}</td>
                     <td>{{ $denuncia->total }}</td>
+                    <td>{{ $denuncia->fechaRequerimiento}}</td>
                 </tr>
                 @endforeach
             </tbody>

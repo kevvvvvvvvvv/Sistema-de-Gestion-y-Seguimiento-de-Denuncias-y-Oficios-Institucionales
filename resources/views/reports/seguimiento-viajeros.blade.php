@@ -102,6 +102,7 @@
                     <th>Fecha Llegada</th>
                     <th>Estado</th>
                     <th>Asunto</th>
+                    <th>Responsable</th>
                 </tr>
             </thead>
             <tbody>
@@ -111,6 +112,7 @@
                         <td>{{ \Carbon\Carbon::parse($fila->fechaLlegada)->format('d/m/Y') }}</td>
                         <td>{{ $fila->status }}</td>
                         <td>{{ $fila->asunto }}</td>
+                        <td>{{ $fila->nombre_completo}}</td>
                     </tr>
                 @empty
                     <tr>

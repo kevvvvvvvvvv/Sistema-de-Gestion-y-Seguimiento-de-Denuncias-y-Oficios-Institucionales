@@ -139,7 +139,7 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                             { title: "Nombre del servidor", data: "nombreCompletoSer" },
                             { title: "Nombre de la institución", data: "nombreCompletoIns" },
                             { title: "Fecha de requerimiento", data: "fechaRequerimiento" },
-                            { title: "Estado actual", data:"Estado" }
+                            { title: "Estado actual", data:"Estado" },
                         ]
                     }}
                 >

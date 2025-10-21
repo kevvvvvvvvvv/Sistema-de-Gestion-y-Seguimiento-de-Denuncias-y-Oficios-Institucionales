@@ -22,7 +22,8 @@ class ReporteSeguimientoViajeroRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_fin'    => 'after:fecha_inicio'
+            'fecha_inicio' => 'nullable',
+            'fecha_fin'    => 'nullable|after:fecha_inicio'
         ];
     }
 

@@ -108,6 +108,7 @@ export default function DenunciasInstitucion({ onClick, auth, errors, datos, dat
                             <th className="border px-4 py-2">Asunto</th>
                             <th className="border px-4 py-2">Instrucción</th>
                             <th className="border px-4 py-2">Resultado</th>
+                            <th className="border px-4 py-2">Destino final</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,6 +121,7 @@ export default function DenunciasInstitucion({ onClick, auth, errors, datos, dat
                                     <td className="border px-4 py-2">{item.asunto}</td>
                                     <td className="border px-4 py-2">{item.instruccion}</td>
                                     <td className="border px-4 py-2">{item.resultado}</td>
+                                    <td className="border px-4 py-2">{item.nombre_completo}</td>
                                 </tr>
                             ))
                         ) : (

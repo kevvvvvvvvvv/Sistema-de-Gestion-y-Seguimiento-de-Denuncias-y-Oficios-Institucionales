@@ -42,13 +42,22 @@ class ReporteSeguimientoViajerosController extends Controller
                 viajero.status,
                 viajero.asunto,
                 viajero.instruccion,
-                viajero.resultado
+                viajero.resultado,
+                CONCAT(
+                    users.nombre, ' ',
+                    users.apPaterno, ' ',
+                    users.apMaterno
+                ) as nombre_completo
             FROM
                 oficio
             INNER JOIN
                 viajero
             ON 
                 viajero.numOficio = oficio.numOficio
+            LEFT JOIN
+                users
+            ON
+                viajero.idUsuario = users.idUsuario
         ";
 
         $bindings = [];
@@ -100,13 +109,22 @@ class ReporteSeguimientoViajerosController extends Controller
                     viajero.status,
                     viajero.asunto,
                     viajero.instruccion,
-                    viajero.resultado
+                    viajero.resultado,
+                    CONCAT(
+                        users.nombre, ' ',
+                        users.apPaterno, ' ',
+                        users.apMaterno
+                    ) as nombre_completo
                 FROM
                     oficio
                 INNER JOIN
                     viajero
                 ON 
                     viajero.numOficio = oficio.numOficio
+                LEFT JOIN 
+                    users
+                ON
+                    viajero.idUsuario = users.idUsuario
             ";
 
             $bindings = [];
