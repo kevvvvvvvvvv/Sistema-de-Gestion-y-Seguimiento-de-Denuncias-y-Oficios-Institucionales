@@ -38,6 +38,12 @@ export default function Dashboard({auth}) {
                 </ModuleOption>
                 )}
 
+                <ModuleOption managementLink="Gestión de bajas de servidores" href={route('bajas.index')}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-x-icon lucide-user-round-x">
+                        <path d="M2 21a8 8 0 0 1 11.873-7"/><circle cx="10" cy="8" r="5"/><path d="m17 17 5 5"/><path d="m22 17-5 5"/>
+                    </svg>
+                </ModuleOption>
+
                 {auth.permissions.includes("consultar expedientes") && (
                 <ModuleOption managementLink="Gestión de expedientes" href={route('expedientes.index')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

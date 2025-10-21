@@ -1,11 +1,12 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, router } from '@inertiajs/react';
 import Card from '@/Components/Card';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import RegisterButton from "@/Components/RegisterButton";
 import ModalTable from '@/Components/ModalTable';
+import SelectInput from '@/Components/SelectInput';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -23,9 +24,26 @@ window.JSZip = JSZip;
 DataTable.use(DT);
 DataTable.use(Buttons);
 
-export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, auth }) {
+export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos, incompletosPorInstitucion, auth }) {
     const permissions = auth.permissions;
-    const tableData = ofCompletos.map(i => ({
+
+    const [selectedInstitucion, setSelectedInstitucion] = useState("");
+
+    const filteredCompletos = useMemo(() => {
+        if (!selectedInstitucion) {
+            return ofCompletos; 
+        }
+        return ofCompletos.filter(item => item.nomInstitucion === selectedInstitucion);
+    }, [ofCompletos, selectedInstitucion]);
+
+    const filteredIncompletos = useMemo(() => {
+        if (!selectedInstitucion) {
+            return exIncompletos;
+        }
+        return incompletosPorInstitucion[selectedInstitucion] || 0;
+    }, [selectedInstitucion, exIncompletos, incompletosPorInstitucion]);
+
+    const tableData = useMemo(() => filteredCompletos.map(i => ({
         nombreCompleto: i.nombreCompleto,
         numero: i.numero,
         nomInstitucion: i.nomInstitucion,
@@ -35,9 +53,14 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
         ofRespuesta: i.ofRespuesta,
         fechaRespuesta: i.fechaRespuesta,
         fechaRecepcion: i.fechaRecepcion,
-    }));
+    })), [filteredCompletos]);
 
-    const [chartOptions] = useState({
+    const institucionOptions = useMemo(() => [
+        { value: "", label: "Todos" },
+        ...[...new Set(ofCompletos.map(d => d.nomInstitucion))].sort().map(i => ({ value: i, label: i }))
+    ], [ofCompletos]);
+
+    const dynamicChartOptions = useMemo(() => ({
         chart: { type: 'column' },
         title: { text: 'Comparación entre los expedientes completos e incompletos' },
         xAxis: { title: { text: 'Tipo de expediente' }, categories: ['Completos', 'Incompletos'] },
@@ -48,27 +71,34 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
         series: [{
             name: 'Expedientes',
             data: [
-                    { y: conteo, color: "#90ed7d" },  
-                    { y: exIncompletos, color: "#f45b5b" } 
-                ]
+                { y: filteredCompletos.length, color: "#90ed7d" },
+                { y: filteredIncompletos, color: "#f45b5b" }
+            ]
         }]
-    });
+    }), [filteredCompletos, filteredIncompletos]);
 
     const [modalOpen, setModalOpen] = useState(false);
     const [modalData, setModalData] = useState(null);
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de expedientes completos" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de expedientes completos" />
 
-                <Card title={"No. de expedientes completos"} data={conteo} 
-                    title2={"No. de expedientes incompletos"} data2={exIncompletos}
+                <SelectInput
+                    label="Filtrar por institución:"
+                    options={institucionOptions}
+                    value={selectedInstitucion}
+                    onChange={(value) => setSelectedInstitucion(value)}
+                />
+
+                <Card title={"No. de expedientes completos"} data={filteredCompletos.length} 
+                    title2={"No. de expedientes incompletos"} data2={filteredIncompletos}
                 />
 
                 <HighchartsReact
                     highcharts={Highcharts}
-                    options={chartOptions}
+                    options={dynamicChartOptions}
                 />
 
                 <br/>
@@ -122,37 +152,6 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
 
                         initComplete: function () {
                             const api = this.api();
-                            
-                            // FILTRADO DE COLUMNA
-                            api.columns(2).every(function () {
-                                const column = this;
-                                const select = document.createElement("select");
-                                select.classList.add("border", "px-2", "py-1", "text-sm");
-                                select.innerHTML = `<option value="">-- Todas --</option>`;
-
-                                // Insertar input en el header
-                                column.header().appendChild(select);
-
-                                // Llenar el select con valores únicos de la columna
-                                column
-                                    .data()
-                                    .unique()
-                                    .sort()
-                                    .each(function (d) {
-                                        if (d) {
-                                            const option = document.createElement("option");
-                                            option.value = d;
-                                            option.textContent = d;
-                                            select.appendChild(option);
-                                        }
-                                    });
-
-                                // Evento para filtrar cuando cambia el select
-                                select.addEventListener("change", function () {
-                                    const val = this.value;
-                                    column.search(val ? '^' + val + '$' : '', true, false).draw();
-                                });
-                            });
 
                             // ABRIR EL MODAL
                             api.on('click', '.btn-ver-detalles', function(){
@@ -180,7 +179,15 @@ export default function DocumentosFaltantes({ ofCompletos, conteo, exIncompletos
                     data={modalData} 
                 />
 
-                <PDFButton onClick={() => window.location.href = route('reportes.expedientes.completos.pdf')}>
+                <PDFButton 
+                    onClick={() => {
+                        const url = route('reportes.expedientes.completos.pdf', { 
+                            institucion: selectedInstitucion 
+                        });
+                        
+                        window.open(url, '_blank');
+                    }}
+                >
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>

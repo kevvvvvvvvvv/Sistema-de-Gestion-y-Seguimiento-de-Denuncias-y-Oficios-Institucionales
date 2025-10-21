@@ -1,6 +1,7 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import SelectInput from '@/Components/SelectInput';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -21,6 +22,29 @@ DataTable.use(Buttons);
 
 export default function DocumentosFaltantes({ servidoresOmisosBaja, servidoresOmisosAlta, numOmisosBaja, numOmisosAlta, auth }) {
     const permissions = auth.permissions;
+
+    const [selectedInstitucion, setSelectedInstitucion] = useState("");
+
+    const filteredOmisosBaja = useMemo(() => {
+        if (!selectedInstitucion) return servidoresOmisosBaja;
+        return servidoresOmisosBaja.filter(item => item.institucion === selectedInstitucion);
+    }, [servidoresOmisosBaja, selectedInstitucion]);
+
+    const filteredOmisosAlta = useMemo(() => {
+        if (!selectedInstitucion) return servidoresOmisosAlta;
+        return servidoresOmisosAlta.filter(item => item.institucion === selectedInstitucion);
+    }, [servidoresOmisosAlta, selectedInstitucion]);
+
+    const institucionOptions = useMemo(() => {
+        const set = new Set([
+            ...servidoresOmisosBaja.map(d => d.institucion),
+            ...servidoresOmisosAlta.map(d => d.institucion)
+        ]);
+        return [
+            { value: "", label: "Todos" },
+            ...Array.from(set).sort().map(i => ({ value: i, label: i }))
+        ];
+    }, [servidoresOmisosBaja, servidoresOmisosAlta]);
 
     const tableDataOmisosBaja = servidoresOmisosBaja.map(i => ({
         nombreCompleto: i.nombreCompleto,
@@ -59,19 +83,26 @@ export default function DocumentosFaltantes({ servidoresOmisosBaja, servidoresOm
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de servidores omisos" />
+
+                <SelectInput
+                    label="Filtrar por institución:"
+                    options={institucionOptions}
+                    value={selectedInstitucion}
+                    onChange={(value) => setSelectedInstitucion(value)}
+                />
 
                 {/* Conteo de servidores */}
                 <Card 
-                    title={"No. de servidores omisos sin Acuerdo de Conclusión"} data={numOmisosBaja} 
-                    title2={"No. de servidores omisos sin Acuerdo de Inicio"} data2={numOmisosAlta} 
+                    title={"No. de servidores omisos sin Acuerdo de Conclusión"} data={filteredOmisosBaja.length} 
+                    title2={"No. de servidores omisos sin Acuerdo de Inicio"} data2={filteredOmisosAlta.length} 
                 /> 
 
                 {/* Servidores sin archivo de conclusión */}
                 <h1 className='text-xl font-bold my-8'>Servidores omisos por falta del Acuerdo de Conclusión</h1>
                 <DataTable 
-                    data={tableDataOmisosBaja} 
+                    data={filteredOmisosBaja} 
                     className="display"
                     options={{ 
                         dom: '<"dt-toolbar flex justify-between items-center mb-4"fB>rt<"dt-footer flex justify-between items-center mt-4 text-xs"lip>', 
@@ -149,7 +180,7 @@ export default function DocumentosFaltantes({ servidoresOmisosBaja, servidoresOm
                 {/* Servidores sin archivo de inicio */}
                 <h1 className='text-xl font-bold my-8'>Servidores omisos por falta del Acuerdo de Inicio</h1>
                 <DataTable 
-                    data={tableDataOmisosAlta} 
+                    data={filteredOmisosAlta} 
                     className="display"
                     options={{ 
                         dom: '<"dt-toolbar flex justify-between items-center mb-4"fB>rt<"dt-footer flex justify-between items-center mt-4 text-xs"lip>', 
@@ -222,7 +253,12 @@ export default function DocumentosFaltantes({ servidoresOmisosBaja, servidoresOm
                     </thead>
                 </DataTable>
 
-                <PDFButton onClick={() => window.location.href = route('reportes.servidores.omisos.pdf')}>
+                <PDFButton 
+                    onClick={() => {
+                        const url = route('reportes.servidores.omisos.pdf', { institucion: selectedInstitucion });
+                        window.open(url, '_blank');
+                    }}
+                >
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>

@@ -84,34 +84,41 @@ class ReporteServidoresOmisosController extends Controller
         ]);
     }
 
-    public function descargarReporteServOmisoPdf()
+    public function descargarReporteServOmisoPdf(Request $request)
     {
         try {
             // DATOS PARA EL REPORTE
-            $servidoresBaja = DB::select('select servidor.nombreCompleto,
-                institucion.nombreCompleto as institucion, departamento.nombre as departamento, 
-                expediente.numero,
-                baja.fechaBaja, baja.descripcion as descrBaja,
-                control.acConclusion
-                from servidor inner join institucion on  servidor.idInstitucion = institucion.idInstitucion
-                inner join departamento on servidor.idDepartamento = departamento.idDepartamento
-                inner join baja on baja.idServidor = servidor.idServidor
-                inner join expediente on expediente.idServidor = servidor.idServidor
-                inner join control on expediente.numero = control.numero
-                where servidor.estatus = "Baja";');
+            $queryBaja = DB::table('servidor')
+            ->join('institucion', 'servidor.idInstitucion', '=', 'institucion.idInstitucion')
+            ->join('departamento', 'servidor.idDepartamento', '=', 'departamento.idDepartamento')
+            ->join('baja', 'baja.idServidor', '=', 'servidor.idServidor')
+            ->join('expediente', 'expediente.idServidor', '=', 'servidor.idServidor')
+            ->join('control', 'expediente.numero', '=', 'control.numero')
+            ->where('servidor.estatus', '=', 'Baja')
+            ->select('servidor.nombreCompleto', 'institucion.nombreCompleto as institucion', 'departamento.nombre as departamento', 'expediente.numero', 'baja.fechaBaja', 'baja.descripcion as descrBaja', 'control.acConclusion');
 
-            $servidoresAlta = DB::select('select servidor.nombreCompleto, servidor.fechaIngreso, servidor.descripcion as descrAlta,
-                institucion.nombreCompleto as institucion, departamento.nombre as departamento, 
-                expediente.numero,
-                control.acInicio
-                from servidor inner join institucion on  servidor.idInstitucion = institucion.idInstitucion
-                inner join departamento on servidor.idDepartamento = departamento.idDepartamento
-                inner join baja on baja.idServidor = servidor.idServidor
-                inner join expediente on expediente.idServidor = servidor.idServidor
-                inner join control on expediente.numero = control.numero
-                where servidor.estatus = "Alta"
-                group by servidor.nombreCompleto
-                having count(baja.idServidor) = 1;');
+            $queryBaja->when($request->institucion, function ($q, $institucion) {
+                return $q->where('institucion.nombreCompleto', $institucion);
+            });
+
+            $servidoresBaja = $queryBaja->get();
+
+            $queryAlta = DB::table('servidor')
+            ->join('institucion', 'servidor.idInstitucion', '=', 'institucion.idInstitucion')
+            ->join('departamento', 'servidor.idDepartamento', '=', 'departamento.idDepartamento')
+            ->join('baja', 'baja.idServidor', '=', 'servidor.idServidor')
+            ->join('expediente', 'expediente.idServidor', '=', 'servidor.idServidor')
+            ->join('control', 'expediente.numero', '=', 'control.numero')
+            ->where('servidor.estatus', '=', 'Alta')
+            ->select('servidor.nombreCompleto', 'servidor.fechaIngreso', 'servidor.descripcion as descrAlta', 'institucion.nombreCompleto as institucion', 'departamento.nombre as departamento', 'expediente.numero', 'control.acInicio')
+            ->groupBy('servidor.idServidor') 
+            ->havingRaw('count(baja.idServidor) >= 1');
+
+            $queryAlta->when($request->institucion, function ($q, $institucion) {
+                return $q->where('institucion.nombreCompleto', $institucion);
+            });
+
+            $servidoresAlta = $queryAlta->get();
 
             //No se tiene acuerdo de conclusión después de la baja
             $servidoresOmisosBaja = [];
@@ -162,6 +169,7 @@ class ReporteServidoresOmisosController extends Controller
                     'servidoresOmisosAlta' => $servidoresOmisosAlta,
                     'numOmisosBaja' => $numOmisosBaja,
                     'numOmisosAlta' => $numOmisosAlta,
+                    'filtro' => $request->institucion,
                     'logoBase64' => $logoBase64 
                 ])->render();
 

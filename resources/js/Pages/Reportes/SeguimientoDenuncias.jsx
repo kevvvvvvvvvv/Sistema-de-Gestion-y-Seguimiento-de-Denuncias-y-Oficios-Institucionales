@@ -1,9 +1,10 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Head, Link } from '@inertiajs/react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import SelectInput from "@/Components/SelectInput";
 import ProgresoExpediente from '@/Components/ProgresoExpediente';
 import PDFButton from '@/Components/PDFButton';
+import InputDate from "@/Components/InputDate";
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -34,6 +35,8 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
     //Filtros
     const [selectedStatus, setSelectedStatus] = useState("")
     const [selectedInstitucion, setSelectedInstitucion] = useState("");
+    const [fechaInicio, setFechaInicio] = useState(null);
+    const [fechaFin, setFechaFin] = useState(null);
 
     const estadoOptions = [
         { value: "", label: "Todos" },
@@ -48,11 +51,23 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
         ...[...new Set(datosReporte.map(d => d.nombreCompletoIns))].map(i => ({ value: i, label: i }))
     ];
 
-    const filteredTableData = tableData.filter(d => {
-        const statusMatch = selectedStatus ? d.Estado === selectedStatus : true;
-        const institucionMatch = selectedInstitucion ? d.nombreCompletoIns === selectedInstitucion : true;
-        return statusMatch && institucionMatch;
-    });
+    const filteredTableData = useMemo(() => {
+        const effectiveEndDate = fechaFin ? new Date(fechaFin) : null;
+        if (effectiveEndDate) {
+            effectiveEndDate.setHours(23, 59, 59, 999);
+        }
+
+        return tableData.filter(d => {
+            const statusMatch = selectedStatus ? d.Estado === selectedStatus : true;
+            const institucionMatch = selectedInstitucion ? d.nombreCompletoIns === selectedInstitucion : true;
+
+            const itemDate = new Date(d.fechaRequerimiento);
+            const startDateMatch = fechaInicio ? itemDate >= fechaInicio : true;
+            const endDateMatch = effectiveEndDate ? itemDate <= effectiveEndDate : true;
+
+            return statusMatch && institucionMatch && startDateMatch && endDateMatch;
+        });
+    }, [tableData, selectedStatus, selectedInstitucion, fechaInicio, fechaFin]);
 
     //Línea de seguimiento
     const [servidorSeleccionado, setServidorSeleccionado] = useState("");
@@ -68,7 +83,7 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de Seguimiento de Denuncias" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de seguimiento de denuncias" insideHeader={""} backURL="/dashboard/expedientes">
                 <Head title="Reporte de seguimiento de denuncias" />
 
                 <div className="mb-10">
@@ -83,6 +98,18 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                         options={institucionOptions}
                         value={selectedInstitucion}
                         onChange={setSelectedInstitucion}
+                    />
+                    <InputDate
+                        description="Fecha de requerimiento (desde):"
+                        value={fechaInicio}
+                        onChange={setFechaInicio}
+                        placeholder="Fecha de inicio"
+                    />
+                    <InputDate
+                        description="Fecha de requerimiento (hasta):"
+                        value={fechaFin}
+                        onChange={setFechaFin}
+                        placeholder="Fecha de fin"
                     />
                 </div>
 
@@ -145,7 +172,27 @@ export default function DocumentosFaltantes({ datosReporte,auth }) {
                     )}
                 </div>
 
-                <PDFButton onClick={() => window.location.href = route('reportes.seguimiento.deununcias.pdf')}>
+                <PDFButton 
+                    onClick={() => {
+                        const filterParams = {};
+                        
+                        if (selectedStatus) {
+                            filterParams.estado = selectedStatus;
+                        }
+                        if (selectedInstitucion) {
+                            filterParams.institucion = selectedInstitucion;
+                        }
+                        if (fechaInicio) {
+                            filterParams.fecha_inicio = fechaInicio.toISOString().split('T')[0];
+                        }
+                        if (fechaFin) {
+                            filterParams.fecha_fin = fechaFin.toISOString().split('T')[0];
+                        }
+
+                        const url = route('reportes.seguimiento.deununcias.pdf', filterParams);
+                        window.open(url, '_blank');
+                    }}
+                >
                     Descargar en PDF
                 </PDFButton>
             </MainLayout>

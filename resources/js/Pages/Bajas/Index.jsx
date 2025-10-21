@@ -41,6 +41,7 @@ export default function Index({ bajas, auth }) {
         const handleClick = (e) => {
             const editBtn = e.target.closest(".edit-btn");
             const deleteBtn = e.target.closest(".delete-btn");
+            const btnVerDetalles = e.target.closest(".btn-ver-detalles");
 
             if (editBtn) {
             const id = editBtn.dataset.id;
@@ -65,6 +66,11 @@ export default function Index({ bajas, auth }) {
                   );
                   
               }
+
+              if(btnVerDetalles) {
+                const id = btnVerDetalles.dataset.id;
+                router.visit(route("bajas.showOne", id));
+              }
               
         };
 
@@ -74,7 +80,7 @@ export default function Index({ bajas, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de bajas" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de bajas" insideHeader={""} backURL="/dashboard/expedientes">
         <Head title="Bajas" />
 
         {auth.permissions.includes("crear bajas") && (
@@ -114,43 +120,52 @@ export default function Index({ bajas, auth }) {
                     { title: "Fecha de la baja", data: "fechaBaja" },
                     { title: "Descripción de la baja", data: "descripcion" },
                     {
-                      title: "Operaciones",
-                      orderable: false,
-                      render: (data, type, row) => {
-                          let buttons = `<div class="flex gap-2 justify-center">`;
-                  
-                          if (permissions.includes("editar bajas")) {
-                              buttons += `
-                                  <button class="edit-btn" data-id="${row.idBaja}">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                           viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <path d="M12 20h9"></path>
-                                          <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
-                                      </svg>
-                                  </button>
-                              `;
-                          }
-                  
-                          if (permissions.includes("eliminar bajas")) {
-                              buttons += `
-                                  <button class="delete-btn" data-id="${row.idBaja}">
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                           viewBox="0 0 24 24" fill="none" stroke="red"
-                                           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                          <polyline points="3 6 5 6 21 6"></polyline>
-                                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                                          <path d="M10 11v6"></path>
-                                          <path d="M14 11v6"></path>
-                                      </svg>
-                                  </button>
-                              `;
-                          }
-                  
-                          buttons += `</div>`;
-                          return buttons;
-                      }
-                  }
+                        title: "Operaciones",
+                        orderable: false,
+                        render: (data, type, row) => {
+                            let buttons = `<div class="flex gap-2 justify-center">`;
+                    
+                            if (permissions.includes("editar bajas")) {
+                                buttons += `
+                                    <button class="edit-btn" data-id="${row.idBaja}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 20h9"></path>
+                                            <path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>
+                                        </svg>
+                                    </button>
+                                `;
+                            }
+                    
+                            if (permissions.includes("eliminar bajas")) {
+                                buttons += `
+                                    <button class="delete-btn" data-id="${row.idBaja}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            viewBox="0 0 24 24" fill="none" stroke="red"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                            <path d="M10 11v6"></path>
+                                            <path d="M14 11v6"></path>
+                                        </svg>
+                                    </button>
+                                `;
+                            }
+                    
+                            buttons += `</div>`;
+                            return buttons;
+                        }
+                    },
+                    {
+                        title: "Operaciones",
+                        orderable: false,
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `<button class="btn-ver-detalles px-3 py-1 bg-azulIMTA text-white text-sm rounded" data-id="${row.idBaja}">Ver detalles</button>`;
+                        }
+                    }
                   
                 ]
             }}

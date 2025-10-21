@@ -83,4 +83,13 @@ class BajaController extends Controller
         $baja->delete();
         return redirect()->route('bajas.index');
     }
+
+    public function showOne($id)
+    {
+        $baja = Baja::with(['servidor.departamento.institucion'])->findOrFail($id);
+        
+        return Inertia::render('Bajas/ShowOne', [
+            'baja' => $baja
+        ]);
+    }
 }

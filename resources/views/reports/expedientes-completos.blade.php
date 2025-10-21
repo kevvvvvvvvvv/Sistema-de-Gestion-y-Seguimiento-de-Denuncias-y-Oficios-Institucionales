@@ -39,12 +39,22 @@
             <img src="{{ $logoBase64 }}" alt="Logo IMTA">
             <div class="address">
                 <p><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
-                <p>Departamento de Representación</p>
+                <p>Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
                 <p>Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
             </div>
         </header>
         
-        <h1>Reporte de Expedientes Completos</h1>
+        <h1>Reporte de expedientes completos</h1>
+
+        <div>
+            @if($filtro)
+                <p><strong>Mostrando resultados para la institución:</strong> {{ $filtro }}</p>
+            @else
+                <p><strong>Mostrando resultados para todas las instituciones.</strong></p>
+            @endif
+        </div>
+
+        <br>
 
         <p>Número de expedientes completos: {{ $conteo }}</p>
         <p>Número de expedientes incompletos: {{ $exIncompletos }}</p>
