@@ -139,4 +139,5 @@ npm install @blocknote/xl-docx-exporter docx file-saver
 ```bash
 composer require spatie/laravel-backup
 php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+sudo pacman -S mariadb-clients
 ```

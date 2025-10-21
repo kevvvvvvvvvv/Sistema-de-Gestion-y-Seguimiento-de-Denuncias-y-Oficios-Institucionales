@@ -78,7 +78,7 @@ export default function Respaldo({ auth, backups, success, error }) {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                                     {backup.status === 'completed' ? (
-                                                        // Este es un enlace GET normal para descargar el archivo
+
                                                         <a 
                                                             href={route('bd.respaldo.download', { backup: backup.id })}
                                                             className="text-indigo-600 hover:text-indigo-900"

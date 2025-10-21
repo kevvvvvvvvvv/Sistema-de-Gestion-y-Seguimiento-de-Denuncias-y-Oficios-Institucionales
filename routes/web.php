@@ -426,4 +426,10 @@ Route::get('/bd/respaldo/{backup}/descargar', [RespaldoController::class, 'downl
 Route::get('/bd/restauracion/', [RestauracionController::class, 'showView'])
     ->name('bd.restauracion'); 
 
+Route::get('/bd/restauracion', [RestauracionController::class, 'showView'])
+        ->name('bd.restauracion'); 
+
+Route::post('/bd/restauracion', [RestauracionController::class, 'restore'])
+        ->name('bd.restauracion.store');
+
 require __DIR__.'/auth.php';

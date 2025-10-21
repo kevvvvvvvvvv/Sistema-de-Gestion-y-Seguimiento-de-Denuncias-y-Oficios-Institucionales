@@ -2,11 +2,12 @@ import MainLayout from "@/Layouts/MainLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { useState } from 'react';
 
-export default function Respaldo({auth}) {
+
+export default function Restauracion({ auth, success, error }) {
     const permissions = auth.permissions;
 
     const [fileName, setFileName] = useState('Ningún archivo seleccionado');
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         sql_file: null,
     });
 
@@ -15,6 +16,9 @@ export default function Respaldo({auth}) {
             const file = e.target.files[0];
             setData('sql_file', file);
             setFileName(file.name); 
+        } else {
+            setData('sql_file', null);
+            setFileName('Ningún archivo seleccionado');
         }
     }
 
@@ -25,11 +29,12 @@ export default function Respaldo({auth}) {
             return;
         }
         
-        post(route(''), {
+        post(route('bd.restauracion.store'), {
             onSuccess: () => {
+                reset('sql_file');
                 setFileName('Ningún archivo seleccionado');
-                e.target.reset(); 
-            }
+            },
+
         });
     }
 
@@ -39,15 +44,29 @@ export default function Respaldo({auth}) {
                 <Head title="Restauración de la base de datos" />
                 <img className="h-64 place-self-center mt-10" src="/images/BD.png" alt="Imagen de base de datos" />
 
-                <form onSubmit={handleSubmit} className="mt-8 w-full">
+                <div className="w-full max-w-lg mx-auto mt-6">
+                    {success && (
+                        <div className="mb-4 p-4 font-medium text-sm text-green-600 bg-green-100 rounded-lg text-center">
+                            {success}
+                        </div>
+                    )}
+                    {error && (
+                        <div className="mb-4 p-4 font-medium text-sm text-red-600 bg-red-100 rounded-lg text-center">
+                            {error}
+                        </div>
+                    )}
+                </div>
+
+                <form onSubmit={handleSubmit} className="mt-4 w-full">
                     <div className="flex flex-col items-center gap-4">
 
                         <input
                             type="file"
-                            accept=".sql"
+                            accept=".sql,text/plain" 
                             onChange={handleFileChange}
                             id="sql_file_input"
                             className="hidden"
+                            key={data.sql_file} 
                         />
 
                         <label
@@ -68,7 +87,6 @@ export default function Respaldo({auth}) {
                         >
                             {processing ? 'Restaurando...' : 'Restaurar'}
                         </button>
-                        
                         {errors.sql_file && <span className="text-red-500 text-sm mt-2">{errors.sql_file}</span>}
                     </div>
                 </form>

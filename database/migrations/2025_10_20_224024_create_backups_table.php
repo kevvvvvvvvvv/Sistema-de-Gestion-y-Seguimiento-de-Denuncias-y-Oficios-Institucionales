@@ -13,22 +13,15 @@ return new class extends Migration
     {
         Schema::create('backups', function (Blueprint $table) {
             $table->id();
-
-            // --- ESTA ES LA PARTE IMPORTANTE ---
-            // 1. Crea la columna para la clave foránea
             $table->unsignedBigInteger('user_id'); 
-            // ------------------------------------
 
             $table->string('file_name');
             $table->string('path');
             $table->string('status')->default('pending');
             $table->timestamps();
-
-            // --- Y ESTA ES LA DEFINICIÓN DE LA REGLA ---
-            // 2. Define la restricción (foreign key)
             $table->foreign('user_id')
-                  ->references('idUsuario') // La columna en la tabla 'users'
-                  ->on('users')             // La tabla 'users'
+                  ->references('idUsuario') 
+                  ->on('users')             
                   ->onDelete('cascade');
             // ---------------------------------------------
         });
