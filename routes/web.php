@@ -21,6 +21,8 @@ use App\Http\Controllers\ReporteSeguimientoViajerosController;
 use App\Http\Controllers\ReporteExpedienteCompleto;
 use App\Http\Controllers\ReporteServidoresOmisosController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RespaldoController;
+use App\Http\Controllers\RestauracionController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -409,5 +411,13 @@ Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionO
 
 //NOTIFICACIONES
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+
+//RESPALDO DE LA BASE DE DATOS
+Route::get('/bd/respaldo/', [RespaldoController::class, 'showView'])
+    ->name('bd.respaldo'); 
+
+//RESTAURACIÓN DE LA BASE DE DATOS
+Route::get('/bd/restauracion/', [RestauracionController::class, 'showView'])
+    ->name('bd.restauracion'); 
 
 require __DIR__.'/auth.php';
