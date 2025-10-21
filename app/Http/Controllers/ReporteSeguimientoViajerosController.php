@@ -19,6 +19,7 @@ class ReporteSeguimientoViajerosController extends Controller
     */
     public function showSeguimientoViajeros(ReporteSeguimientoViajeroRequest $request)
     {
+    
         $fechaInicio = $request->input('fecha_inicio');
         $fechaFin = $request->input('fecha_fin');
 

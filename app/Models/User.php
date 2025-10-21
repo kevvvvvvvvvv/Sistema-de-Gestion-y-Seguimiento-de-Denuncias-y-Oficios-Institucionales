@@ -50,4 +50,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function backups()
+    {        
+        return $this->hasMany(Backup::class, 'user_id', 'idUsuario');
+    }
 }

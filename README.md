@@ -133,3 +133,10 @@ npm install axios
 ```bash
 npm install @blocknote/xl-docx-exporter docx file-saver
 ```
+
+<h2>Paquetes para el respaldo y restauración de la base de datos</h2>
+
+```bash
+composer require spatie/laravel-backup
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+```

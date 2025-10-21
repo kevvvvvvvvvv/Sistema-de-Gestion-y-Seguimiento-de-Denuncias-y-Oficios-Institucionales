@@ -413,8 +413,14 @@ Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionO
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
 //RESPALDO DE LA BASE DE DATOS
-Route::get('/bd/respaldo/', [RespaldoController::class, 'showView'])
-    ->name('bd.respaldo'); 
+Route::get('/bd/respaldo', [RespaldoController::class, 'index'])
+        ->name('bd.respaldo.index'); 
+
+Route::post('/bd/respaldo', [RespaldoController::class, 'store'])
+    ->name('bd.respaldo.store');
+
+Route::get('/bd/respaldo/{backup}/descargar', [RespaldoController::class, 'download'])
+    ->name('bd.respaldo.download');
 
 //RESTAURACIÓN DE LA BASE DE DATOS
 Route::get('/bd/restauracion/', [RestauracionController::class, 'showView'])

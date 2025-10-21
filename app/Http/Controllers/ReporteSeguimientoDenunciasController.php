@@ -48,6 +48,7 @@ class ReporteSeguimientoDenunciasController extends Controller
     }
 
     public function descargarReporteSegDenuPdf(Request $request) {
+        
         try {
             // DATOS PARA EL REPORTE
             $query = DB::table('expediente as exp')
