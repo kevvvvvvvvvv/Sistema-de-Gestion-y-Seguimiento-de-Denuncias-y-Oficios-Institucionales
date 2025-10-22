@@ -156,7 +156,9 @@ export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
                             { title: "Fecha límite para entregar Acuerdo de Inicio", data: "fechaLimiteIni", visible: false },
                             { title: "Días desde la omsión", data: "difDiasIni", visible: false },
                             { title: "Fecha límite para entregar para entregar Acuerdo de Modificación", data: "fechaLimiteModi", visible: false },
-                            { title: "Días desde la omsión", data: "difDiasModi", visible: false }
+                            { title: "Días desde la omsión", data: "difDiasModi", visible: false },
+                            { title: "Fecha límite para entregar para entregar Acuerdo de Conclusión", data: "fechaLimiteCon", visible: false },
+                            { title: "Días desde la omsión", data: "difDiasCon", visible: false }
                         ],
                         // Función para inicializar la tabla con child rows
                         initComplete: function () {
