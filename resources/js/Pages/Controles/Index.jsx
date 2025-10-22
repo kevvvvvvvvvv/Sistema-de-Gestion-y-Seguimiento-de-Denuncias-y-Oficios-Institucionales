@@ -38,7 +38,8 @@ export default function Index({ controles, auth }) {
         feEntregaModif: i.feEntregaModif,
         feEntregaCon: i.feEntregaCon,
         comentarios: i.comentarios,
-        numero: i.expediente.numero
+        numero: i.expediente.numero,
+        servidor: i.expediente.servidor.nombreCompleto,
     }));
 
     useEffect(() => {
@@ -108,6 +109,7 @@ export default function Index({ controles, auth }) {
                 columns: [
                     { title: "Consecutivo", data: "consecutivo" },
                     { title: "Número de oficio", data: "numero" },
+                    { title: "Nombre del servidor público", data: "servidor" },
                     { title: "Acuerdo de inicio", data: "acInicio"},
                     { title: "Fecha de entrega del Acuerdo de Incio", data: "feEntregaInicio", visible: false},
                     { title: "Acuerdo de modificacion", data: "acModificacion"},
@@ -165,6 +167,7 @@ export default function Index({ controles, auth }) {
                 <tr>
                     <th>Consecutivo</th>
                     <th>Número de oficio</th>
+                    <th>Nombre del servidor público</th>
                     <th>Acuerdo de prórroga</th>
                     <th>Acuerdo del auxilio</th>
                     <th>Acuerdo de regularización</th>
