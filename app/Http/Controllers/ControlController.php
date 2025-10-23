@@ -12,7 +12,7 @@ class ControlController extends Controller
 {
     public function index()
     {
-        $controles = Control::with('expediente')->get();
+        $controles = Control::with('expediente.servidor')->get();
         return Inertia::render('Controles/Index', ['controles' => $controles]);
     }
 
