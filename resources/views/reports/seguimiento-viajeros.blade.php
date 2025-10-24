@@ -147,8 +147,19 @@
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1 
+                        },
+                        title: { 
+                            display: true,
+                            text: 'Total'
                         }
-                    } 
+                    },
+                    x: {
+                        title: { 
+                            display: true,
+                            text: 'Estatus'
+                        }
+
+                    }
                 }
             }
         };

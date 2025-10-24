@@ -58,7 +58,7 @@
             </tbody>
         </table>
 
-        <h2>Gráfico de Distribución</h2>
+        <h2>Viajeros por fecha de finalización</h2>
         <div style="margin: 0 auto 30px auto;">
             <canvas id="myChart"></canvas>
         </div>
@@ -86,14 +86,24 @@
                     ],
                 }]
             },
-            options: {
+                options: {
                 responsive: true,
                 animation: false, 
                 scales: {
-                    y: {
+                    y: { 
                         beginAtZero: true,
                         ticks: {
                             stepSize: 1
+                        },
+                        title: { 
+                            display: true,
+                            text: 'Total de oficios'
+                        }
+                    },
+                    x: { 
+                        title: { 
+                            display: true,
+                            text: 'Fecha o estatus'
                         }
                     }
                 },

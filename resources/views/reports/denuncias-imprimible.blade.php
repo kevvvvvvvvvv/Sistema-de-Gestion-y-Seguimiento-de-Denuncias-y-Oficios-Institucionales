@@ -87,7 +87,21 @@
             options: {
                 responsive: true,
                 animation: false,
-                scales: { y: { beginAtZero: true } }
+                scales: { 
+                    y: { 
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Cantidad de expediente'
+                        }
+                    },
+                    x: { 
+                        title: {
+                            display: true,
+                            text: 'Institución'
+                        }
+                    } 
+                }
             }
         };
         new Chart( document.getElementById('myChart'), config );
