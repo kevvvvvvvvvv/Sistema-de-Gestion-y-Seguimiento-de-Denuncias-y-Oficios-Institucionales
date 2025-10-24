@@ -21,6 +21,8 @@ use App\Models\Oficio;
 use App\Models\Viajero;
 use App\Models\Particular;
 use App\Notifications\ViajeroCreadoNotification;
+use App\Notifications\ViajeroActualizadoNotification;
+use App\Notifications\ViajeroFinalizadoNotification;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\File;
@@ -137,9 +139,6 @@ class ViajeroController extends Controller
             'idUsuario'   => $request->idUsuario,
         ]);
 
-        $asuntoViajero = $viajero->asunto;
-        $mensajeNotificacion = "Se creó el viajero con asunto: \"{$asuntoViajero}\"";
-
         $creador = Auth::user();
         $userToNotify = $creador;
         if ($request->filled('idUsuario')) {
@@ -150,8 +149,14 @@ class ViajeroController extends Controller
             }
         }
 
-        $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
-    
+        if($viajero->resultado){
+            $userToNotify->notify(new ViajeroFinalizadoNotification($viajero, $creador));
+        }elseif ($viajero->instruccion){
+             $userToNotify->notify(new ViajeroActualizadoNotification($viajero, $creador));
+        }else{
+            $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
+        }
+
 
         //Envío del correo 
         if ($request->filled('idUsuario')) {
@@ -313,7 +318,13 @@ class ViajeroController extends Controller
             }
         }
 
-        $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
+        if($viajero->resultado){
+            $userToNotify->notify(new ViajeroFinalizadoNotification($viajero, $creador));
+        }elseif ($viajero->instruccion){
+             $userToNotify->notify(new ViajeroActualizadoNotification($viajero, $creador));
+        }else{
+            $userToNotify->notify(new ViajeroCreadoNotification($viajero, $creador));
+        }
 
         //Envío del correo cuando se llena solo la instrucción
         if($request->filled('instruccion') && !$request->filled('resultado')){
