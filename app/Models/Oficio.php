@@ -36,7 +36,7 @@ class Oficio extends Model
     }
 
     public function institucionRemitente(){
-        return $this->belongsTo(Institucion::class, 'idInstitucionRemitente', 'idInstitucion');
+        return $this->belongsTo(Institucion::class, 'idInstitucionRemitente', 'idInstitucion')->withTrashed();
     }
 
     public function servidorRemitente(){
@@ -44,7 +44,7 @@ class Oficio extends Model
     }
 
     public function particularRemitente(){
-        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular')->withTrashed();
     }
 
 
@@ -57,11 +57,11 @@ class Oficio extends Model
     }
 
     public function particularDestinatario(){
-        return $this->belongsTo(Particular::class, 'idParticularDestinatario', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularDestinatario', 'idParticular')->withTrashed();
     }
 
     public function institucionDestinatario(){
-        return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion');
+        return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion')->withTrashed();
     }
 
 }

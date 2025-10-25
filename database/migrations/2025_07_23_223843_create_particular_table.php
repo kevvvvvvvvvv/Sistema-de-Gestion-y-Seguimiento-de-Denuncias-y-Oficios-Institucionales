@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombreCompleto', 100);
             $table->enum('genero', ['Femenino', 'Masculino']);
             $table->string('grado', 45);
+            $table->softDeletes();
         });
     }
 

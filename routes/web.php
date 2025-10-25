@@ -139,6 +139,14 @@ Route::put('/particulares/{id}', [ParticularController::class, 'update'])
     ->name('particulares.update')
     ->middleware('can:editar servidores');
 
+Route::delete('/particulares/{id}/restore', [ParticularController::class, 'restore'])
+    ->name('particulares.restore')
+    ->middleware('can:eliminar servidores');
+
+Route::delete('/particulares/{id}/force', [ParticularController::class, 'forceDelete'])
+    ->name('particulares.forceDelete')
+    ->middleware('can:eliminar servidores');
+
 Route::delete('/particulares/{id}', [ParticularController::class, 'destroy'])
     ->name('particulares.destroy')
     ->middleware('can:eliminar servidores');
