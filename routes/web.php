@@ -235,6 +235,14 @@ Route::put('/servidores/{id}', [ServidorController::class, 'update'])
     ->name('servidores.update')
     ->middleware('can:editar servidores');
 
+Route::delete('/servidores/{id}/restore', [ServidorController::class, 'restore'])
+    ->name('servidores.restore')
+    ->middleware('can:eliminar servidores');
+
+Route::delete('/servidores/{id}/force', [ServidorController::class, 'forceDelete'])
+    ->name('servidores.forceDelete')
+    ->middleware('can:eliminar servidores');
+
 Route::delete('/servidores/{id}', [ServidorController::class, 'destroy'])
     ->name('servidores.destroy')
     ->middleware('can:eliminar servidores');

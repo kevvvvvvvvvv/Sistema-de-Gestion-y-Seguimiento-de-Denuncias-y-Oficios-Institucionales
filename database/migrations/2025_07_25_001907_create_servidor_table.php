@@ -26,6 +26,7 @@ return new class extends Migration
             $table->mediumText('descripcion')->nullable();
             $table->unsignedBigInteger('idInstitucion');
             $table->unsignedBigInteger('idDepartamento');
+            $table->softDeletes();
 
             $table->foreign('idInstitucion')->references('idInstitucion')->on('institucion')->onDelete('cascade');
             $table->foreign('idDepartamento')->references('idDepartamento')->on('departamento')->onDelete('cascade');

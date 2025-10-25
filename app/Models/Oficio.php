@@ -40,7 +40,7 @@ class Oficio extends Model
     }
 
     public function servidorRemitente(){
-        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor');
+        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor')->withTrashed();
     }
 
     public function particularRemitente(){
@@ -53,7 +53,7 @@ class Oficio extends Model
     }
 
     public function servidorDestinatario(){
-        return $this->belongsTo(Servidor::class, 'idServidorDestinatario', 'idServidor');
+        return $this->belongsTo(Servidor::class, 'idServidorDestinatario', 'idServidor')->withTrashed();
     }
 
     public function particularDestinatario(){
