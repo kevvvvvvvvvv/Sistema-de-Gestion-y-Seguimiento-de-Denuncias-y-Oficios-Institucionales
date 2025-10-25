@@ -5,14 +5,18 @@ import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
+import * as locales from "@blocknote/core/locales";
 import RegisterButton from "@/Components/RegisterButton";
 import InputText from "@/Components/InputText";
 
+const spanishDictionary = locales.es || locales.en;
 
 export default function Editor({auth}) {
     const permissions = auth.permissions;
 
-    const editor = useCreateBlockNote();
+    const editor = useCreateBlockNote({
+        dictionary: spanishDictionary,
+    });
 
     const { data, setData, post } = useForm({
         titulo: "",
