@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigIncrements('idPlantilla');
             $table->string('titulo', 45);
             $table->longText('contenido');
+            $table->softDeletes();
         });
     }
 

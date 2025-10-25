@@ -422,8 +422,12 @@ Route::get('/modulo/generacion-de-oficios/editar-oficio/{id}', [GeneracionOficio
     ->name('modulo.oficios.editar'); 
 Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOficioController::class, 'actualizarPlantilla'])
     ->name('modulo.oficios.actualizar'); 
-Route::delete('/modulo/generacion-de-oficios/eliminar-oficio/{id}', [GeneracionOficioController::class, 'eliminarPlantilla'])
-    ->name('modulo.oficios.eliminar'); 
+Route::delete('/modulo/generacion-de-oficios/{id}/restore', [GeneracionOficioController::class, 'restore'])
+    ->name('modulo.oficios.restore');
+Route::delete('/modulo/generacion-de-oficios/{id}/force', [GeneracionOficioController::class, 'forceDelete'])
+    ->name('modulo.oficios.forceDelete');
+Route::delete('/modulo/generacion-de-oficios/{id}', [GeneracionOficioController::class, 'destroy'])
+    ->name('modulo.oficios.destroy');
 
 //NOTIFICACIONES
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

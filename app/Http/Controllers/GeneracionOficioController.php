@@ -7,12 +7,13 @@ use App\Models\Plantilla;
 use App\Models\Servidor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class GeneracionOficioController extends Controller
 {
     public function verPlantillas() 
     {
-        $plantillas  = Plantilla::all();
+        $plantillas  = Plantilla::withTrashed()->get();
         $servidores = Servidor::with(['institucion', 'departamento'])->get();
         $expedientes = Expediente::all();
         return Inertia::render('Modulos/GeneracionOficio/Index', [
@@ -63,11 +64,24 @@ class GeneracionOficioController extends Controller
         return redirect()->route('modulo.oficios.index');
     }
 
-    public function eliminarPlantilla($id)
+    public function destroy($id)
     {
-        $plantilla = Plantilla::findOrFail($id);
-        $plantilla->delete();
-
+        Plantilla::findOrFail($id)->delete();
         return redirect()->route('modulo.oficios.index');
+    }
+
+    public function restore($id)
+    {
+        $plantilla = Plantilla::withTrashed()->find($id);
+        $plantilla->restore();
+        return redirect()->route('modulo.oficios.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $plantilla = Plantilla::withTrashed()->find($id);
+        $plantilla->forceDelete();
+        return redirect()->route('modulo.oficios.index')
+        ->with('success', 'El registro ha sido eliminado permanentemente');
     }
 }
