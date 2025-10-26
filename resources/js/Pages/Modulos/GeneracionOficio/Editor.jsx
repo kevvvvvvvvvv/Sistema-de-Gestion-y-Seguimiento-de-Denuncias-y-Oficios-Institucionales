@@ -18,7 +18,7 @@ export default function Editor({auth}) {
         dictionary: spanishDictionary,
     });
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         titulo: "",
         contenido: "",
     });
@@ -58,6 +58,7 @@ export default function Editor({auth}) {
                     value={data.titulo}
                     onChange={(e) => setData("titulo", e.target.value)}
                 />
+                {errors.titulo && <p className="text-red-500 text-sm mt-1">{errors.titulo}</p>}
 
                 <p className="text-sm mt-10">Contenido del oficio</p>
                 <BlockNoteView className="mt-4"
@@ -67,6 +68,7 @@ export default function Editor({auth}) {
                         setData("contenido", updatedContent);
                     }} 
                 />
+                {errors.contenido && <p className="text-red-500 text-sm mt-1">{errors.contenido}</p>}
             </form>
         </MainLayout>
     );

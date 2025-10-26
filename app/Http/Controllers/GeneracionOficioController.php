@@ -30,7 +30,7 @@ class GeneracionOficioController extends Controller
 
     public function guardarPlantilla(Request $request){
         $request->validate([
-            'titulo' => 'required|string|max:45',
+            'titulo' => 'required|string|max:300',
             'contenido' => 'required|string',
         ]);
 
@@ -51,7 +51,7 @@ class GeneracionOficioController extends Controller
     public function actualizarPlantilla(Request $request, $id)
     {
         $request->validate([
-            'titulo' => 'required|string|max:45',
+            'titulo' => 'required|string|max:300',
             'contenido' => 'required|string',
         ]);
 

@@ -17,7 +17,7 @@ export default function EditorActualizar({ auth, plantilla }) {
         initialContent: plantilla?.contenido ? JSON.parse(plantilla.contenido) : undefined,
     });
 
-    const { data, setData, put } = useForm({
+    const { data, setData, put, errors } = useForm({
         titulo: plantilla?.titulo || '',
         contenido: plantilla?.contenido || '',
     });
@@ -57,6 +57,7 @@ export default function EditorActualizar({ auth, plantilla }) {
                     value={data.titulo}
                     onChange={(e) => setData("titulo", e.target.value)}
                 />
+                {errors.titulo && <p className="text-red-500 text-sm mt-1">{errors.titulo}</p>}
 
                 <p className="text-sm mt-10">Contenido del oficio</p>
                 <BlockNoteView className="mt-4" 
@@ -66,6 +67,7 @@ export default function EditorActualizar({ auth, plantilla }) {
                         setData("contenido", updatedContent);
                     }}
                 />
+                {errors.contenido && <p className="text-red-500 text-sm mt-1">{errors.contenido}</p>}
             </form>
         </MainLayout>
     );
