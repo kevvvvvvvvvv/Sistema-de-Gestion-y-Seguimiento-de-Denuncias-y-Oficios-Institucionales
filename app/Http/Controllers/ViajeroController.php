@@ -159,14 +159,14 @@ class ViajeroController extends Controller
 
 
         //Envío del correo 
-        if ($request->filled('idUsuario')) {
-            $usuario = User::find($request->idUsuario);
-        }else{
-            $usuario = Auth::user();
-        }
-        $correo = $usuario->email;
+        $roles = ['Administrador', 'Encargado de oficios'];
+        $correos = User::whereHas('roles', function ($query) use ($roles) {
+            $query->whereIn('name', $roles);
+        })->pluck('email');
 
-        Mail::to($correo)->send(new ViajeroCreadoMail($viajero, $oficio));
+        if ($correos->isNotEmpty()) {
+            Mail::to($correos)->send(new ViajeroCreadoMail($viajero, $oficio));
+        }
         
         sleep(2); 
         return redirect()->route('viajeros.index')
