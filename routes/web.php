@@ -23,6 +23,7 @@ use App\Http\Controllers\ReporteServidoresOmisosController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RespaldoController;
 use App\Http\Controllers\RestauracionController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
@@ -427,9 +428,15 @@ Route::get('/bd/restauracion/', [RestauracionController::class, 'showView'])
     ->name('bd.restauracion'); 
 
 Route::get('/bd/restauracion', [RestauracionController::class, 'showView'])
-        ->name('bd.restauracion'); 
+    ->name('bd.restauracion'); 
 
 Route::post('/bd/restauracion', [RestauracionController::class, 'restore'])
-        ->name('bd.restauracion.store');
+    ->name('bd.restauracion.store');
+
+
+//Historial
+Route::get('/historial', [ActivityLogController::class, 'index'])
+    ->name('historial.index')
+    ->middleware('can:consultar historial');
 
 require __DIR__.'/auth.php';

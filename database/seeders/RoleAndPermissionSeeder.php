@@ -98,6 +98,9 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'descargar respaldo']);
         Permission::firstOrCreate(['name' => 'restaurar base de datos']);
 
+        //Historial
+        Permission::firstOrCreate(['name' => 'consultar historial']);
+
         $roleAdministrador->givePermissionTo(Permission::all());
 
     }

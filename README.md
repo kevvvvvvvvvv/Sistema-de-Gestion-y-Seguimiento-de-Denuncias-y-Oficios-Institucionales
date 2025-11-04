@@ -141,3 +141,10 @@ composer require spatie/laravel-backup
 php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
 sudo pacman -S mariadb-clients
 ```
+
+<h2>Paquetes para el historial</h2>
+
+```bash
+composer require spatie/laravel-activitylog
+php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="activitylog-migrations"
+```
