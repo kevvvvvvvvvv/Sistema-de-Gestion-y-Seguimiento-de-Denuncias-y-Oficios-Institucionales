@@ -14,11 +14,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user = User::create([
-            'nombre' => 'Kevin',
-            'apPaterno' => 'Trinidad',
-            'apMaterno' => 'Medina',
-            'email' => 'kevinyahirt@gmail.com',
-            'password' => bcrypt('12345678'),
+            'nombre' => 'Laura',
+            'apPaterno' => 'González',
+            'apMaterno' => 'Chavez',
+            'email' => 'laura_gonzalez@tlaloc.imta.mx',
+            'password' => bcrypt('laura?chavez-'),
         ]);
 
         $user->assignRole('Administrador');
@@ -28,6 +28,16 @@ class UserSeeder extends Seeder
             'apPaterno' => 'Alor',
             'apMaterno' => 'Contreras',
             'email' => 'acco220170@upemor.edu.mx',
+            'password' => bcrypt('12345678'),
+        ]);
+
+        $user->assignRole('Administrador');
+
+        $user = User::create([
+            'nombre' => 'Kevin',
+            'apPaterno' => 'Trinidad',
+            'apMaterno' => 'Medina',
+            'email' => 'kevinyahirt@gmail.com',
             'password' => bcrypt('12345678'),
         ]);
 
