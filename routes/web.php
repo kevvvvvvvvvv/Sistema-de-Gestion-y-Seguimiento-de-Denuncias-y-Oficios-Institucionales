@@ -122,35 +122,35 @@ Route::get('/viajeros/{viajero}/pdf',[ViajeroController::class,'generarPDF'])
 
 Route::get('/particulares', [ParticularController::class, 'index'])
     ->name('particulares.index')
-    ->middleware('can:consultar servidores');
+    ->middleware('can:consultar particulares');
 
 Route::get('/particulares/create', [ParticularController::class, 'create'])
     ->name('particulares.create')
-    ->middleware('can:crear servidores');
+    ->middleware('can:crear particulares');
 
 Route::post('/particulares', [ParticularController::class, 'store'])
     ->name('particulares.store')
-    ->middleware('can:crear servidores');
+    ->middleware('can:crear particulares');
 
 Route::get('/particulares/{id}/edit', [ParticularController::class, 'edit'])
     ->name('particulares.edit')
-    ->middleware('can:editar servidores');
+    ->middleware('can:editar particulares');
 
 Route::put('/particulares/{id}', [ParticularController::class, 'update'])
     ->name('particulares.update')
-    ->middleware('can:editar servidores');
+    ->middleware('can:editar particulares');
 
 Route::delete('/particulares/{id}/restore', [ParticularController::class, 'restore'])
     ->name('particulares.restore')
-    ->middleware('can:eliminar servidores');
+    ->middleware('can:eliminar particulares');
 
 Route::delete('/particulares/{id}/force', [ParticularController::class, 'forceDelete'])
     ->name('particulares.forceDelete')
-    ->middleware('can:eliminar servidores');
+    ->middleware('can:eliminar particulares');
 
 Route::delete('/particulares/{id}', [ParticularController::class, 'destroy'])
     ->name('particulares.destroy')
-    ->middleware('can:eliminar servidores');
+    ->middleware('can:eliminar particulares');
 
 // GESTIÓN DE INSTITUCIONES
 
@@ -372,63 +372,85 @@ Route::get('bajas/{id}/showOne', [BajaController::class, 'showOne'])
 
 //REPORTE DE SEGUIMIENTO DE DENUNCIAS
 Route::get('/reportes/seguimiento-denuncias', [ReporteSeguimientoDenunciasController::class, 'showSeguimietoDenuncias'])
-    ->name('reportes.seguimiento-deununcias');
+    ->name('reportes.seguimiento-deununcias')
+    ->middleware('can:consultar reportes expedientes'); 
 Route::get('/reportes/seguimiento-denuncias/generacionPDF', [ReporteSeguimientoDenunciasController::class, 'descargarReporteSegDenuPdf'])
-    ->name('reportes.seguimiento.deununcias.pdf');
+    ->name('reportes.seguimiento.deununcias.pdf')
+    ->middleware('can:consultar reportes expedientes'); 
 
 //REPORTE DE DENUNCIAS POR INSTITUCION
 Route::get('/reportes/denuncias-institucion',[ReporteDenunciasInstitucionController::class,'showDenunciasInstitucion'])
-    ->name('reportes.denuncias-institucion');
+    ->name('reportes.denuncias-institucion')
+    ->middleware('can:consultar reportes expedientes'); 
 Route::get('/reportes/denuncias-institucion/pdf', [ReporteDenunciasInstitucionController::class, 'descargarReporteDenunciasPdf'])
-    ->name('reportes.denuncias.pdf');
+    ->name('reportes.denuncias.pdf')
+    ->middleware('can:consultar reportes expedientes'); 
 
 //REPORTE DE PROGRESO DE OFICIOS POR DIA
 Route::get('/reportes/progreso-oficio',[ReporteProgresoOficioController::class,'showProgresoOficio'])
-    ->name('reportes.progreso-oficio');
+    ->name('reportes.progreso-oficio')
+    ->middleware('can:consultar reporte progreso diario'); 
 Route::get('/reporte/progreso-oficio/pdf',[ReporteProgresoOficioController::class,'descargarProgresoOficioPdf'])
-    ->name('reporte.progreso-oficio.pdf');
+    ->name('reporte.progreso-oficio.pdf')
+    ->middleware('can:consultar reporte progreso diario'); 
 
 //REPORTE DE SEGUIMIENTO DE VIAJEROS
 Route::get('/reportes/seguimiento-viajeros',[ReporteSeguimientoViajerosController::class,'showSeguimientoViajeros'])
-    ->name('reportes.seguimiento-viajeros');
+    ->name('reportes.seguimiento-viajeros')
+    ->middleware('can:consultar reporte seguimiento viajeros'); 
 Route::get('/reportes/seguimiento-viajeros/pdf',[ReporteSeguimientoViajerosController::class,'descargarReporteSeguimientoViajeroPdf'])
-    ->name('reportes.seguimiento-viajeros.pdf');
+    ->name('reportes.seguimiento-viajeros.pdf')
+    ->middleware('can:consultar reporte seguimiento viajeros'); 
 
 //REPORTE DE DOCUMENTOS FALTANTES EN EXPEDIENTES
 Route::get('/reportes/documentos-faltantes', [ReporteDocumentosFaltantes::class, 'showDocumentosFaltantes'])
-    ->name('reportes.documentos-faltantes'); 
+    ->name('reportes.documentos-faltantes')
+    ->middleware('can:consultar reportes expedientes');  
 Route::get('/reportes/documentos-faltantes/generacionPDF', [ReporteDocumentosFaltantes::class, 'descargarReporteDocFaltPdf'])
-    ->name('reportes.documentos.faltantes.pdf'); 
+    ->name('reportes.documentos.faltantes.pdf')
+    ->middleware('can:consultar reportes expedientes');  
 
 //REPORTE DE EXPEDIENTES COMPLETOS
 Route::get('/reportes/expedientes-completos', [ReporteExpedienteCompleto::class, 'showExpedientes'])
-    ->name('reportes.expedientes-completos'); 
+    ->name('reportes.expedientes-completos')
+    ->middleware('can:consultar reportes expedientes');  
 Route::get('/reportes/expedientes-completos/generacionPDF', [ReporteExpedienteCompleto::class, 'descargarReporteExpeComPdf'])
-    ->name('reportes.expedientes.completos.pdf'); 
+    ->name('reportes.expedientes.completos.pdf')
+    ->middleware('can:consultar reportes expedientes');  
 
 //REPORTE DE SERVIDORES OMISOS
 Route::get('/reportes/servidores-omisos', [ReporteServidoresOmisosController::class, 'showServidoresOmisos'])
-    ->name('reportes.servidores-omisos'); 
+    ->name('reportes.servidores-omisos')
+    ->middleware('can:consultar reportes expedientes');  
 Route::get('/reportes/servidores-omisos/generacionPDF', [ReporteServidoresOmisosController::class, 'descargarReporteServOmisoPdf'])
-    ->name('reportes.servidores.omisos.pdf'); 
+    ->name('reportes.servidores.omisos.pdf')
+    ->middleware('can:consultar reportes expedientes'); 
 
 //MÓDULO DE GENERACIÓN DE OFICIOS PARA EXPEDIENTES
 Route::get('/modulo/generacion-de-oficios/ver-oficios', [GeneracionOficioController::class, 'verPlantillas'])
-    ->name('modulo.oficios.index'); 
+    ->name('modulo.oficios.index')
+    ->middleware('can:consultar oficios de denuncia'); 
 Route::get('/modulo/generacion-de-oficios/crear-oficio', [GeneracionOficioController::class, 'showEditor'])
-    ->name('modulo.oficios.crear'); 
+    ->name('modulo.oficios.crear')
+    ->middleware('can:crear oficios de denuncia'); 
 Route::post('/modulo/generacion-de-oficios/guardar-oficio', [GeneracionOficioController::class, 'guardarPlantilla'])
-    ->name('modulo.oficios.guardar'); 
+    ->name('modulo.oficios.guardar')
+    ->middleware('can:crear oficios de denuncia'); 
 Route::get('/modulo/generacion-de-oficios/editar-oficio/{id}', [GeneracionOficioController::class, 'editarPlantilla'])
-    ->name('modulo.oficios.editar'); 
+    ->name('modulo.oficios.editar')
+    ->middleware('can:editar oficios de denuncia'); 
 Route::put('/modulo/generacion-de-oficios/actualizar-oficio/{id}', [GeneracionOficioController::class, 'actualizarPlantilla'])
-    ->name('modulo.oficios.actualizar'); 
+    ->name('modulo.oficios.actualizar')
+    ->middleware('can:editar oficios de denuncia'); 
 Route::delete('/modulo/generacion-de-oficios/{id}/restore', [GeneracionOficioController::class, 'restore'])
-    ->name('modulo.oficios.restore');
+    ->name('modulo.oficios.restore')
+    ->middleware('can:eliminar oficios de denuncia');
 Route::delete('/modulo/generacion-de-oficios/{id}/force', [GeneracionOficioController::class, 'forceDelete'])
-    ->name('modulo.oficios.forceDelete');
+    ->name('modulo.oficios.forceDelete')
+    ->middleware('can:eliminar oficios de denuncia');
 Route::delete('/modulo/generacion-de-oficios/{id}', [GeneracionOficioController::class, 'destroy'])
-    ->name('modulo.oficios.destroy');
+    ->name('modulo.oficios.destroy')
+    ->middleware('can:eliminar oficios de denuncia');
 
 //NOTIFICACIONES
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

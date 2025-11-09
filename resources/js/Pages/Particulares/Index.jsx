@@ -165,7 +165,7 @@ export default function Index({ particulares, auth }) {
       <MainLayout auth={auth} topHeader="Consulta de particulares" insideHeader={""} backURL={route('viajeros.dashboard')}>
         <Head title="Particulares" />
 
-        {auth.permissions.includes('crear servidores') && (
+        {auth.permissions.includes('crear particulares') && (
         <AddButton href={route('particulares.create')} />
         )}
 
@@ -210,7 +210,7 @@ export default function Index({ particulares, auth }) {
                       render: (data, type, row) => {
                         let buttons = `<div class="flex gap-6 justify-center">`;
                 
-                        if (permissions.includes("editar servidores")) {
+                        if (permissions.includes("editar particulares")) {
                             if (row.estado === "Activos"){
                                 buttons += `
                                     <button class="edit-btn" data-id="${row.idParticular}">
@@ -225,7 +225,7 @@ export default function Index({ particulares, auth }) {
                             }
                         }
             
-                        if (permissions.includes("eliminar servidores")) {
+                        if (permissions.includes("eliminar particulares")) {
                             if (row.estado === "Activos") {
                                 buttons += `
                                     <button class="delete-btn" data-id="${row.idParticular}">

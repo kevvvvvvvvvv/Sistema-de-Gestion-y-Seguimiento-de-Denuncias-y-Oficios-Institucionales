@@ -34,16 +34,6 @@ class UserSeeder extends Seeder
         $user->assignRole('Administrador');
 
         $user = User::create([
-            'nombre' => 'Laura',
-            'apPaterno' => 'González',
-            'apMaterno' => 'Chavez',
-            'email' => 'laura_gonzalez@tlaloc.imta.mx',
-            'password' => bcrypt('12345678'),
-        ]);
-
-        $user->assignRole('Administrador');
-
-        $user = User::create([
             'nombre' => 'Kevin',
             'apPaterno' => 'Trinidad',
             'apMaterno' => 'Medina',
