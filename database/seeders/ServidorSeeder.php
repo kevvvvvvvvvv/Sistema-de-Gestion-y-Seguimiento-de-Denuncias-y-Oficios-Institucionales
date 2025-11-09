@@ -39,5 +39,29 @@ class ServidorSeeder extends Seeder
                 ]);
             }
         }
+
+        Servidor::create([
+            'nombreCompleto' => 'Juan Pérez López',
+            'genero' => 'Masculino',
+            'grado' => 'Lic',
+            'fechaIngreso' => '2011/01/10',
+            'puesto' => 'Secretario',
+            'estatus' => 'Alta',
+            'idInstitucion' => 1,
+            'idDepartamento' => 1,
+            'nivel' => 'O21'
+        ]);
+
+        Servidor::create([
+            'nombreCompleto' => 'Ana García Martínez',
+            'genero' => 'Femenino',
+            'grado' => 'Lic',
+            'fechaIngreso' => '2011/01/10',
+            'puesto' => 'Jefa',
+            'estatus' => 'Alta',
+            'idInstitucion' => 1,
+            'idDepartamento' => 1,
+            'nivel' => 'O21'
+        ]);
     }
 }

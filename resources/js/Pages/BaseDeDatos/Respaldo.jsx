@@ -7,7 +7,7 @@ export default function Respaldo({ auth, backups, success, error }) {
     
     return (
         <>
-            <MainLayout auth={auth} topHeader="Respaldo de la base de datos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Respaldo de la base de datos" insideHeader={""} backURL={route('dashboard')}>
                 <Head title="Respaldo de la base de datos" />
                 
                 <img className="h-64 place-self-center mt-10" src="/images/BD.png" alt="Imagen de base de datos" />

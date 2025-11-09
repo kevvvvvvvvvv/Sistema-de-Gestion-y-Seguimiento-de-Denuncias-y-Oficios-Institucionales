@@ -162,7 +162,7 @@ export default function Index({ departamentos, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de departamentos" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de departamentos" insideHeader={""} backURL={route('dashboard')}>
         <Head title="Departamentos" />
 
         {auth.permissions.includes("crear departamentos") && (

@@ -79,7 +79,7 @@ export default function Index({ servidores, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de servidores" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de servidores" insideHeader={""} backURL={route('dashboard')}>
         <Head title="Servidores" />
 
         {auth.permissions.includes('crear servidores') && (

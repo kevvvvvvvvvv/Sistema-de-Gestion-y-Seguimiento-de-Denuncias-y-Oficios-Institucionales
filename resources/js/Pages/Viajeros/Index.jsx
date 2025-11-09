@@ -145,7 +145,7 @@ export default function Index({ viajeros, auth }) {
   }, []);
 
   return (
-    <MainLayout auth={auth} topHeader="Consulta de Viajeros" insideHeader="">
+    <MainLayout auth={auth} topHeader="Consulta de Viajeros" insideHeader="" backURL={route('viajeros.dashboard')}>
       <Head title="Viajeros" />
       {auth.permissions.includes("crear viajeros") && (
       <AddButton href={route('viajeros.create')} />

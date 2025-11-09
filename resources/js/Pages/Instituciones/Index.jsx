@@ -161,7 +161,7 @@ export default function Index({ instituciones, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de instituciones" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de instituciones" insideHeader={""} backURL={route('dashboard')}>
         <Head title="Instituciones" />
 
         {auth.permissions.includes('crear instituciones') && (

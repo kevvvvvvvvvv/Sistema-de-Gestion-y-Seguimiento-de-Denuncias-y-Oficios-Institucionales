@@ -40,7 +40,7 @@ export default function Restauracion({ auth, success, error }) {
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Restauración de la base de datos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Restauración de la base de datos" insideHeader={""} backURL={route('dashboard')}>
                 <Head title="Restauración de la base de datos" />
                 <img className="h-64 place-self-center mt-10" src="/images/BD.png" alt="Imagen de base de datos" />
 

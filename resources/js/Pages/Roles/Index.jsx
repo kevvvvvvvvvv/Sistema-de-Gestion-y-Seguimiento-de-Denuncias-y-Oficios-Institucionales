@@ -46,7 +46,7 @@ export default function Index({ roles, auth }) {
               const id = deleteBtn.dataset.id;
               confirm(
                   {
-                    title: "¿Eliminar departamento?",
+                    title: "¿Eliminar rol?",
                     text: "No podrás deshacer esta acción",
                     confirmText: "Sí, eliminar",
                   },
@@ -78,7 +78,7 @@ export default function Index({ roles, auth }) {
   
 return (
   <>
-    <MainLayout auth={auth} topHeader="Consulta de roles" insideHeader={""}>
+    <MainLayout auth={auth} topHeader="Consulta de roles" insideHeader={""} backURL={route('dashboard')}>
       <Head title="Roles" />
 
       {auth.permissions.includes('crear roles') && (
