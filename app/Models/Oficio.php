@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity; 
+use Spatie\Activitylog\LogOptions;
 
 class Oficio extends Model
 {
+    use LogsActivity;
     protected $table = 'oficio';
     public $incrementing = false;       
     protected $keyType = 'string';       
@@ -63,5 +66,24 @@ class Oficio extends Model
     public function institucionDestinatario(){
         return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion');
     }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnlyDirty() 
+            ->dontLogIfAttributesChangedOnly(['updated_at'])
+            ->setDescriptionForEvent(function (string $eventName) {
+                $accion = match ($eventName) {
+                    'created' => 'creado',
+                    'updated' => 'actualizado',
+                    'deleted' => 'eliminado',
+                    'restored' => 'restaurado',
+                    default => $eventName,
+                };
+                return "Se ha {$accion} un oficio";
+            })
+            ->useLogName('default');
+    }
+
 
 }
