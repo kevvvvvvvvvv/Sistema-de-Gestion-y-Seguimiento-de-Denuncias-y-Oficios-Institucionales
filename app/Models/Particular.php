@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity; 
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Particular extends Model
 {
+    use LogsActivity;
     use SoftDeletes;
 
     protected $table = 'particular';
@@ -19,4 +22,22 @@ class Particular extends Model
         'genero',
         'grado',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnlyDirty() 
+            ->dontLogIfAttributesChangedOnly(['updated_at'])
+            ->setDescriptionForEvent(function (string $eventName) {
+                $accion = match ($eventName) {
+                    'created' => 'creado',
+                    'updated' => 'actualizado',
+                    'deleted' => 'eliminado',
+                    'restored' => 'restaurado',
+                    default => $eventName,
+                };
+                return "Se ha {$accion} un particular";
+            })
+            ->useLogName('default');
+    }
 }

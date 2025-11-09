@@ -97,7 +97,7 @@ export default function DocumentosFaltantes({ servidoresOmisos, auth }) {
 
     return (
         <>
-            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""}>
+            <MainLayout auth={auth} topHeader="Reporte de servidores omisos" insideHeader={""} backURL={route('expedientes.dashboard')}>
                 <Head title="Reporte de servidores omisos" />
 
                 <div className="mb-10">

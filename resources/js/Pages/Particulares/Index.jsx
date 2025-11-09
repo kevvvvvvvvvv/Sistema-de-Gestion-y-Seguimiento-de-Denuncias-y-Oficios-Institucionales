@@ -162,7 +162,7 @@ export default function Index({ particulares, auth }) {
     
   return (
     <>
-      <MainLayout auth={auth} topHeader="Consulta de particulares" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de particulares" insideHeader={""} backURL={route('viajeros.dashboard')}>
         <Head title="Particulares" />
 
         {auth.permissions.includes('crear servidores') && (

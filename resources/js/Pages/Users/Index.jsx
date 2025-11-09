@@ -11,7 +11,7 @@ const {confirm} = useSweetDelete();
 export default function Index({ users, auth }) {
   return(
     <>
-      <MainLayout auth={auth} topHeader="Consulta de usuarios" insideHeader={""}>
+      <MainLayout auth={auth} topHeader="Consulta de usuarios" insideHeader={""} backURL={route('dashboard')}>
         <Head title="Usuarios" />
         {auth.permissions.includes('crear users') &&(
         <AddButton href={route('users.create')} />

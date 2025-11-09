@@ -54,7 +54,7 @@ export default function Index({ auth, logs, users, filters }) {
 
     return (
         
-        <MainLayout auth={auth} topHeader="Consulta de instituciones" insideHeader={""}>
+        <MainLayout auth={auth} topHeader="Consulta de instituciones" insideHeader={""} backURL={route('dashboard')}>
             <Head title='Historial' />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
