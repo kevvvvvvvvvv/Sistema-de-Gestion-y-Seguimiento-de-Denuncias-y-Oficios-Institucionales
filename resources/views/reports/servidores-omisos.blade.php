@@ -47,63 +47,81 @@
         <h1>Reporte de servidores omisos</h1>
 
         <div>
-            @if($filtroInstitucion)
-                <p><strong>Mostrando resultados para la institución:</strong> {{ $filtroInstitucion }}</p>
+            @if(!empty($filtro))
+                <p>Filtro aplicado: {{ $filtro }}</p>
             @else
-                <p><strong>Mostrando resultados para todas las instituciones.</strong></p>
-            @endif
-
-            @if($filtroDocumento === 'inicio')
-                <p><strong>Filtrando por:</strong> Falta Acuerdo de Inicio</p>
-            @elseif($filtroDocumento === 'modificacion')
-                <p><strong>Filtrando por:</strong> Falta Acuerdo de Modificación</p>
-            @elseif($filtroDocumento === 'conclusion')
-                <p><strong>Filtrando por:</strong> Falta Acuerdo de Conclusión</p>
-            @else
-                <p><strong>Mostrando todos los estados de documentos.</strong></p>
+                <p>Mostrando todos los registros sin filtrar.</p>
             @endif
         </div>
 
         <br>
 
-        <p>No. de servidores omisos: {{ count($servidoresOmisos) }}</p>
+        <p>No. de servidores omisos sin Acuerdo de Conclusión: {{ $numOmisosBaja }}</p>
+        <p>No. de servidores omisos sin Acuerdo de Inicio: {{ $numOmisosAlta }}</p>
 
         <br>
 
+        <h2>Servidores omisos por falta del Acuerdo de Conclusión</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Núm. expediente</th>
-                    <th>Nombre completo</th>
-                    <th>Institución</th>
-                    <th>Departamento</th>
-                    <th>Ac. Inicio</th>
-                    <th>Ac. Modif.</th>
-                    <th>Ac. Concl.</th>
-                    <th>Detalles de omisión</th> 
+                    <th>Número de expediente</th>
+                    <th>Nombre completo del servidor</th>
+                    <th>Institución anterior del servidor</th>
+                    <th>Departamento anterior del servidor</th>
+                    <th>Fecha de la baja</th>
+                    <th>Descripción de la baja</th>
+                    <th>Detalles</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($servidoresOmisos as $servidor)
+                @foreach($servidoresOmisosBaja as $servidor)
                     <tr>
                         <td>{{ $servidor->numero }}</td>
                         <td>{{ $servidor->nombreCompleto }}</td>
                         <td>{{ $servidor->institucion }}</td>
                         <td>{{ $servidor->departamento }}</td>
-                        <td>{{ $servidor->acInicio }}</td>
-                        <td>{{ $servidor->acModificacion }}</td>
-                        <td>{{ $servidor->acConclusion }}</td>
+                        <td>{{ $servidor->fechaBaja }}</td>
+                        <td>{{ $servidor->descrBaja }}</td>
                         <td>
                             <ul>
-                                @if($servidor->acInicio === 'No')
-                                    <li><b>Inicio:</b> {{ $servidor->fechaLimiteIni }} (<b>Días:</b> {{ $servidor->difDiasIni }})</li>
-                                @endif
-                                @if($servidor->acModificacion === 'No')
-                                    <li><b>Modif.:</b> {{ $servidor->fechaLimiteModi }} (<b>Días:</b> {{ $servidor->difDiasModi }})</li>
-                                @endif
-                                @if($servidor->acConclusion === 'No')
-                                    <li><b>Concl.:</b> {{ $servidor->fechaLimiteCon }} (<b>Días:</b> {{ $servidor->difDiasCon }})</li>
-                                @endif
+                                <li><span>Fecha límite para entregar el acuerdo:</span>{{ $servidor->fechaLimite }}</li>
+                                <li><span>Días desde la omisión:</span>{{ $servidor->difDias }}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <hr>
+
+        <h2>Servidores omisos por falta del Acuerdo de Inicio</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Número de expediente</th>
+                    <th>Nombre completo del servidor</th>
+                    <th>Institución actual del servidor</th>
+                    <th>Departamento actual del servidor</th>
+                    <th>Fecha de la alta (reingreso)</th>
+                    <th>Descripción de la alta</th>
+                    <th>Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($servidoresOmisosAlta as $servidor)
+                    <tr>
+                        <td>{{ $servidor->numero }}</td>
+                        <td>{{ $servidor->nombreCompleto }}</td>
+                        <td>{{ $servidor->institucion }}</td>
+                        <td>{{ $servidor->departamento }}</td>
+                        <td>{{ $servidor->fechaIngreso }}</td>
+                        <td>{{ $servidor->descrAlta }}</td>
+                        <td>
+                            <ul>
+                                <li><span>Fecha límite para entregar el acuerdo:</span>{{ $servidor->fechaLimite }}</li>
+                                <li><span>Días desde la omisión:</span>{{ $servidor->difDias }}</li>
                             </ul>
                         </td>
                     </tr>
