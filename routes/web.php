@@ -281,8 +281,15 @@ Route::put('/expedientes/{id}', [ExpedienteController::class, 'update'])
     ->name('expedientes.update')
     ->middleware('can:editar expedientes');
 
+Route::delete('/expedientes/{id}/restore', [ExpedienteController::class, 'restore'])
+    ->name('expedientes.restore')
+    ->middleware('can:eliminar expedientes');
+
+Route::delete('/expedientes/{id}/force', [ExpedienteController::class, 'forceDelete'])
+    ->name('expedientes.forceDelete')
+    ->middleware('can:eliminar expedientes');
+
 Route::delete('/expedientes/{id}', [ExpedienteController::class, 'destroy'])
-    ->where('id', '.*')
     ->name('expedientes.destroy')
     ->middleware('can:eliminar expedientes');
 
@@ -308,6 +315,14 @@ Route::get('/controles/{id}/edit', [ControlController::class, 'edit'])
 Route::put('/controles/{id}', [ControlController::class, 'update'])
     ->name('controles.update')
     ->middleware('can:editar controles');
+
+Route::delete('/controles/{id}/restore', [ControlController::class, 'restore'])
+    ->name('controles.restore')
+    ->middleware('can:eliminar controles');
+
+Route::delete('/controles/{id}/force', [ControlController::class, 'forceDelete'])
+    ->name('controles.forceDelete')
+    ->middleware('can:eliminar controles');
 
 Route::delete('/controles/{id}', [ControlController::class, 'destroy'])
     ->name('controles.destroy')

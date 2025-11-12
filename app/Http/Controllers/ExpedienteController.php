@@ -8,12 +8,13 @@ use App\Models\Expediente;
 use App\Models\Servidor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ExpedienteController extends Controller
 {
     public function index()
     {
-        $expedientes = Expediente::with('servidor')->get();
+        $expedientes = Expediente::with('servidor')->withTrashed()->get();
         return Inertia::render('Expedientes/Index', ['expedientes' => $expedientes]);
     }
 
@@ -85,5 +86,30 @@ class ExpedienteController extends Controller
     {
         Expediente::findOrFail($id)->delete();
         return redirect()->route('expedientes.index');
+    }
+
+    public function restore($id)
+    {
+        $expediente = Expediente::withTrashed()->find($id);
+        $expediente->restore();
+        return redirect()->route('expedientes.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $consultaVal = DB::select('select * from expediente inner join baja
+            on expediente.numero = baja.numero 
+            where expediente.numero=?;', [$id]);
+
+        if (count($consultaVal) > 0) {
+            return redirect()->route('expedientes.index')
+            ->with('error', 'No se puede eliminar el registro porque hay una baja asociada');
+        }
+
+        $expediente = Expediente::withTrashed()->find($id);
+        $expediente->forceDelete();
+
+        return redirect()->route('expedientes.index')
+        ->with('success', 'El registro ha sido eliminado permanentemente');
     }
 }
