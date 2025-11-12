@@ -27,6 +27,7 @@ return new class extends Migration
             $table->date('feEntregaCon')->nullable();
             $table->mediumText('comentarios')->nullable();
             $table->string('numero', 45);
+            $table->softDeletes();
             $table->foreign('numero')->references('numero')->on('expediente')->onDelete('cascade');
         });
     }
@@ -36,6 +37,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('control');
+        Schema::table('control', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
