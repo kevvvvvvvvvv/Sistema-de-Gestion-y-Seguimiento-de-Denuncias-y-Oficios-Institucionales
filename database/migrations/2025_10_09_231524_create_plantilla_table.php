@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('plantilla', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->bigIncrements('idPlantilla');
-            $table->string('titulo', 45);
+            $table->string('titulo', 300);
             $table->longText('contenido');
+            $table->softDeletes();
         });
     }
 

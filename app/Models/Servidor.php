@@ -6,16 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity; 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Servidor extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $table = 'servidor';
     protected $primaryKey = 'idServidor';
     protected $fillable = ['nombreCompleto', 'genero', 'grado', 'fechaIngreso',
         'puesto', 'nivel', 'correo', 'telefono', 'estatus', 'descripcion','idInstitucion', 'idDepartamento'];
+    protected $dates = ['deleted_at'];
     public $timestamps = false;
 
     public function institucion(){

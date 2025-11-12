@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\Traits\LogsActivity; 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Plantilla extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
 
     protected $table = 'plantilla';
     protected $primaryKey = 'idPlantilla';
     protected $fillable = ['titulo', 'contenido'];
+    protected $dates = ['deleted_at'];
     public $timestamps = false;
 
     public function getActivitylogOptions(): LogOptions

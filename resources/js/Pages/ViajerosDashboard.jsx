@@ -22,7 +22,7 @@ export default function Dashboard({auth}) {
                 </ModuleOption>
                 )}
 
-                {auth.permissions.includes("consultar servidores") && (
+                {auth.permissions.includes("consultar particulares") && (
                 <ModuleOption managementLink="Gestión de particulares" href={route('particulares.index')}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
@@ -38,17 +38,21 @@ export default function Dashboard({auth}) {
                 </ModuleOption>
                 )}
 
-                <ModuleOption managementLink="Reporte de progreso de oficios por día" href={route('reportes.progreso-oficio')}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
-                    </svg>
-                </ModuleOption>
+                {auth.permissions.includes("consultar reporte progreso diario") && (
+                    <ModuleOption managementLink="Reporte de progreso de oficios por día" href={route('reportes.progreso-oficio')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                        </svg>
+                    </ModuleOption>
+                )}
 
-                <ModuleOption managementLink="Reporte de seguimiento de viajero" href={route('reportes.seguimiento-viajeros')}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
-                    </svg>
-                </ModuleOption>
+                {auth.permissions.includes("consultar reporte seguimiento viajeros") && (
+                    <ModuleOption managementLink="Reporte de seguimiento de viajero" href={route('reportes.seguimiento-viajeros')}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6 9 12.75l4.286-4.286a11.948 11.948 0 0 1 4.306 6.43l.776 2.898m0 0 3.182-5.511m-3.182 5.51-5.511-3.181" />
+                        </svg>
+                    </ModuleOption>
+                )}
             </div>
         </MainLayout>
     );

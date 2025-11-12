@@ -5,16 +5,20 @@ import { useCreateBlockNote } from "@blocknote/react";
 import "@blocknote/mantine/style.css";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
+import * as locales from "@blocknote/core/locales";
 import RegisterButton from "@/Components/RegisterButton";
 import InputText from "@/Components/InputText";
 
+const spanishDictionary = locales.es || locales.en;
 
 export default function Editor({auth}) {
     const permissions = auth.permissions;
 
-    const editor = useCreateBlockNote();
+    const editor = useCreateBlockNote({
+        dictionary: spanishDictionary,
+    });
 
-    const { data, setData, post } = useForm({
+    const { data, setData, post, errors } = useForm({
         titulo: "",
         contenido: "",
     });
@@ -54,6 +58,7 @@ export default function Editor({auth}) {
                     value={data.titulo}
                     onChange={(e) => setData("titulo", e.target.value)}
                 />
+                {errors.titulo && <p className="text-red-500 text-sm mt-1">{errors.titulo}</p>}
 
                 <p className="text-sm mt-10">Contenido del oficio</p>
                 <BlockNoteView className="mt-4"
@@ -63,6 +68,7 @@ export default function Editor({auth}) {
                         setData("contenido", updatedContent);
                     }} 
                 />
+                {errors.contenido && <p className="text-red-500 text-sm mt-1">{errors.contenido}</p>}
             </form>
         </MainLayout>
     );

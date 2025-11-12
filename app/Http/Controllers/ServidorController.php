@@ -10,12 +10,13 @@ use App\Models\Institucion;
 use App\Models\Servidor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ServidorController extends Controller
 {
     public function index()
     {
-        $servidores = Servidor::with(['institucion', 'departamento'])->get();
+        $servidores = Servidor::with(['institucion', 'departamento'])->withTrashed()->get();
 
         return Inertia::render('Servidores/Index', ['servidores' => $servidores]);
     }
@@ -98,5 +99,38 @@ class ServidorController extends Controller
     {
         Servidor::findOrFail($id)->delete();
         return redirect()->route('servidores.index');
+    }
+
+    public function restore($id)
+    {
+        $servidor = Servidor::withTrashed()->find($id);
+        $servidor->restore();
+        return redirect()->route('servidores.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $consultaVal = DB::select('select 1 as existe from expediente 
+            where idServidor = ?
+            UNION
+            select 1 as existe from oficio 
+            where idServidorDestinatario = ?
+            UNION
+            select 1 as existe from oficio 
+            where idServidorRemitente = ?
+            UNION
+            select 1 as existe from baja 
+            where idServidor = ?
+            limit 1;', [$id, $id, $id, $id]);
+        
+        if (count($consultaVal) > 0) {
+            return redirect()->route('servidores.index')
+            ->with('error', 'No se puede eliminar el registro porque tiene registros asociados');
+        }
+
+        $servidor = Servidor::withTrashed()->find($id);
+        $servidor->forceDelete();
+        return redirect()->route('servidores.index')
+        ->with('success', 'El registro ha sido eliminado permanentemente');
     }
 }

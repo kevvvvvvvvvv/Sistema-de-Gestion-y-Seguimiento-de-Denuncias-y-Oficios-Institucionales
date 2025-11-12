@@ -39,15 +39,15 @@ class Oficio extends Model
     }
 
     public function institucionRemitente(){
-        return $this->belongsTo(Institucion::class, 'idInstitucionRemitente', 'idInstitucion');
+        return $this->belongsTo(Institucion::class, 'idInstitucionRemitente', 'idInstitucion')->withTrashed();
     }
 
     public function servidorRemitente(){
-        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor');
+        return $this->belongsTo(Servidor::class, 'idServidorRemitente', 'idServidor')->withTrashed();
     }
 
     public function particularRemitente(){
-        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularRemitente', 'idParticular')->withTrashed();
     }
 
 
@@ -56,15 +56,15 @@ class Oficio extends Model
     }
 
     public function servidorDestinatario(){
-        return $this->belongsTo(Servidor::class, 'idServidorDestinatario', 'idServidor');
+        return $this->belongsTo(Servidor::class, 'idServidorDestinatario', 'idServidor')->withTrashed();
     }
 
     public function particularDestinatario(){
-        return $this->belongsTo(Particular::class, 'idParticularDestinatario', 'idParticular');
+        return $this->belongsTo(Particular::class, 'idParticularDestinatario', 'idParticular')->withTrashed();
     }
 
     public function institucionDestinatario(){
-        return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion');
+        return $this->belongsTo(Institucion::class, 'idInstitucionDestinatario', 'idInstitucion')->withTrashed();
     }
 
     public function getActivitylogOptions(): LogOptions

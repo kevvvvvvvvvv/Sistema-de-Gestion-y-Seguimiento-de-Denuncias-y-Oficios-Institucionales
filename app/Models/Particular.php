@@ -5,12 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity; 
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Particular extends Model
 {
     use LogsActivity;
+    use SoftDeletes;
+
     protected $table = 'particular';
     protected $primaryKey = 'idParticular';
+    protected $dates = ['deleted_at'];
     public $timestamps = false;
 
     protected $fillable = [

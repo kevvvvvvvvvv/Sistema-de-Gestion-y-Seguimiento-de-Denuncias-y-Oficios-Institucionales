@@ -75,17 +75,21 @@ class RoleAndPermissionSeeder extends Seeder
         $roleEncargadoDenuncias->givePermissionTo('eliminar servidores');
         $roleEncargadoDenuncias->givePermissionTo('consultar servidores');
 
-        // Remitentes
-        Permission::firstOrCreate(['name' => 'crear remitentes']);
-        Permission::firstOrCreate(['name' => 'editar remitentes']);
-        Permission::firstOrCreate(['name' => 'eliminar remitentes']);
-        Permission::firstOrCreate(['name' => 'consultar remitentes']);
+        // Particulares
+        Permission::firstOrCreate(['name' => 'crear particulares']);
+        Permission::firstOrCreate(['name' => 'editar particulares']);
+        Permission::firstOrCreate(['name' => 'eliminar particulares']);
+        Permission::firstOrCreate(['name' => 'consultar particulares']);
 
-        // Destinatarios
-        Permission::firstOrCreate(['name' => 'crear destinatarios']);
-        Permission::firstOrCreate(['name' => 'editar destinatarios']);
-        Permission::firstOrCreate(['name' => 'eliminar destinatarios']);
-        Permission::firstOrCreate(['name' => 'consultar destinatarios']);
+        $roleEmpleado->givePermissionTo('crear particulares');
+        $roleEmpleado->givePermissionTo('editar particulares');
+        $roleEmpleado->givePermissionTo('eliminar particulares');
+        $roleEmpleado->givePermissionTo('consultar particulares');
+
+        $roleEncargadoOficios->givePermissionTo('crear particulares');
+        $roleEncargadoOficios->givePermissionTo('editar particulares');
+        $roleEncargadoOficios->givePermissionTo('eliminar particulares');
+        $roleEncargadoOficios->givePermissionTo('consultar particulares');
 
         // Expedientes
         Permission::firstOrCreate(['name' => 'crear expedientes']);
@@ -119,6 +123,11 @@ class RoleAndPermissionSeeder extends Seeder
         $roleEncargadoOficios->givePermissionTo('editar viajeros');
         $roleEncargadoOficios->givePermissionTo('eliminar viajeros');
         $roleEncargadoOficios->givePermissionTo('consultar viajeros');
+
+        $roleEmpleado->givePermissionTo('crear viajeros');
+        $roleEmpleado->givePermissionTo('editar viajeros');
+        $roleEmpleado->givePermissionTo('eliminar viajeros');
+        $roleEmpleado->givePermissionTo('consultar viajeros');
 
         // Bajas
         Permission::firstOrCreate(['name' => 'crear bajas']);
@@ -155,9 +164,26 @@ class RoleAndPermissionSeeder extends Seeder
         //Historial
         Permission::firstOrCreate(['name' => 'consultar historial']);
 
+        // Oficios de denuncia
+        Permission::firstOrCreate(['name' => 'consultar oficios de denuncia']);
+        Permission::firstOrCreate(['name' => 'crear oficios de denuncia']);
+        Permission::firstOrCreate(['name' => 'editar oficios de denuncia']);
+        Permission::firstOrCreate(['name' => 'eliminar oficios de denuncia']);
+
+        $roleEncargadoDenuncias->givePermissionTo('consultar oficios de denuncia');
+        $roleEncargadoDenuncias->givePermissionTo('crear oficios de denuncia');
+        $roleEncargadoDenuncias->givePermissionTo('editar oficios de denuncia');
+        $roleEncargadoDenuncias->givePermissionTo('eliminar oficios de denuncia');
+
         //Reportes
         Permission::firstOrCreate(['name' => 'consultar reportes expedientes']);
-        Permission::firstOrCreate(['name' => 'consultar reportes viajeros']);
+        Permission::firstOrCreate(['name' => 'consultar reporte seguimiento viajeros']);
+        Permission::firstOrCreate(['name' => 'consultar reporte progreso diario']);
+
+        $roleEmpleado->givePermissionTo('consultar reportes expedientes');
+        $roleEmpleado->givePermissionTo('consultar reporte seguimiento viajeros');
+
+        $roleEncargadoOficios->givePermissionTo('consultar reporte progreso diario');
 
         $roleAdministrador->givePermissionTo(Permission::all());
 
