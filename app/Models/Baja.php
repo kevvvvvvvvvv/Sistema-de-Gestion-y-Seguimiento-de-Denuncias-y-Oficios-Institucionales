@@ -19,7 +19,7 @@ class Baja extends Model
     public $timestamps = false;
 
     public function expediente(){
-        return $this->belongsTo(Expediente::class, 'numero', 'numero');
+        return $this->belongsTo(Expediente::class, 'numero', 'numero')->withTrashed();
     }
 
     public function servidor(){
