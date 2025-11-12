@@ -80,10 +80,18 @@ class ReporteDenunciasInstitucionController extends Controller
                 'filtros' => $filtros 
             ])->render();
 
+            $argumentos = [
+                '--no-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--user-data-dir=/var/www/Sistema-de-Gestion-y-Seguimiento-de-Denuncias-y-Oficios-Institucionales/storage/app/browsershot',
+            ];
+
             $pdf = Browsershot::html($html)
                 ->format('A4')
                 ->margins(20, 15, 15, 15) 
                 ->waitUntilNetworkIdle()
+                ->setChromiumArguments($argumentos)
                 ->pdf();
 
             return response($pdf)
