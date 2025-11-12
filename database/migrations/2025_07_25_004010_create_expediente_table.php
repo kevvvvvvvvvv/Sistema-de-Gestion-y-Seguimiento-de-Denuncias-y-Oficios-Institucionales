@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('fechaRespuesta')->nullable();
             $table->date('fechaRecepcion')->nullable();
             $table->unsignedBigInteger('idServidor');
+            $table->softDeletes();
 
             $table->foreign('idServidor')->references('idServidor')->on('servidor')->onDelete('cascade');
         });
@@ -30,6 +31,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expediente');
+        Schema::table('expediente', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
