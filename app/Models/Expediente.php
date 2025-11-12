@@ -25,7 +25,7 @@ class Expediente extends Model
     public $timestamps = false;
 
     public function servidor(){
-        return $this->belongsTo(Servidor::class, 'idServidor', 'idServidor')->withTrashed();;
+        return $this->belongsTo(Servidor::class, 'idServidor', 'idServidor')->withTrashed();
     }
 
     public function control()

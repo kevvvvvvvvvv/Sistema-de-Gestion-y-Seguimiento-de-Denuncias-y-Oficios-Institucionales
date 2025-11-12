@@ -316,6 +316,14 @@ Route::put('/controles/{id}', [ControlController::class, 'update'])
     ->name('controles.update')
     ->middleware('can:editar controles');
 
+Route::delete('/controles/{id}/restore', [ControlController::class, 'restore'])
+    ->name('controles.restore')
+    ->middleware('can:eliminar controles');
+
+Route::delete('/controles/{id}/force', [ControlController::class, 'forceDelete'])
+    ->name('controles.forceDelete')
+    ->middleware('can:eliminar controles');
+
 Route::delete('/controles/{id}', [ControlController::class, 'destroy'])
     ->name('controles.destroy')
     ->middleware('can:eliminar controles');

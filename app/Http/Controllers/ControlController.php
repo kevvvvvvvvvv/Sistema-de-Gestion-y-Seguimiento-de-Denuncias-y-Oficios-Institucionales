@@ -12,7 +12,7 @@ class ControlController extends Controller
 {
     public function index()
     {
-        $controles = Control::with('expediente.servidor')->get();
+        $controles = Control::with('expediente.servidor')->withTrashed()->get();
         return Inertia::render('Controles/Index', ['controles' => $controles]);
     }
 
@@ -73,5 +73,21 @@ class ControlController extends Controller
     {
         Control::findOrFail($id)->delete();
         return redirect()->route('controles.index');
+    }
+
+    public function restore($id)
+    {
+        $control = Control::withTrashed()->find($id);
+        $control->restore();
+        return redirect()->route('controles.index');
+    }
+
+    public function forceDelete($id)
+    {
+        $control = Control::withTrashed()->find($id);
+        $control->forceDelete();
+
+        return redirect()->route('controles.index')
+        ->with('success', 'El registro ha sido eliminado permanentemente');
     }
 }
