@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Log;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -186,23 +187,19 @@ class ReporteExpedienteCompleto extends Controller
             $logoData = file_get_contents($logoPath);
             $logoBase64 = 'data:image/' . $logoType . ';base64,' . base64_encode($logoData);
 
-            $html = view('reports.expedientes-completos', [
-                    'ofCompletos' => $ofCompletos,
-                    'conteo' => $conteoCompletos,
-                    'exIncompletos' => $conteoIncompletos,
-                    'filtro' => $request->institucion,
-                    'logoBase64' => $logoBase64 
-                ])->render();
+            $data = [
+                'ofCompletos' => $ofCompletos,
+                'conteo' => $conteoCompletos,
+                'exIncompletos' => $conteoIncompletos,
+                'filtro' => $request->institucion,
+                'logoBase64' => $logoBase64,
+                'chartImage' => $request->chartImage 
+            ];
 
-            $pdf = Browsershot::html($html)
-                ->format('A4')
-                ->margins(20, 15, 15, 15) 
-                ->waitUntilNetworkIdle()
-                ->pdf();
-
-            return response($pdf)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="reporte_expedientes_completos.pdf"');
+            return Pdf::view('reports.expedientes-completos', $data)
+            ->format('A4')
+            ->margins(20, 15, 15, 15) 
+            ->download('reporte_expedientes_completos.pdf');
         } catch (\Exception $e) {
             Log::error('Error al generar PDF: ' . $e->getMessage());
             return response('Error al generar el reporte.', 500);
