@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ViajeroController extends Controller
 {
@@ -89,7 +90,12 @@ class ViajeroController extends Controller
         }
 
         if ($request->hasFile('pdfFile')) {
-            $pdfPath = $request->file('pdfFile')->store('pdfs', 'public');
+            $extension = $request->file('pdfFile')->getClientOriginalExtension();
+            $nombreSaneado = Str::slug($request->numOficio);
+            $nombreArchivo = $nombreSaneado . '.' . $extension;
+            $pdfPath = $request->file('pdfFile')->storeAs('pdfs', $nombreArchivo, 'public');
+        } else {
+            $pdfPath = null; 
         }
 
         //Validar que se reciba un remitente y un destinatario
@@ -271,10 +277,15 @@ class ViajeroController extends Controller
         $fechaEntrega  = $fechaEntrega ? \Carbon\Carbon::parse($fechaEntrega)->format('Y-m-d') : null;
 
         // Manejo de PDF
+        $pdfPath = $oficio->url; 
         if ($request->hasFile('pdfFile')) {
-            $pdfPath = $request->file('pdfFile')->store('pdfs', 'public');
-        } else {
-            $pdfPath = $oficio->url; // conservar el PDF existente
+            if ($oficio->url) {
+                Storage::disk('public')->delete($oficio->url);
+            }
+            $extension = $request->file('pdfFile')->getClientOriginalExtension();
+            $nombreSaneado = Str::slug($request->numOficio); 
+            $nombreArchivo = $nombreSaneado . '.' . $extension;
+            $pdfPath = $request->file('pdfFile')->storeAs('pdfs', $nombreArchivo, 'public');
         }
 
         // Actualizar oficio
@@ -300,6 +311,7 @@ class ViajeroController extends Controller
 
         // Actualizar viajero
         $viajero->update([
+            'numOficio'    => $request->numOficio,
             'asunto'       => $request->asunto,
             'resultado'    => $request->resultado,
             'instruccion'  => $request->instruccion,
