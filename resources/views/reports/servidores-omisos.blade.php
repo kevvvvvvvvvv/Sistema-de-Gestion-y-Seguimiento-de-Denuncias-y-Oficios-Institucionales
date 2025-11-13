@@ -5,28 +5,15 @@
     <title>Reporte de servidores omisos</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        @page {
+            margin-top: 20mm;
+            margin-right: 15mm;
+            margin-bottom: 15mm;
+            margin-left: 15mm;
+        }
+
         body { font-family: sans-serif; }
         .report-container { max-width: 800px; margin: auto; }
-        
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-        }
-        .header img {
-            width: 200px; 
-        }
-        .header .address {
-            text-align: right;
-            font-size: 11px;
-            color: #555;
-        }
-        .header .address p {
-            margin: 0;
-        }
 
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
         th, td { border: 1px solid #ccc; padding: 8px; text-align: left; font-size: 12px; }
@@ -35,14 +22,22 @@
 </head>
 <body>
     <div class="report-container">
-        <header class="header">
-            <img src="{{ $logoBase64 }}" alt="Logo IMTA">
-            <div class="address">
-                <p><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
-                <p>Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
-                <p>Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
-            </div>
-        </header>
+        <div class="report-container">
+            <table style="width: 100%; border: none; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 30px;">
+                <tbody>
+                    <tr>
+                        <td style="width: 210px; border: none; padding: 0; vertical-align: top;">
+                            <img src="{{ $logoBase64 }}" alt="Logo IMTA" style="width: 200px;">
+                        </td>
+                        <td style="text-align: right; font-size: 11px; color: #555; border: none; padding: 0; vertical-align: top;">
+                            <p style="margin: 0;"><strong>Instituto Mexicano de Tecnología del Agua</strong></p>
+                            <p style="margin: 0;">Oficina de Representación en el IMTA del OIC-SEMARNAT</p>
+                            <p style="margin: 0;">Blvd. Paseo Cuauhnáhuac 8532, Progreso, 62550 Jiutepec, Mor.</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         
         <h1>Reporte de servidores omisos</h1>
 
