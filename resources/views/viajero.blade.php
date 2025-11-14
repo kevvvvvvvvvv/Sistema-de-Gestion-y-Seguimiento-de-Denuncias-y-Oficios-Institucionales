@@ -5,211 +5,190 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control de Ingresos</title>
     <style>
-
         @page {
-            size: letter;
-            margin: 0.5in;
+            margin-top: 20mm;
+            margin-right: 15mm;
+            margin-bottom: 15mm;
+            margin-left: 15mm;
         }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px; 
-            background-color: #f0f0f0; 
+            background-color: #fff; 
         }
-        .ticket-container {
 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+        td {
+            padding: 4px;
+            vertical-align: middle;
+        }
+
+        .text-center { text-align: center; }
+        .font-bold { font-weight: bold; }
+        .text-xs { font-size: 10px; }
+        .text-sm { font-size: 12px; }
+        .bg-gray { background-color: #e0e0e0; }
+        
+        .border-all { border: 1px solid #000; }
+        .border-bottom { border-bottom: 1px solid #000; }
+        .border-right { border-right: 1px solid #000; }
+        .border-top { border-top: 1px solid #000; }
+        .no-border-top { border-top: none; }
+        .no-border-bottom { border-bottom: none; }
+
+        .ticket-container {
             width: 4.5in;  
             height: 5.75in; 
-            border: 1px solid #666; 
-            background-color: #fff;
-            box-sizing: border-box; 
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            margin: auto; 
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-        .bordered {
+            margin: 0 auto;
             border: 1px solid #000;
         }
+
         .header-bar {
-            background-color: #e0e0e0; 
+            background-color: #e0e0e0;
             font-weight: bold;
             text-align: center;
-            padding: 4px;
+            padding: 5px;
+            font-size: 11pt;
+            border-bottom: 1px solid #000;
+        }
+
+        .section-title {
+            font-weight: bold;
             font-size: 11pt;
         }
+
         .label {
             font-weight: bold;
             font-size: 10pt;
         }
 
-        .ingreso{
-            font-size: 13px;
-        }
-
-
-        .light-gray-bg {
-            background-color: #e0e0e0; 
-        }
-
-        .flex-row {
-            display: flex;
-            flex-direction: row;
-        }
-        .flex-col {
-            display: flex;
-            flex-direction: column;
-        }
-        .flex-grow {
-            flex-grow: 1;
-        }
-
-        .buen-gobierno-cell {
+        .content-box {
+            min-height: 60px;
+            font-size: 12px;
             padding: 5px;
-            text-align: center;
-            border-left: 1px solid black;
-            width: 60%; 
-        }
-        .buen-gobierno-cell img {
-            max-width: 100%;
-            height: auto;
-            display: block; 
-            margin: 0 auto 3px auto; 
-        }
-        .buen-gobierno-cell .sub-text {
-            font-size: 6pt;
-        }
-        .control-ingresos {
-            background-color: #e0e0e0;
-            padding: 10px;
-            font-weight: bold;
-            font-size: 11pt;
-            display: flex;
-            align-items: center;
-            width: 40%; 
-        }
-        .full-width-cell {
-            padding: 4px;
-        }
-        .turnado-grid {
-            display: grid;
-            grid-template-columns: 50px repeat(6, 1fr);
-            text-align: center;
-        }
-        .turnado-grid > div {
-            border-right: 1px solid black;
-            border-top: 1px solid black;
-            padding: 4px;
-            font-size: 9pt;
-        }
-        .turnado-grid > div:last-child {
-            border-right: none;
-        }
-        .turnado-label {
-             border-top: 1px solid black;
-             padding: 4px 8px;
-             width: 120px; 
-             flex-shrink: 0;
-        }
-        .large-section {
-            border-top: 1px solid black;
-            padding-top: 10px;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1.5fr 1fr;
-            border-top: 1px solid black;
-        }
-        .footer-cell {
-            border-right: 1px solid black;
-            padding: 4px;
-        }
-        .footer-cell:last-child {
-            border-right: none;
-        }
-        .empty-box {
-            height: 25px; 
-        }
-        .asunto-box-content {
-            font-size: 12px;
-             height: 60px;
-        }
-         .instruccion-box-content {
-             height: 60px;
-             font-size: 12px;
-        }
-        .resultados-box-content {
-             height: 60px;
-            font-size: 12px;
+            vertical-align: top;
         }
 
+        .img-cell {
+            text-align: center;
+            vertical-align: middle;
+            padding: 5px;
+        }
+        .img-cell img {
+            max-height: 60px; 
+            width: auto;
+            max-width: 3in;
+        }
+
+        .turnado-table td {
+            border-right: 1px solid #000;
+            text-align: center;
+            font-size: 9pt;
+            width: 14%; 
+            padding: 2px;
+        }
+        .turnado-table td:last-child {
+            border-right: none;
+        }
     </style>
 </head>
 <body>
+
     <div class="ticket-container">
         
-        <div class="header-bar bordered">Oficina de Representación IMTA</div>
+        <div class="header-bar">Oficina de Representación IMTA</div>
 
-        <div class="flex-row bordered" style="border-top: none;">
-            <div class="control-ingresos">
-                Control de Ingresos de Documentos
+        <table class="no-border-top">
+            <tr>
+                <td class="bg-gray section-title border-right border-bottom" style="width: 40%;">
+                    Control de Ingresos de Documentos
+                </td>
+                <td class="img-cell border-bottom" style="width: 60%;">
+                    <img src="{{ $imagenGobierno }}" alt="Logo Buen Gobierno">
+                </td>
+            </tr>
+        </table>
+
+        <table class="no-border-top">
+            <tr>
+                <td class="bg-gray label border-right border-bottom" style="width: 120px;">
+                    Fecha de ingreso
+                </td>
+                <td class="border-bottom">
+                    {{ $viajero->oficio['fechaLlegada'] ?? 'Sin fecha' }}
+                </td>
+            </tr>
+        </table>
+
+        <table class="no-border-top">
+            <tr>
+                <td class="bg-gray label border-right border-bottom" style="width: 120px;">
+                    Turnado a:
+                </td>
+                <td class="border-bottom" style="padding: 0;">
+                    <table class="turnado-table">
+                        <tr>
+                            <td class="border-bottom">JFT</td>
+                            <td class="border-bottom">OGB</td>
+                            <td class="border-bottom">PARP</td>
+                            <td class="border-bottom">ACG</td>
+                            <td class="border-bottom">ACM</td>
+                            <td class="border-bottom">AMAN</td>
+                            <td class="border-bottom">JAST</td>
+                        </tr>
+                        <tr style="height: 25px;">
+                            <td>&nbsp;</td> <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+        <div class="border-bottom" style="padding: 0;">
+            <div class="bg-gray label" style="padding: 4px; display: inline-block; border-right: 1px solid #000; border-bottom: 1px solid #000;">
+                ASUNTO
             </div>
-            <div class="buen-gobierno-cell">
-                
-                <img src="{{ $imagenGobierno }}" alt="Logo Buen Gobierno">
+            <div class="content-box">
+                {{ $viajero['asunto'] }}
             </div>
         </div>
 
-        <div class="flex-row bordered" style="border-top: none;">
-            <div class="full-width-cell light-gray-bg" style="width: 120px; border-right: 1px solid black;"><span class="label ingreso">Fecha de ingreso</span></div>
-            <div class="full-width-cell flex-grow">{{$viajero->oficio['fechaLlegada']}}</div>
+        <div class="header-bar border-bottom no-border-top">INSTRUCCIÓN</div>
+        <div class="content-box border-bottom">
+            {{ $viajero['instruccion'] }}
         </div>
 
-        <div class="flex-row bordered" style="border-top: none;">
-            <div class="turnado-label light-gray-bg"><span class="label">Turnado a:</span></div>
-            <div class="flex-grow">
-                <div class="turnado-grid" style="border-top: none;">
-                    <div>JFT</div> <div>OGB</div> <div>PARP</div> <div>ACG</div> <div>ACM</div> <div>AMAN</div> <div>JAST</div>
-                </div>
-                <div class="turnado-grid" style="height: 25px;">
-                    <div></div> <div></div> <div></div> <div></div> <div></div> <div></div> <div></div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bordered" style="border-top: none; padding: 4px;">
-            <span class="label light-gray-bg" style="padding: 4px; display: inline-block;">ASUNTO</span>
-            <div class="asunto-box-content">{{$viajero['asunto']}}</div> 
+        <div class="header-bar border-bottom no-border-top">RESULTADOS</div>
+        <div class="content-box border-bottom">
+            {{ $viajero['resultado'] }}
         </div>
 
-        <div class="flex-col flex-grow bordered" style="border-top: none;">
-            <div class="large-section flex-grow">
-                <div class="header-bar">INSTRUCCIÓN</div>
-                <div class="instruccion-box-content">{{$viajero['instruccion']}}</div> 
-            </div>
-            <div class="large-section flex-grow">
-                <div class="header-bar">RESULTADOS</div>
-                <div class="resultados-box-content">{{$viajero['resultado']}}</div>
-            </div>
-        </div>
-
-        <div class="bordered" style="border-top: none;">
-             <div class="footer-grid">
-                <div class="footer-cell light-gray-bg"><span class="label">Fecha de descarga</span></div>
-                <div class="footer-cell light-gray-bg"><span class="label">Rubrica</span></div>
-                <div class="footer-cell light-gray-bg"><span class="label">Folio</span></div>
-            </div>
-             <div class="footer-grid empty-box">
-                <div class="footer-cell">{{now()->format('Y-m-d')}}</div>
-                <div class="footer-cell"></div>
-                <div class="footer-cell">{{$viajero['folio']}}</div>
-            </div>
-        </div>
+        <table class="no-border-top">
+            <tr>
+                <td class="bg-gray label text-center border-right border-bottom" style="width: 37%;">Fecha de descarga</td>
+                <td class="bg-gray label text-center border-right border-bottom" style="width: 37%;">Rubrica</td>
+                <td class="bg-gray label text-center border-bottom" style="width: 26%;">Folio</td>
+            </tr>
+            <tr>
+                <td class="text-center border-right" style="height: 30px;">{{ now()->format('Y-m-d') }}</td>
+                <td class="text-center border-right"></td>
+                <td class="text-center font-bold">{{ $viajero['folio'] }}</td>
+            </tr>
+        </table>
 
     </div>
+
 </body>
 </html>

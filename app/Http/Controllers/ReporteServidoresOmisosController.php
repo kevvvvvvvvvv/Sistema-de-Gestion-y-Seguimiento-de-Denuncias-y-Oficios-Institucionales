@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use Carbon\Carbon;
-use Spatie\Browsershot\Browsershot;
-use Illuminate\Support\Facades\Log;
 
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -164,24 +164,19 @@ class ReporteServidoresOmisosController extends Controller
             $logoData = file_get_contents($logoPath);
             $logoBase64 = 'data:image/' . $logoType . ';base64,' . base64_encode($logoData);
 
-            $html = view('reports.servidores-omisos', [
-                    'servidoresOmisosBaja' => $servidoresOmisosBaja,
-                    'servidoresOmisosAlta' => $servidoresOmisosAlta,
-                    'numOmisosBaja' => $numOmisosBaja,
-                    'numOmisosAlta' => $numOmisosAlta,
-                    'filtro' => $request->institucion,
-                    'logoBase64' => $logoBase64 
-                ])->render();
+            $data = [
+                'servidoresOmisosBaja' => $servidoresOmisosBaja,
+                'servidoresOmisosAlta' => $servidoresOmisosAlta,
+                'numOmisosBaja' => $numOmisosBaja,
+                'numOmisosAlta' => $numOmisosAlta,
+                'filtro' => $request->input('institucion'),  
+                'logoBase64' => $logoBase64 
+            ];
 
-            $pdf = Browsershot::html($html)
-                ->format('A4')
-                ->margins(20, 15, 15, 15) 
-                ->waitUntilNetworkIdle()
-                ->pdf();
+            $pdf = Pdf::loadView('reports.servidores-omisos', $data);
+            $pdf->setPaper('A4', 'portrait');
 
-            return response($pdf)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="reporte_servidores_omisos.pdf"');
+            return $pdf->download('reporte_servidores_omisos.pdf');
 
         } catch (\Exception $e) {
             Log::error('Error al generar PDF: ' . $e->getMessage());

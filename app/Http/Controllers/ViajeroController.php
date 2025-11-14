@@ -24,7 +24,7 @@ use App\Notifications\ViajeroCreadoNotification;
 use App\Notifications\ViajeroActualizadoNotification;
 use App\Notifications\ViajeroFinalizadoNotification;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Browsershot\Browsershot;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -402,20 +402,14 @@ class ViajeroController extends Controller
         $imageBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
 
         $viajero->load('oficio');
-        $html = view('viajero', [
+
+        $data = [
             'imagenGobierno' => $imageBase64,
-            'viajero' => $viajero,
-            ])->render();
+            'viajero' => $viajero
+        ];
 
-
-        $pdf = Browsershot::html($html)
-            ->format('A4')
-            ->margins(20, 15, 15, 15)
-            ->pdf();
-
-        return response($pdf)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="reporte_viajero.pdf"');
+        $pdf = Pdf::loadView('viajero', $data);
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->download('reporte_viajero.pdf');
     }
-
 }
