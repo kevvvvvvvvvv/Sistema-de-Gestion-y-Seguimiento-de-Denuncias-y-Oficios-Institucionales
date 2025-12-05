@@ -466,6 +466,8 @@ Route::delete('/modulo/generacion-de-oficios/{id}/force', [GeneracionOficioContr
 Route::delete('/modulo/generacion-de-oficios/{id}', [GeneracionOficioController::class, 'destroy'])
     ->name('modulo.oficios.destroy')
     ->middleware('can:eliminar oficios de denuncia');
+Route::post('/modulo/oficios/stamp-header', [GeneracionOficioController::class, 'stampHeader'])
+    ->name('modulo.oficios.stamp');
 
 //NOTIFICACIONES
 Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
