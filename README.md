@@ -148,3 +148,10 @@ sudo pacman -S mariadb-clients
 composer require spatie/laravel-activitylog
 php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="activitylog-migrations"
 ```
+
+
+<h2>Paquetes para la descarga de documentos en formato .docx</h2>
+
+```bash
+composer require phpoffice/phpword
+```

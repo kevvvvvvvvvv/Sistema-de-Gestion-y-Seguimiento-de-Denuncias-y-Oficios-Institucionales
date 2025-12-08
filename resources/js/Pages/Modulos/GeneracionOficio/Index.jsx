@@ -11,6 +11,7 @@ import { DOCXExporter, docxDefaultSchemaMappings } from "@blocknote/xl-docx-expo
 import { BlockNoteSchema } from "@blocknote/core";
 import { Packer } from "docx";
 import { saveAs } from "file-saver";
+import axios from 'axios';
 
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt'; 
@@ -168,8 +169,19 @@ export default function Index({ plantillas, auth, servidores, expedientes }) {
             const exporter = new DOCXExporter(schema, docxDefaultSchemaMappings);
             const docxDocument = await exporter.toDocxJsDocument(processedBlocks);
             const blob = await Packer.toBlob(docxDocument);
+
+            const formData = new FormData();
+            formData.append('document', blob, 'documento.docx');
+
+            const response = await axios.post(route('modulo.oficios.stamp'), formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+                responseType: 'blob', 
+            });
+            
             const fileName = `${plantilla.titulo.replace(/\s+/g, '_') || 'documento'}.docx`;
-            saveAs(blob, fileName);
+            saveAs(response.data, fileName);
 
         } catch (error) {
             console.error("Error al exportar a DOCX:", error);
